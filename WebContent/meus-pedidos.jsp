@@ -76,8 +76,8 @@ span {
 								class="nav-link dropdown-toggle" data-toggle="dropdown"
 								role="button" aria-haspopup="true" aria-expanded="false">Cliente</a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="login.jsp">Meus
-											Dados</a></li>
+									<li class="nav-item"><a class="nav-link" href="minhas-trocas.jsp">Minhas
+											Trocas</a></li>
 								</ul></li>
 							<li class="nav-item submenu dropdown"><span> <i
 									class="material-icons size"> account_circle </i> <label
@@ -98,7 +98,7 @@ span {
 		<div class="container">
 			<div class="billing_details">
 				<div class="row">
-					<div class="col-lg-4">
+					<div class="col-lg-4" class="order_box">
 						<table class="table table-striped">
 							<thead>
 								<tr>
@@ -115,28 +115,10 @@ span {
 							<tfoot>
 							</tfoot>
 						</table>
-						<div class="order_box">
-							<h2>Meus Pedidos</h2>
-							
-							<ul class="list">
-								<li>
-									<h4 style="float: left;">Número</h4>
-									<h4 style="float: right;">Status</h4>
-								</li>
-								<li>
-									<div style="float: left;">Número</div>
-									<div style="float: right;">Status</div>
-								</li>
-								<li>
-									<div style="float: left;">Número</div>
-									<div style="float: right;">Status</div>
-								</li>
-							</ul>
-						</div>
 					</div>
 					<div class="col-lg-8" id="faturamento">
 						<h3>Detalhes do pedido</h3>
-						<form class="row contact_form" action="pedido" method="post"
+						<form class="row contact_form" action="troca" method="post"
 							novalidate="novalidate">
 							<input type="hidden" value="" id="cliente-id" name="cliente-id">
 							<input type="hidden" value="true" id="consulta" name="consulta">
@@ -151,12 +133,14 @@ span {
 							</div>
 							<div class="col-md-6 form-group p_star" id="pedido">
 								<label for="first">Número do Pedido</label> <input type="text"
-									class="form-control" id="numero" value="${pedido.numero}"
+									class="form-control" id="numPedido" name="numPedido" value=""
 									readonly>
+									<input type="hidden"
+									class="form-control" id="idPedido" value="" name="idPedido">
 							</div>
 							<div class="col-md-6 form-group p_star" id="data">
 								<label for="first">Data </label> <input type="text"
-									class="form-control" id="data" value="${pedido.data}" readonly>
+									class="form-control" id="dataPedido" name="dataPedido"value="" readonly>
 							</div>
 							<div id="tabela-pedidos">
 								<h3>Itens</h3>
@@ -168,35 +152,17 @@ span {
 											<th>Produto</th>
 											<th>Quantidade</th>
 											<th>Preço</th>
-											<th>Ações</th>
+											<th>Trocar</th>
 										</tr>
 									</thead>
 									<tbody id="tbody_itens">
-										<tr>
-											<c:forEach var="item" items="${pedido.itens}">
-												<td class="m-0 p-0 pt-1"><label
-													class="form-control input-transparent" id="descricao">${item.instrumento.descricao}</label>
-												</td>
-												<td class="m-0 p-0 pt-1"><label
-													class="form-control input-transparent" id="quantidade">${item.quantidade}</label>
-												</td>
-												<td class="m-0 p-0 pt-1"><label
-													class="form-control input-transparent" id="descricao">R$
-														${item.instrumento.valorVenda }</label></td>
-												<td class="m-0 p-0 pt-1">
-													<div class="form-check">
-														<input type="checkbox" value="${item.id}"
-															name="item_${item.id}" id="${item.id}" /> <label
-															for="${item.id}">Solicitar Troca</label>
-													</div>
-												</td>
-											</c:forEach>
+																					
 									</tbody>
 								</table>
 								<div class="col-md-12 form-group">
 									<div class="col-md-6 form-group">
 										<button class="btn btn-primary" type="submit"
-											name="btnOperacao" value="SALVAR">Solicitar Troca</button>
+											name="btnOperacao" value="CONSULTAR">Solicitar</button>
 									</div>
 								</div>
 							</div>
@@ -291,7 +257,7 @@ function carregaPedidos() {
 					for(let pedido of response) {
 						let linha = "<tr><td>" + pedido.numero + "</td><td>" +
 							pedido.status.descricao + "</td><td>" +
-							"<button onclick='carregarItens(" + pedido.id + ")' type='button' id='" + pedido.id + "' class='btn btn-link'>Visualizar</button></td></tr>";
+							"<button onclick='carregarItens(" + pedido.id + ")' type='button' id='" + pedido.id + "' class='btn btn-link'>Trocar</button></td></tr>";
 						$("#bodyPedidos").append(linha);
 					}
 				}
@@ -302,7 +268,36 @@ function carregaPedidos() {
 		});		
 	};
 	function carregarItens(id) {
-		console.log(id);
+		let idPedido = id;
+		$.ajax({
+			type: "POST",
+			url: "http://localhost:8080/the-wall-crud/pedido",
+			dataType: "json",
+			data: {
+				retornoJson: true,
+				btnOperacao: "CONSULTARBYID",
+				id: id,
+			},
+			success: function(response) {
+				if(response.erro) {
+					
+				} else {
+					$("#numPedido").val(response[0].numero);
+					$("#idPedido").val(response[0].id);
+					$("#dataPedido").val(response[0].data);
+					
+					for(let item of response[0].itens) {
+						let linha = "<tr><td>" + item.instrumento.descricao + "</td><td>" +
+						item.quantidade + "</td><td>" +
+						item.instrumento.valorVenda + "</td><td><input type='checkbox' value='item" + item.id + "' name='item"+ item.id +"'></td></tr>";
+					$("#tbody_itens").append(linha);
+					}
+				}
+			},
+			error: function(error) {
+				console.log(error);
+			}
+		});	
 	};
 </script>
 </html>

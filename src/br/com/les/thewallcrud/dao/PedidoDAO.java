@@ -18,23 +18,23 @@ public class PedidoDAO extends AbstractDao {
 
 	@Override
 	public Resultado alterar(EntidadeDominio entidade) {
-		
+
 		Pedido pedido = (Pedido) entidade;
 		Resultado resultado = new Resultado();
-		
+
 		String sql = "UPDATE PEDIDO SET ID_STATUS = ? WHERE ID = ?";
-		
-		try(PreparedStatement stmt = connection.prepareStatement(sql)){
+
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setLong(1, pedido.getStatus().getId());
 			stmt.setLong(2, pedido.getId());
 			stmt.execute();
 			resultado.setSucesso("Status do pedido atualizado!");
 			resultado.setEntidade(pedido);
-		}catch(Exception e) {
+		} catch (Exception e) {
 			resultado.setErro("Status não atualizao, refaça opração.");
 			e.printStackTrace();
 		}
-		
+
 		return resultado;
 	}
 
@@ -67,14 +67,14 @@ public class PedidoDAO extends AbstractDao {
 				p.setDesconto(rs.getDouble("DESCONTO"));
 				p.setNumero(rs.getString("NUMERO"));
 				p.setObservacao(rs.getString("OBSERVACAO"));
-				p.getStatus().setId(rs.getLong("ID_STATUS"));				
+				p.getStatus().setId(rs.getLong("ID_STATUS"));
 				pedidos.add(p);
 			}
 			rs.close();
 			resultado.setSucesso("");
 			if (pedidos.size() > 0) {
 				resultado.setListEntidade(pedidos);
-			}else {
+			} else {
 				resultado.setEntidade(pedido);
 			}
 
@@ -82,7 +82,7 @@ public class PedidoDAO extends AbstractDao {
 			resultado.setErro("Erro de consulta");
 			e.printStackTrace();
 		}
-		
+
 		return resultado;
 	}
 
@@ -94,7 +94,7 @@ public class PedidoDAO extends AbstractDao {
 
 	@Override
 	public Resultado salvar(EntidadeDominio entidade) {
-		
+
 		Pedido pedido = (Pedido) entidade;
 		Resultado resultado = new Resultado();
 
@@ -127,28 +127,27 @@ public class PedidoDAO extends AbstractDao {
 
 	@Override
 	public Resultado consultarById(EntidadeDominio entidade) {
-		
+
 		Pedido pedido = (Pedido) entidade;
 		Resultado resultado = new Resultado();
 		List<EntidadeDominio> pedidos = new ArrayList<>();
 		String sql = "SELECT * FROM PEDIDO WHERE ";
-		
-		if(pedido.getId() != null) {
+
+		if (pedido.getId() != null) {
 			sql += "ID = ?";
-		}else if(pedido.getCliente().getId() != null) {
+		} else if (pedido.getCliente().getId() != null) {
 			sql += "ID_CLIENTE = ?";
 		}
-			
-		
-		try(PreparedStatement stmt = connection.prepareStatement(sql)){
-			if(pedido.getId() != null) {
+
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			if (pedido.getId() != null) {
 				stmt.setLong(1, pedido.getId());
-			}else if(pedido.getCliente().getId() != null) {
+			} else if (pedido.getCliente().getId() != null) {
 				stmt.setLong(1, pedido.getCliente().getId());
 			}
-			
+
 			ResultSet rs = stmt.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				Frete frete = new Frete();
 				Cliente cliente = new Cliente();
 				StatusPedido status = new StatusPedido();
@@ -157,7 +156,7 @@ public class PedidoDAO extends AbstractDao {
 				pedido.setFrete(frete);
 				pedido.setCliente(cliente);
 				pedido.setStatus(status);
-				pedido.getFrete().setValorFrete(rs.getDouble("FRETE"));;
+				pedido.getFrete().setValorFrete(rs.getDouble("FRETE"));
 				pedido.getCliente().setId(rs.getLong("ID_CLIENTE"));
 				pedido.setData(rs.getString("DATA"));
 				pedido.setTotal(rs.getDouble("VALOR"));
@@ -168,18 +167,14 @@ public class PedidoDAO extends AbstractDao {
 				pedidos.add(pedido);
 			}
 			resultado.setSucesso("");
-			
-			if(pedidos.size() != 1) {
-				resultado.setListEntidade(pedidos);
-			}else {
-				resultado.setEntidade(entidade);
-			}
-			
-		}catch(Exception e) {
+
+			resultado.setListEntidade(pedidos);
+
+		} catch (Exception e) {
 			resultado.setErro("Erro ao realizar a consulta.");
 			e.printStackTrace();
 		}
-		
+
 		return resultado;
 	}
 

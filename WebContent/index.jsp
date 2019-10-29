@@ -64,6 +64,8 @@
 								<ul class="dropdown-menu">
 									<li class="nav-item"><a class="nav-link" href="${cliente.nome != null ? 'meus-pedidos.jsp' : 'login.jsp' }">
 										${cliente.nome != null ? 'Meus Pedidos' : 'Login' }</a></li>
+									<li class="nav-item"><a class="nav-link" href="${cliente.nome != null ? 'minhas-trocas.jsp' : 'login.jsp' }">
+										${cliente.nome != null ? 'Minhas trocas' : 'Cadastro' }</a></li>
 									
 								</ul></li>
 						</ul>
@@ -160,7 +162,7 @@
 							<p>Bateria</p>
 							<h4 class="card-product__title">
 								<a class="btn btn-link"
-	                           		href="produto.jsp?instrumento=161&qtd=${cliente.carrinho.quantidadeItem}">Bateria Ludwig</a>
+	                           		href="produto.jsp?instrumento=129&qtd=${cliente.carrinho.quantidadeItem}">Bateria Ludwig</a>
 							</h4>
 							<p class="card-product__price">R$ 2.89926,00</p>
 						</div>
@@ -172,10 +174,10 @@
 							<img class="card-img" src="img/product/product1.jpg" alt="">
 						</div>
 						<div class="card-body">
-							<p>Bateria</p>
+							<p>Banjo</p>
 							<h4 class="card-product__title">
 								<a class="btn btn-link"
-	                           		href="produto.jsp?instrumento=161&cliente=${cliente.id}&carrinho=${cliente.carrinho.id}$qtd=${cliente.carrinho.quantidadeItem}">Bateria Ludwig</a>
+	                           		href="produto.jsp?instrumento=159&qtd=${cliente.carrinho.quantidadeItem}">Banjo</a>
 			
 							</h4>
 							<p class="card-product__price">R$ 2.500,00</p>
@@ -188,9 +190,9 @@
 							<img class="card-img" src="img/product/product1.jpg" alt="">
 						</div>
 						<div class="card-body">
-							<p>Bateria</p>
+							<p>Flauta</p>
 							<h4 class="card-product__title">
-								<a href="produto.jsp">Bateria Ludwig</a>
+								<a href="produto.jsp?instrumento=115&qtd=${cliente.carrinho.quantidadeItem}">Flauta</a>
 							</h4>
 							<p class="card-product__price">R$ 2.500,00</p>
 						</div>

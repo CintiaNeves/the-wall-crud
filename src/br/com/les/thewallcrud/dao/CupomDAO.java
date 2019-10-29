@@ -3,6 +3,7 @@ package br.com.les.thewallcrud.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,8 +91,32 @@ public class CupomDAO extends AbstractDao {
 
 	@Override
 	public Resultado salvar(EntidadeDominio entidade) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Cupom cupom = (Cupom) entidade;
+		Resultado resultado = new Resultado();
+
+		String sql = "INSERT INTO CUPOM (CODIGO, TROCA, PROMOCIONAL, EXPIRADO, VALOR) VALUES (?, ?, ?, ?, ?)";
+
+		try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+			
+			stmt.setString(1, cupom.getCodigo());
+			stmt.setBoolean(2, cupom.getTroca());
+			stmt.setBoolean(3, cupom.getPromocional());
+			stmt.setBoolean(4, cupom.getExpirado());
+			stmt.setString(5, cupom.getValor());
+			stmt.executeUpdate();
+
+			ResultSet rs = stmt.getGeneratedKeys();
+			if (rs.next())
+				cupom.setId(rs.getLong(1));
+			stmt.close();
+			resultado.setSucesso("Cadastro Realizado com Sucesso.");
+			resultado.setEntidade(cupom);
+		} catch (Exception e) {
+			resultado.setErro("Inclusão não realizada.");
+			e.printStackTrace();
+		}
+		return resultado;
 	}
 
 	@Override
@@ -101,11 +126,20 @@ public class CupomDAO extends AbstractDao {
 		Resultado resultado = new Resultado();
 		List<EntidadeDominio> cupons = new ArrayList<>();
 
-		String sql = "SELECT * FROM CUPOM WHERE ID_CARRINHO = ? AND EXPIRADO = 0";
-
+		String sql = "SELECT * FROM CUPOM WHERE ";
+		if(cupom.getId() != null) {
+			sql += "ID = ? AND EXPIRADO = 0";
+		}else {
+			sql += "ID_CARRINHO = ? AND EXPIRADO = 0";
+		}
+		
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-			stmt.setLong(1, cupom.getIdCarrinho());
+			
+			if(cupom.getId() != null) {
+				stmt.setLong(1, cupom.getId());
+			}else {
+				stmt.setLong(1, cupom.getIdCarrinho());
+			}
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {

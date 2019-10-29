@@ -20,6 +20,7 @@ import br.com.les.thewallcrud.dao.ItemCarrinhoDAO;
 import br.com.les.thewallcrud.dao.OcorrenciaDAO;
 import br.com.les.thewallcrud.dao.PaisDAO;
 import br.com.les.thewallcrud.dao.PedidoDAO;
+import br.com.les.thewallcrud.dao.TrocaDAO;
 import br.com.les.thewallcrud.dao.UsuarioDAO;
 import br.com.les.thewallcrud.dominio.Bandeira;
 import br.com.les.thewallcrud.dominio.Carrinho;
@@ -36,6 +37,7 @@ import br.com.les.thewallcrud.dominio.ItemCarrinho;
 import br.com.les.thewallcrud.dominio.Ocorrencia;
 import br.com.les.thewallcrud.dominio.Pais;
 import br.com.les.thewallcrud.dominio.Pedido;
+import br.com.les.thewallcrud.dominio.Troca;
 import br.com.les.thewallcrud.dominio.Usuario;
 import br.com.les.thewallcrud.strategy.IStrategy;
 import br.com.les.thewallcrud.strategy.StAdicionaItemEstoque;
@@ -50,28 +52,36 @@ import br.com.les.thewallcrud.strategy.StCalculaFrete;
 import br.com.les.thewallcrud.strategy.StCarregaCarrinho;
 import br.com.les.thewallcrud.strategy.StCarregaCombos;
 import br.com.les.thewallcrud.strategy.StCarregaFornecedor;
+import br.com.les.thewallcrud.strategy.StCarregaItens;
 import br.com.les.thewallcrud.strategy.StCarregaStatus;
 import br.com.les.thewallcrud.strategy.StCheckout;
+import br.com.les.thewallcrud.strategy.StComplementaDataTroca;
 import br.com.les.thewallcrud.strategy.StCriaCapaPedido;
 import br.com.les.thewallcrud.strategy.StCriptografia;
 import br.com.les.thewallcrud.strategy.StEsvaziaCarrinho;
 import br.com.les.thewallcrud.strategy.StFormataDescontoCupom;
 import br.com.les.thewallcrud.strategy.StGeraCodigoCliente;
 import br.com.les.thewallcrud.strategy.StGeraCodigoInstrumento;
+import br.com.les.thewallcrud.strategy.StGeraCodigoTroca;
+import br.com.les.thewallcrud.strategy.StGeraCupomTroca;
 import br.com.les.thewallcrud.strategy.StGravaDependenciasCliente;
 import br.com.les.thewallcrud.strategy.StGravaItemPedido;
+import br.com.les.thewallcrud.strategy.StGravaItemTroca;
 import br.com.les.thewallcrud.strategy.StGravaItensEntrada;
 import br.com.les.thewallcrud.strategy.StLogin;
 import br.com.les.thewallcrud.strategy.StPreparaGravacaoPedido;
 import br.com.les.thewallcrud.strategy.StReservaItemEstoque;
 import br.com.les.thewallcrud.strategy.StSalvaDependecias;
 import br.com.les.thewallcrud.strategy.StSalvarFormaPagamento;
+import br.com.les.thewallcrud.strategy.StSetViewAlterarPedido;
 import br.com.les.thewallcrud.strategy.StSetViewCarrinho;
 import br.com.les.thewallcrud.strategy.StSetViewCliente;
 import br.com.les.thewallcrud.strategy.StSetViewInstrumento;
 import br.com.les.thewallcrud.strategy.StSetViewOcorrencia;
 import br.com.les.thewallcrud.strategy.StSetViewPedido;
 import br.com.les.thewallcrud.strategy.StSetViewResumo;
+import br.com.les.thewallcrud.strategy.StSetViewTroca;
+import br.com.les.thewallcrud.strategy.StSetViewTrocasAdmin;
 import br.com.les.thewallcrud.strategy.StSetViewUsuario;
 import br.com.les.thewallcrud.strategy.StValidaCamposCliente;
 import br.com.les.thewallcrud.strategy.StValidaCamposEntrada;
@@ -100,6 +110,7 @@ public class Fachada implements IFachada {
 	private Map<String, List<IStrategy>> mapUsuarioStrategy;
 	private Map<String, List<IStrategy>> mapClienteStrategy;
 	private Map<String, List<IStrategy>> mapPedidoStrategy;
+	private Map<String, List<IStrategy>> mapTrocaStrategy;
 	private Map<String, List<IStrategy>> mapItemCarrinhoStrategy;
 	private Map<String, List<IStrategy>> mapCarrinhoStrategy;
 	private Map<String, List<IStrategy>> mapOcorrenciaPosProcessamento;
@@ -113,6 +124,7 @@ public class Fachada implements IFachada {
 	private Map<String, List<IStrategy>> mapCarrinhoPosProcessamento;
 	private Map<String, List<IStrategy>> mapPedidoPosProcessamento;
 	private Map<String, List<IStrategy>> mapCarrinhoStrategyPosProcessamento;
+	private Map<String, List<IStrategy>> mapTrocaStrategyPosProcessamento;
 	private Map<String, Map<String, List<IStrategy>>> mapEntidadeCRUDStrategy;
 	private Map<String, Map<String, List<IStrategy>>> mapEntidadeCRUDPosProcessamento;
 
@@ -125,6 +137,7 @@ public class Fachada implements IFachada {
 		mapUsuarioStrategy = new HashMap<String, List<IStrategy>>();
 		mapClienteStrategy = new HashMap<String, List<IStrategy>>();
 		mapPedidoStrategy = new HashMap<String, List<IStrategy>>();
+		mapTrocaStrategy = new HashMap<String, List<IStrategy>>();
 		mapEntidadeCRUDStrategy = new HashMap<String, Map<String, List<IStrategy>>>();
 		mapEntidadeCRUDPosProcessamento = new HashMap<String, Map<String, List<IStrategy>>>();
 		mapOcorrenciaPosProcessamento = new HashMap<String, List<IStrategy>>();
@@ -139,6 +152,7 @@ public class Fachada implements IFachada {
 		mapPedidoPosProcessamento = new HashMap<String, List<IStrategy>>();
 		mapItemCarrinhoStrategy = new HashMap<String, List<IStrategy>>();
 		mapCarrinhoStrategyPosProcessamento = new HashMap<String, List<IStrategy>>();
+		mapTrocaStrategyPosProcessamento = new HashMap<String, List<IStrategy>>();
 		mapCarrinhoStrategy = new HashMap<String, List<IStrategy>>();
 		
 		// Lista Instrumento Salvar
@@ -272,14 +286,30 @@ public class Fachada implements IFachada {
 		listStrategySalvarPedidoPos.add(new StSalvarFormaPagamento());
 		listStrategySalvarPedidoPos.add(new StSetViewResumo());
 		List<IStrategy> listStrategyAlterarPedidoPos = new ArrayList<>();
-		listStrategyAlterarPedidoPos.add(new StSetViewPedido());
+		listStrategyAlterarPedidoPos.add(new StSetViewAlterarPedido());
 		List<IStrategy> listStrategyConsultarPedidoPos = new ArrayList<>();
 		listStrategyConsultarPedidoPos.add(new StSetViewPedido());
 		List<IStrategy> listStrategyConsultarByIdPedidoPos = new ArrayList<>();
 		listStrategyConsultarByIdPedidoPos.add(new StSetViewPedido());
-		listStrategyConsultarByIdPedidoPos.add(new StCarregaStatus());	
+		listStrategyConsultarByIdPedidoPos.add(new StCarregaStatus());
+		listStrategyConsultarByIdPedidoPos.add(new StCarregaItens());
 		List<IStrategy> listStrategyAlterarPedido = new ArrayList<>();
 		listStrategyAlterarPedido.add(new StAlterarStatusPedido());
+		// Lista troca
+		List<IStrategy> listStrategySalvarTroca = new ArrayList<>();
+		listStrategySalvarTroca.add(new StGeraCodigoTroca());
+		listStrategySalvarTroca.add(new StComplementaDataTroca());
+		
+		List<IStrategy> listStrategyConsultarByIdTrocaPos = new ArrayList<>();
+		listStrategyConsultarByIdTrocaPos.add(new StSetViewTroca());
+		
+		List<IStrategy> listStrategySalvarTrocaPos = new ArrayList<>();
+		listStrategySalvarTrocaPos.add(new StGravaItemTroca());
+		List<IStrategy> listStrategyConsultarTrocaPos = new ArrayList<>();
+		listStrategyConsultarTrocaPos.add(new StSetViewTrocasAdmin());
+		
+		List<IStrategy> listStrategyAlterarTroca = new ArrayList<>();
+		listStrategyAlterarTroca.add(new StGeraCupomTroca());
 		
 		mapInstrumentoStrategy.put("SALVAR", listStrategySalvarInstrumento);
 		mapOcorrenciaStrategy.put("SALVAR", listStrategySalvarOcorrencia);
@@ -294,6 +324,8 @@ public class Fachada implements IFachada {
 		mapPedidoStrategy.put("CONSULTAR", listStrategyConsultarPedido);
 		mapPedidoStrategy.put("SALVAR", listStrategySalvarPedido);
 		mapPedidoStrategy.put("ALTERAR", listStrategyAlterarPedido);
+		mapTrocaStrategy.put("SALVAR", listStrategySalvarTroca);
+		mapTrocaStrategy.put("ALTERAR", listStrategyAlterarTroca);
 		mapOcorrenciaPosProcessamento.put("SALVAR", listStrategySalvarOcorrenciaPos);
 		mapEntradaPosProcessamento.put("SALVAR", listStrategySalvarEntradaPos);
 		mapEntradaPosProcessamento.put("CONSULTAR", listStrategyConsultarEntradaPos);
@@ -314,6 +346,10 @@ public class Fachada implements IFachada {
 		mapPedidoPosProcessamento.put("CONSULTARBYID", listStrategyConsultarByIdPedidoPos);
 		mapPedidoPosProcessamento.put("ALTERAR", listStrategyAlterarPedidoPos);
 		mapCarrinhoStrategyPosProcessamento.put("CONSULTARBYID", listStrategyConsultarByIdCarrinhoPos);
+		mapTrocaStrategyPosProcessamento.put("CONSULTARBYID", listStrategyConsultarByIdTrocaPos);
+		mapTrocaStrategyPosProcessamento.put("SALVAR", listStrategySalvarTrocaPos);
+		mapTrocaStrategyPosProcessamento.put("CONSULTAR", listStrategyConsultarTrocaPos);
+		mapTrocaStrategyPosProcessamento.put("ALTERAR", listStrategyConsultarTrocaPos);
 		mapDAO.put(Instrumento.class.getSimpleName(), new InstrumentoDAO());
 		mapDAO.put(Ocorrencia.class.getSimpleName(), new OcorrenciaDAO());
 		mapDAO.put(Entrada.class.getSimpleName(), new EntradaDAO());
@@ -329,6 +365,7 @@ public class Fachada implements IFachada {
 		mapDAO.put(Carrinho.class.getSimpleName(), new CarrinhoDAO());
 		mapDAO.put(ItemCarrinho.class.getSimpleName(), new ItemCarrinhoDAO());
 		mapDAO.put(Pedido.class.getSimpleName(), new PedidoDAO());
+		mapDAO.put(Troca.class.getSimpleName(), new TrocaDAO());
 		mapEntidadeCRUDStrategy.put(Instrumento.class.getSimpleName(), mapInstrumentoStrategy);
 		mapEntidadeCRUDStrategy.put(Ocorrencia.class.getSimpleName(), mapOcorrenciaStrategy);
 		mapEntidadeCRUDStrategy.put(Entrada.class.getSimpleName(), mapEntradaStrategy);
@@ -337,6 +374,7 @@ public class Fachada implements IFachada {
 		mapEntidadeCRUDStrategy.put(Pedido.class.getSimpleName(), mapPedidoStrategy);	
 		mapEntidadeCRUDStrategy.put(ItemCarrinho.class.getSimpleName(), mapItemCarrinhoStrategy);
 		mapEntidadeCRUDStrategy.put(Carrinho.class.getSimpleName(), mapCarrinhoStrategy);
+		mapEntidadeCRUDStrategy.put(Troca.class.getSimpleName(), mapTrocaStrategy);
 		mapEntidadeCRUDPosProcessamento.put(Ocorrencia.class.getSimpleName(), mapOcorrenciaPosProcessamento);
 		mapEntidadeCRUDPosProcessamento.put(Entrada.class.getSimpleName(), mapEntradaPosProcessamento);
 		mapEntidadeCRUDPosProcessamento.put(Fornecedor.class.getSimpleName(), mapFornecedorPosProcessamento);
@@ -348,6 +386,7 @@ public class Fachada implements IFachada {
 		mapEntidadeCRUDPosProcessamento.put(Carrinho.class.getSimpleName(), mapCarrinhoPosProcessamento);
 		mapEntidadeCRUDPosProcessamento.put(Pedido.class.getSimpleName(), mapPedidoPosProcessamento);
 		mapEntidadeCRUDPosProcessamento.put(Carrinho.class.getSimpleName(), mapCarrinhoStrategyPosProcessamento);
+		mapEntidadeCRUDPosProcessamento.put(Troca.class.getSimpleName(), mapTrocaStrategyPosProcessamento);
 
 	}
 
@@ -494,7 +533,10 @@ public class Fachada implements IFachada {
 			resultado = dao.consultarById(entidade);
 		}
 		
+			
 		resultado = validaStrategyPosProcessamento(resultado, "CONSULTARBYID");
+		
+		
 		return resultado;
 	}
 

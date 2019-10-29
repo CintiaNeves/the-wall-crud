@@ -36,8 +36,13 @@ public class VHPedido implements IViewHelper {
 		Cliente cliente = new Cliente();
 		
 		if(request.getParameter("retornoJson") != null && Boolean.parseBoolean(request.getParameter("retornoJson"))) {
-			cliente.setId(Long.parseLong(request.getParameter("idCliente")));
+			if(request.getParameter("idCliente") != null) {
+				cliente.setId(Long.parseLong(request.getParameter("idCliente")));
+			}
 			pedido.setCliente(cliente);
+			if(request.getParameter("id") != null ) {
+				pedido.setId(Long.parseLong(request.getParameter("id")));
+			}
 			return pedido;
 		}
 		String stIdcliente = request.getParameter("cliente-id");

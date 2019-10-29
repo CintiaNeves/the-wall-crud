@@ -20,24 +20,27 @@ public class StSetViewPedido implements IStrategy {
 	@Override
 	public Resultado processar(Resultado resultado) {
 		
-		if(!resultado.getErro()) {
-			IDAO dao; 
+		if (!resultado.getErro()) {
+			
+			IDAO dao;
 			Resultado r = new Resultado();
-			if(resultado.getListEntidade() != null) {
-								
-				for(EntidadeDominio e : resultado.getListEntidade()) {
+			if (resultado.getListEntidade() != null) {
+
+				for (EntidadeDominio e : resultado.getListEntidade()) {
 					Pedido pedido = (Pedido) e;
 					dao = new ClienteDAO();
 					r = dao.consultarById(pedido.getCliente());
 					Cliente c = (Cliente) r.getEntidade();
+					pedido.setCliente(c);
+
 					dao = new StatusPedidoDAO();
 					r = dao.consultarById(pedido.getStatus());
 					StatusPedido s = (StatusPedido) r.getEntidade();
-					pedido.setCliente(c);
-					pedido.setStatus(s);	
+
+					pedido.setStatus(s);
 				}
 			}
-			
+
 		}
 		return resultado;
 	}

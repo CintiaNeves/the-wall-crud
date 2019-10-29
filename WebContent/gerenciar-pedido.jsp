@@ -121,17 +121,17 @@
 							</select>
 						</div>
 						<div class="col-md-6 form-group p_star">
-							<label for="data">Data de emissão</label> <input type="text"
+							<label for="data">Data de Emissão</label> <input type="text"
 								class="form-control" id="data" name="data" readonly
 								value="${pedido.data}">
 						</div>
 						<div class="col-md-6 form-group p_star">
-							<label for="cod-cli">Código cliente</label> <input type="text"
+							<label for="cod-cli">Código Cliente</label> <input type="text"
 								class="form-control" id="cod-cli" name="cod-cli" readonly
 								value="${pedido.cliente.codigo}">
 						</div>
 						<div class="col-md-6 form-group p_star">
-							<label for="cpf">CPF cliente</label> <input type="text"
+							<label for="cpf">CPF Cliente</label> <input type="text"
 								class="form-control" id="cpf" name="cpf" readonly
 								value="${pedido.cliente.cpf}">
 						</div>
@@ -152,82 +152,16 @@
 
 			</div>
 		</div>
-		</div>
 	</section>
 	<!--================End Login Box Area =================-->
 
 
 	<!--================ Start footer Area  =================-->
 	<footer class="footer">
-		<div class="footer-area">
-			<div class="container">
-				<div class="row section_gap">
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="single-footer-widget tp_widgets">
-							<h4 class="footer_title large_title">Nossa Missão</h4>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-								sed do eiusmod tempor incididunt ut labore et dolore magna
-								aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-								ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-								sed do eiusmod tempor incididunt</p>
-						</div>
-					</div>
-					<div class="offset-lg-1 col-lg-2 col-md-6 col-sm-6">
-						<div class="single-footer-widget tp_widgets">
-							<h4 class="footer_title">Acesso Rápido</h4>
-							<ul class="list">
-								<li><a href="#">Home</a></li>
-								<li><a href="#">Categorias</a></li>
-								<li><a href="#">Cliente</a></li>
-								<li><a href="#">Administrador</a></li>
-								<li><a href="#"></a></li>
-								<li><a href="#"></a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-lg-2 col-md-6 col-sm-6">
-						<div class="single-footer-widget instafeed">
-							<h4 class="footer_title">Galeria</h4>
-							<ul class="list instafeed d-flex flex-wrap">
-								<li><img src="img/gallery/r1.jpg" alt=""></li>
-								<li><img src="img/gallery/r1.jpg" alt=""></li>
-								<li><img src="img/gallery/r1.jpg" alt=""></li>
-								<li><img src="img/gallery/r1.jpg" alt=""></li>
-								<li><img src="img/gallery/r1.jpg" alt=""></li>
-								<li><img src="img/gallery/r1.jpg" alt=""></li>
-							</ul>
-						</div>
-					</div>
-					<div class="offset-lg-1 col-lg-3 col-md-6 col-sm-6">
-						<div class="single-footer-widget tp_widgets">
-							<h4 class="footer_title">Contatos</h4>
-							<div class="ml-40">
-								<p class="sm-head">
-									<span class="fa fa-location-arrow"></span> Endereço
-								</p>
-								<p>
-									Rua Kobayashi, 315 <br /> Mogi das Cruzes - SP
-								<p class="sm-head">
-									<span class="fa fa-phone"></span> Telefone
-								</p>
-								<p>(11) 99929-9141</p>
-
-								<p class="sm-head">
-									<span class="fa fa-envelope"></span> Email
-								</p>
-								<p>mcintia.mcn@gmail.com</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
 		<div class="footer-bottom">
 			<div class="container">
 				<div class="row d-flex">
-					<p class="col-lg-12 footer-text text-center"></p>
+					<p class="col-lg-12 footer-text text-center">By Cinty</p>
 				</div>
 			</div>
 		</div>
