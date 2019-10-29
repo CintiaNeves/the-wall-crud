@@ -1,53 +1,39 @@
 package br.com.les.thewallcrud.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import br.com.les.thewallcrud.command.CmdAlterar;
-import br.com.les.thewallcrud.command.CmdConsultar;
-import br.com.les.thewallcrud.command.CmdConsultarById;
-import br.com.les.thewallcrud.command.CmdExcluir;
-import br.com.les.thewallcrud.command.CmdSalvar;
-import br.com.les.thewallcrud.command.ICommand;
+import br.com.les.thewallcrud.strategy.StRelatorioItensVendidos;
+import br.com.les.thewallcrud.util.EntidadeDominio;
+import br.com.les.thewallcrud.util.Resultado;
+import br.com.les.thewallcrud.viewhelper.IViewHelper;
+import br.com.les.thewallcrud.viewhelper.VHRelatorio;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = {"/relatorio"})
 public class RelatorioController extends HttpServlet {
 
-	private Map<String, ICommand> mapCommand;
-
-	public RelatorioController() {
-
-		mapCommand = new HashMap<String, ICommand>();
-		mapCommand.put("SALVAR", new CmdSalvar());
-		mapCommand.put("CONSULTAR", new CmdConsultar());
-		mapCommand.put("ALTERAR", new CmdAlterar());
-		mapCommand.put("EXCLUIR", new CmdExcluir());
-		mapCommand.put("CONSULTARBYID", new CmdConsultarById());
-
-	}
-
 	@Override
 	public void service(HttpServletRequest request, HttpServletResponse response) {
 
-		//String operacao = request.getParameter("btnOperacao");
-		//ICommand command = mapCommand.get(operacao);
-		//IViewHelper vhCidade = new VHCidadeCobranca();
-		//EntidadeDominio entidade = vhCidade.getEntidade(request);
-        // Resultado resultado = command.executar(entidade);
-		//vhCidade.setView(resultado, request, response);
-		RequestDispatcher rd = request.getRequestDispatcher("relatorio.jsp");
-		try {
-			rd.forward(request, response);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		String relatorio = request.getParameter("relatorio");
+		if(relatorio.equals("ITENS_VENDIDOS")) {
+			itensPedido(request, response);
 		}
+	}
+	
+	private void itensPedido(HttpServletRequest request, HttpServletResponse response) {
+				
+		IViewHelper vhRelatorio = new VHRelatorio();
+		EntidadeDominio entidade = vhRelatorio.getEntidade(request);
+		
+		Resultado resultado = new Resultado();
+		resultado.setEntidade(entidade);
+		StRelatorioItensVendidos stRelatorio = new StRelatorioItensVendidos();
+		resultado = stRelatorio.processar(resultado);
+		
+		vhRelatorio.setView(resultado, request, response);
 	}
 }

@@ -129,12 +129,15 @@ public class VHInstrumento implements IViewHelper {
 						if (resultado.getErro()) {
 							json = "{\"erro\":\"".concat(resultado.getMensagem().concat("\"}"));
 						} else {
-							json = mapper.writeValueAsString(resultado.getEntidade());
+							if(resultado.getListEntidade().size() > 1) {
+								json = mapper.writeValueAsString(resultado.getListEntidade());
+							} else {
+								json = mapper.writeValueAsString(resultado.getEntidade());								
+							}
 						}
 						response.getWriter().write(json);
 						response.getWriter().flush();
 					} catch (JsonProcessingException e) {
-
 						e.printStackTrace();
 					}
 				} else {

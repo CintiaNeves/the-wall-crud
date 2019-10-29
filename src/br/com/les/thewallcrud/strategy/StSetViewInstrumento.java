@@ -28,12 +28,13 @@ public class StSetViewInstrumento implements IStrategy {
 			return resultado;
 
 		List<EntidadeDominio> instrumentos = resultado.getListEntidade();
+		
+		IDAO daoGrpPrecificacao = new GrupoPrecificacaoDAO();
+		IDAO daoCategoria = new CategoriaDAO();
+		IDAO daoSubcategoria = new SubcategoriaDAO();
+		
 		for (EntidadeDominio e : instrumentos) {
 			Instrumento instrumento = (Instrumento) e;
-
-			IDAO daoGrpPrecificacao = new GrupoPrecificacaoDAO();
-			IDAO daoCategoria = new CategoriaDAO();
-			IDAO daoSubcategoria = new SubcategoriaDAO();
 			Categoria c = new Categoria();
 			Subcategoria s = new Subcategoria();
 			GrupoPrecificacao g = new GrupoPrecificacao();

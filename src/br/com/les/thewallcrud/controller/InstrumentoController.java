@@ -41,8 +41,8 @@ public class InstrumentoController extends HttpServlet{
 	public void service(HttpServletRequest request, HttpServletResponse response) {
 		
 		String operacao = request.getParameter("btnOperacao");
-		ICommand command = mapCommand.get(operacao);
 		IViewHelper vhInstrumento = new VHInstrumento();
+		ICommand command = mapCommand.get(operacao);
 		EntidadeDominio entidade = vhInstrumento.getEntidade(request);
 		Resultado resultado = command.executar(entidade);
 		vhInstrumento.setView(resultado, request, response);

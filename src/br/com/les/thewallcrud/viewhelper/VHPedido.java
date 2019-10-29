@@ -230,15 +230,35 @@ public class VHPedido implements IViewHelper {
 					rd.forward(request, response);
 				}
 			} else if (operacao.equals("CONSULTAR")) {
-				if (resultado.getErro()) {
-					request.setAttribute("pedido", resultado.getEntidade());
-					rd = request.getRequestDispatcher("consulta-pedido.jsp");
-				} else {
-
-					request.setAttribute("pedidos", resultado.getListEntidade());
-					rd = request.getRequestDispatcher("consulta-pedido.jsp");
+				if(request.getParameter("retornoJson") != null && Boolean.parseBoolean(request.getParameter("retornoJson")) == true) {
+					response.addHeader("Access-Control-Allow-Origin", "*");
+					response.setContentType("application/json");
+					response.setCharacterEncoding("utf-8");
+					ObjectMapper mapper = new ObjectMapper();
+					try {
+						String json = null;
+						if(resultado.getErro()) {
+							json = "{\"erro\":\"".concat(resultado.getMensagem().concat("\"}"));
+						} else {
+							json = mapper.writeValueAsString(resultado.getListEntidade());
+						}
+						response.getWriter().write(json);
+						response.getWriter().flush();
+					} catch (JsonProcessingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}					
+				} else {					
+					if (resultado.getErro()) {
+						request.setAttribute("pedido", resultado.getEntidade());
+						rd = request.getRequestDispatcher("consulta-pedido.jsp");
+					} else {
+						
+						request.setAttribute("pedidos", resultado.getListEntidade());
+						rd = request.getRequestDispatcher("consulta-pedido.jsp");
+					}
+					rd.forward(request, response);
 				}
-				rd.forward(request, response);
 			} else if (operacao.equals("CONSULTARBYID")) {
 				if(request.getParameter("retornoJson") != null && Boolean.parseBoolean(request.getParameter("retornoJson")) == true) {
 					response.addHeader("Access-Control-Allow-Origin", "*");

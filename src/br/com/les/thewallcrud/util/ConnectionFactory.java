@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 public class ConnectionFactory {
 
 	String driver = "jdbc:sqlserver://";
-	String server = "localhost\\SQLEXPRESS:";
+	String server = "192.168.0.101\\SQLEXPRESS:";
 	String port = "1433;";
 	String database = "databaseName=THEWALL;";
 	String user = "user=sa;";
