@@ -1,8 +1,11 @@
 package br.com.les.thewallcrud.viewhelper;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -39,7 +42,17 @@ public class VHRelatorio implements IViewHelper {
 	@Override
 	public void setView(Resultado resultado, HttpServletRequest request, HttpServletResponse response) {
 		String operacao = request.getParameter("operacao");
-		if (operacao.equals("CONSULTAR")) {
+		RequestDispatcher rd;
+		if(operacao == null) {
+			rd = request.getRequestDispatcher("relatorio.jsp");
+			try {
+				rd.forward(request, response);
+			} catch (ServletException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		} else if (operacao.equals("CONSULTAR")) {
 			if (request.getParameter("retornoJson") != null
 					&& Boolean.parseBoolean(request.getParameter("retornoJson")) == true) {
 				response.addHeader("Access-Control-Allow-Origin", "*");

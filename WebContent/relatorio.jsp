@@ -27,13 +27,13 @@
 
 	<script type="text/javascript">
 		// Load the Visualization API and the corechart package.
-		google.charts.load('current', { 'packages': ['corechart'] });
+		google.charts.load('current', { 'packages': ['corechart', 'line', 'bar'] });
 
 		// Set a callback to run when the Google Visualization API is loaded.
 		google.charts.setOnLoadCallback(drawCharts);
 
 		function drawCharts() {
-			graficoColunas("Produtos vendidos no período", "bar_chart_div", { operacao: "CONSULTAR", relatorio: "ITENS_VENDIDOS", retornoJson: true });
+			graficoColunas("Produtos vendidos no período", "line_chart_div", { operacao: "CONSULTAR", relatorio: "ITENS_VENDIDOS", retornoJson: true });
 		}
 
 		// graficos de colunas
@@ -80,8 +80,16 @@
 						backgroundColor: '#f5f5f5',
 						is3D: true
 					};
-					var chart = new google.visualization.ColumnChart(document.getElementById(chartElement));
-					chart.draw(data, options);
+					let chart = null;
+					let option = {};
+					if(chartElement === "bar_chart_div") {
+						chart = new google.charts.Bar(document.getElementById(chartElement));
+						option = google.charts.Bar.convertOptions(options);						
+					} else if(chartElement === "line_chart_div") {
+						chart = new google.charts.Line(document.getElementById(chartElement));
+						option = google.charts.Line.convertOptions(options);						
+					}
+					chart.draw(data, option);
 				},
 				error: err => console.log(err),
 				complete: () => {
@@ -120,7 +128,7 @@
 					idInstrumentos = idInstrumentos.substring(0, idInstrumentos.length - 1);
 					dataInicio = inicio.value;
 					dataFim = fim.value;
-					graficoColunas("Produtos vendidos no período", "bar_chart_div",
+					graficoColunas("Produtos vendidos no período", "line_chart_div",
 						{ operacao: "CONSULTAR", relatorio: "ITENS_VENDIDOS", retornoJson: true, idInstrumentos, dataInicio, dataFim });
 				}
 			});
@@ -190,6 +198,7 @@
 	<div hidden id="modal">
 		<div class="loader" id="loader"></div>
 	</div>
+	<div id="line_chart_div"></div>
 	<div id="bar_chart_div"></div>
 	<div hidden style="margin: 0% 10%;" class="alert alert-danger" id="mensagemErro" role="alert"></div>
 	<div hidden style="margin: 0% 2%;" class="row">
