@@ -22,39 +22,39 @@ public class StAtualizaCarrinho implements IStrategy {
 
 	@Override
 	public Resultado processar(Resultado resultado) {
-		
+
 		ItemCarrinho item = (ItemCarrinho) resultado.getEntidade();
+		List<ItemCarrinho> itens = new ArrayList<>();
 		Carrinho carrinho = new Carrinho();
 		carrinho.setId(item.getIdCarrinho());
+		Double total = 0.0;
 		IDAO dao = new ItemCarrinhoDAO();
 		Resultado r = new Resultado();
 		r = dao.consultar(carrinho);
-		List<ItemCarrinho> itens = new ArrayList<>();
-		carrinho.setItens(itens);
-		for(EntidadeDominio e : r.getListEntidade()) {
-			carrinho.getItens().add((ItemCarrinho) e);
-		}
-		
-		dao = new InstrumentoDAO();
-		Double total = 0.0;
-		
-		for(ItemCarrinho i : carrinho.getItens()) {
-			r = dao.consultarById(item.getInstrumento());
-			Instrumento instrumento = (Instrumento) r.getEntidade();
-			i.setInstrumento(instrumento);
+
+		for (EntidadeDominio e : r.getListEntidade()) {
+			ItemCarrinho i = (ItemCarrinho) e;
+			Instrumento instrumento = new Instrumento();
+			instrumento.setId(i.getInstrumento().getId());
+			dao = new InstrumentoDAO();
+			Resultado res = dao.consultarById(instrumento);
+			i.setInstrumento((Instrumento) res.getEntidade());
 			i.setTotal(i.getInstrumento().getValorVenda() * i.getQuantidade());
 			total += i.getTotal();
+			itens.add(i);
 		}
+		carrinho.setItens(itens);
 		carrinho.setQuantidadeItem(carrinho.getItens().size());
-		carrinho.setValorTotal(total);		
+		carrinho.setValorTotal(total);
 		resultado.clear();
 		resultado.setEntidade(carrinho);
-		
+
 		List<EntidadeDominio> entidades = new ArrayList<>();
-		for(ItemCarrinho ic : itens) {
+		for (ItemCarrinho ic : itens) {
 			entidades.add((EntidadeDominio) ic);
 		}
 		resultado.setMapEntidade("ITENS", entidades);
+
 		return resultado;
 	}
 

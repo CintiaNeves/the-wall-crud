@@ -65,16 +65,6 @@
 									<li class="nav-item"><a class="nav-link" href="piano.html">Pianos</a></li>
 									<li class="nav-item"><a class="nav-link" href="sopro.html">Sopro</a></li>
 								</ul></li>
-							<li class="nav-item submenu dropdown"><a href="#"
-								class="nav-link dropdown-toggle" data-toggle="dropdown"
-								role="button" aria-haspopup="true" aria-expanded="false">Cliente</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-									<li class="nav-item"><a class="nav-link"
-										href="register.html">Cadastro</a></li>
-									<li class="nav-item"><a class="nav-link"
-										href="tracking-order.html">Pedidos</a></li>
-								</ul></li>
 						</ul>
 						<ul class="nav-shop">
 							<li class="nav-item"><button>
@@ -104,15 +94,15 @@
 						<table class="order-rable">
 							<tr>
 								<td>Número:</td>
-								<td> ${pedido.numero}</td>
+								<td>${pedido.numero}</td>
 							</tr>
 							<tr>
 								<td>Data:</td>
-								<td> ${pedido.data}</td>
+								<td>${pedido.data}</td>
 							</tr>
 							<tr>
 								<td>Total:</td>
-								<td> R$ ${pedido.total}</td>
+								<td>R$ ${pedido.total}</td>
 							</tr>
 							<tr>
 								<td>Status:</td>
@@ -127,19 +117,20 @@
 						<table class="order-rable">
 							<tr>
 								<td>${pedido.cliente.enderecos[0].tpLogradouro}:</td>
-								<td> ${pedido.cliente.enderecos[0].logradouro}, ${pedido.cliente.enderecos[0].numero}</td>
+								<td>${pedido.cliente.enderecos[0].logradouro},
+									${pedido.cliente.enderecos[0].numero}</td>
 							</tr>
 							<tr>
 								<td>Cidade:</td>
-								<td> ${pedido.cliente.enderecos[0].pais.estado.cidade.nome}</td>
+								<td>${pedido.cliente.enderecos[0].pais.estado.cidade.nome}</td>
 							</tr>
 							<tr>
 								<td>País:</td>
-								<td> ${pedido.cliente.enderecos[0].pais.nome}</td>
+								<td>${pedido.cliente.enderecos[0].pais.nome}</td>
 							</tr>
 							<tr>
 								<td>CEP:</td>
-								<td> ${pedido.cliente.enderecos[0].cep}</td>
+								<td>${pedido.cliente.enderecos[0].cep}</td>
 							</tr>
 						</table>
 					</div>
@@ -150,19 +141,20 @@
 						<table class="order-rable">
 							<tr>
 								<td>${pedido.endereco.tpLogradouro}:</td>
-								<td> ${pedido.endereco.logradouro}, ${pedido.endereco.numero}</td>
+								<td>${pedido.endereco.logradouro},
+									${pedido.endereco.numero}</td>
 							</tr>
 							<tr>
 								<td>Cidade:</td>
-								<td> ${pedido.endereco.pais.estado.cidade.nome}</td>
+								<td>${pedido.endereco.pais.estado.cidade.nome}</td>
 							</tr>
 							<tr>
 								<td>País:</td>
-								<td> ${pedido.endereco.pais.nome}</td>
+								<td>${pedido.endereco.pais.nome}</td>
 							</tr>
 							<tr>
 								<td>CEP:</td>
-								<td> ${pedido.endereco.cep}</td>
+								<td>${pedido.endereco.cep}</td>
 							</tr>
 						</table>
 					</div>
@@ -274,14 +266,14 @@
 		let nomeCliente = cookies[0].split("=");
 		return nomeCliente[1];
 	}
-	
-	function getIdCarrinho(){
+
+	function getIdCarrinho() {
 		let cookies = document.cookie.split(";");
 		let idCarrinho = cookies[2].split("=");
 		return idCarrinho[1];
 	}
-	
-	function getIdCliente(){
+
+	function getIdCliente() {
 		let cookies = document.cookie.split(";");
 		let idCliente = cookies[1].split("=");
 		return idCliente[1];

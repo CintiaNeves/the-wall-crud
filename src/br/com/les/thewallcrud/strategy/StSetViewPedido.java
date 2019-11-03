@@ -21,7 +21,6 @@ public class StSetViewPedido implements IStrategy {
 	public Resultado processar(Resultado resultado) {
 		
 		if (!resultado.getErro()) {
-			
 			IDAO dao;
 			Resultado r = new Resultado();
 			if (resultado.getListEntidade() != null) {

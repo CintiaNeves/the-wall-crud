@@ -266,8 +266,7 @@ span {
 									<div class="form-check">
 										<button type="button" class="btn btn-link" id="novo-cartao">Adicionar
 											novo cartão</button>
-										<input type="hidden" name="novo-cartao" id="cartao-novo"
-											value="false">
+										<input type="hidden" name="novo-cartao" id="cartao-novo" value="">
 									</div>
 									<div id="cartao" style="display: none">
 										<div class="form-group col-md-12">
@@ -295,19 +294,12 @@ span {
 										<label for="f-option6">Opções de Pagamento: Valor
 											mínimo por cartão R$ 10,00</label><br> <label></label>
 									</div>
-
-									<div class="form-check" id="div-novo-cartao"
-										style="display: none">
-										<label class="form-check-label" for="novo-cartao">
-											Valor para novo cartão</label> <input name="valor-novo-cartao"
-											id="valor-novo-cartao">
-									</div>
 									<div style="display: none">
 										<c:forEach var="c" items="${cartoes}">
 											<div class="form-check">
 												<label class="form-check-label">Valor para
-													${c.bandeira.descricao} COD ${c.codSeguranca }</label> <input
-													name="novo-cartao" id="novo-cartao">
+													${c.bandeira.descricao} COD ${c.codSeguranca }</label> 
+													<input name="novo-cartao" id="novo-cartao">
 											</div>
 										</c:forEach>
 									</div>
@@ -404,6 +396,7 @@ span {
             type: "POST",
             url: "http://localhost:8080/the-wall-crud/bandeira",
             dataType: "json",
+            async: false,
             data: {
                 retornoJson: true,
                 btnOperacao: "CONSULTAR",
@@ -440,6 +433,7 @@ span {
         $("#cartao")[0].style.display = "";
         $("#div-novo-cartao")[0].style.display = "";
         $("#cartao-novo")[0].value = "true";
+        console.log(optionsBandeira);
     });
 
     function carregaPais() {

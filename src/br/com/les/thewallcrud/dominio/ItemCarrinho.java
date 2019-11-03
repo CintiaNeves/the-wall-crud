@@ -6,11 +6,37 @@ public class ItemCarrinho extends EntidadeDominio{
 
 	private Instrumento instrumento;
 	private Integer quantidade;
+	private Integer diferencaQtd;
 	private Double total;
 	private Boolean expirado;
 	private Long idCarrinho;
+	private String data;
+	private Boolean alterado;	
 	
+	public Integer getDiferencaQtd() {
+		return diferencaQtd;
+	}
+
+	public void setDiferencaQtd(Integer diferencaQtd) {
+		this.diferencaQtd = diferencaQtd;
+	}
+
+	public ItemCarrinho() {
+		this.alterado = false;
+	}
 	
+	public Boolean getAlterado() {
+		return alterado;
+	}
+	public void setAlterado(Boolean alterado) {
+		this.alterado = alterado;
+	}
+	public String getData() {
+		return data;
+	}
+	public void setData(String data) {
+		this.data = data;
+	}
 	public Long getIdCarrinho() {
 		return idCarrinho;
 	}

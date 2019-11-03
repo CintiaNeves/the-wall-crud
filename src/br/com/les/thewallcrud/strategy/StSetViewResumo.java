@@ -43,7 +43,12 @@ public class StSetViewResumo implements IStrategy {
 		List<Endereco> enderecos = new ArrayList<>();
 		
 		for(EntidadeDominio e : r.getListEntidade()) {
-			enderecos.add((Endereco) e);	
+			enderecos.add((Endereco) e);
+			if(pedido.getEndereco().getId() != null) {
+				if(e.getId() == pedido.getEndereco().getId()) {
+					pedido.setEndereco((Endereco)e);
+				}
+			}
 		}
 		
 		for(Endereco e : enderecos) {
@@ -72,22 +77,26 @@ public class StSetViewResumo implements IStrategy {
 			item.setTotalItem(item.getQuantidade() * item.getInstrumento().getValorVenda());
 		}
 		
-		dao = new EnderecoDAO();
-		r = dao.consultarById(pedido.getEndereco());
-		Endereco e = (Endereco) r.getEntidade();
-		dao = new CidadeDAO();
-		r = dao.consultarById(e);
-		Cidade cidade = (Cidade) r.getEntidade();
-		dao = new EstadoDAO();
-		r = dao.consultarById(e);
-		Estado estado = (Estado) r.getEntidade();
-		dao = new PaisDAO();
-		r = dao.consultarById(e);
-		Pais pais = (Pais) r.getEntidade();
-		estado.setCidade(cidade);
-		pais.setEstado(estado);
-		e.setPais(pais);
-		pedido.setEndereco(e);
+		if(pedido.getSalvarEndereco()) {
+			pedido.getEndereco().setId(enderecos.get(enderecos.size() - 1).getId());
+			dao = new EnderecoDAO();
+			r = dao.consultarById(pedido.getEndereco());
+			Endereco e = (Endereco) r.getEntidade();
+			dao = new CidadeDAO();
+			r = dao.consultarById(e);
+			Cidade cidade = (Cidade) r.getEntidade();
+			dao = new EstadoDAO();
+			r = dao.consultarById(e);
+			Estado estado = (Estado) r.getEntidade();
+			dao = new PaisDAO();
+			r = dao.consultarById(e);
+			Pais pais = (Pais) r.getEntidade();
+			estado.setCidade(cidade);
+			pais.setEstado(estado);
+			e.setPais(pais);
+			pedido.setEndereco(e);
+		}
+		
 		
 		dao = new StatusPedidoDAO();
 		r = dao.consultarById(pedido.getStatus());

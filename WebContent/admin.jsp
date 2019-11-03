@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>The Wall - Entrada Nota Fiscal</title>
+<title>The Wall - Administrador</title>
 <link rel="icon" href="img/Fevicon.png" type="image/png">
 <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
 <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
@@ -56,10 +56,12 @@
 							<li class="nav-item"><a class="nav-link" href="index.jsp">Site</a></li>
 							<li class="nav-item submenu dropdown"><a href="#"
 								class="nav-link dropdown-toggle" data-toggle="dropdown"
-								role="button" aria-haspopup="true" aria-expanded="false">Pedidos</a>
+								role="button" aria-haspopup="true" aria-expanded="false">Consultas</a>
 								<ul class="dropdown-menu">
 									<li class="nav-item"><a class="nav-link"
-										href="consulta-pedido.jsp">Consulta</a></li>
+										href="consulta-pedido.jsp">Pedidos</a></li>
+										<li class="nav-item"><a class="nav-link"
+										href="consulta-troca.jsp">Trocas</a></li>
 								</ul></li>
 							<li class="nav-item submenu dropdown"><a href="#"
 								class="nav-link dropdown-toggle" data-toggle="dropdown"
@@ -84,7 +86,7 @@
 								role="button" aria-haspopup="true" aria-expanded="false">Relatórios</a>
 								<ul class="dropdown-menu">
 									<li class="nav-item"><a class="nav-link"
-										href="grafico.html">Vendas</a></li>
+										href="relatorio.jsp">Vendas</a></li>
 								</ul></li>
 						</ul>
 					</div>

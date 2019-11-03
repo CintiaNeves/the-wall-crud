@@ -33,7 +33,7 @@
 		google.charts.setOnLoadCallback(drawCharts);
 
 		function drawCharts() {
-			graficoColunas("Produtos vendidos no perï¿½odo", "bar_chart_div", { operacao: "CONSULTAR", relatorio: "ITENS_VENDIDOS", retornoJson: true });
+			graficoColunas("Produtos vendidos no período", "bar_chart_div", { operacao: "CONSULTAR", relatorio: "ITENS_VENDIDOS", retornoJson: true });
 		}
 
 		// graficos de colunas
@@ -105,7 +105,7 @@
 				if (inicio.value && fim.value) {
 					if (new Date(inicio.value).getTime() > new Date(fim.value).getTime()) {
 						erro = true;
-						mensagem.innerText = "Data fim ï¿½o poder ser maior que a data inÃ­cio!";
+						mensagem.innerText = "Data fim não poder ser maior que a data início!";
 						mensagem.hidden = false;
 					}
 				}
@@ -120,7 +120,7 @@
 					idInstrumentos = idInstrumentos.substring(0, idInstrumentos.length - 1);
 					dataInicio = inicio.value;
 					dataFim = fim.value;
-					graficoColunas("Produtos vendidos no perï¿½odo", "bar_chart_div",
+					graficoColunas("Produtos vendidos no período", "bar_chart_div",
 						{ operacao: "CONSULTAR", relatorio: "ITENS_VENDIDOS", retornoJson: true, idInstrumentos, dataInicio, dataFim });
 				}
 			});
@@ -194,11 +194,11 @@
 	<div hidden style="margin: 0% 10%;" class="alert alert-danger" id="mensagemErro" role="alert"></div>
 	<div hidden style="margin: 0% 2%;" class="row">
 		<div class="form-group col-xs-4 col-md-4">
-			<label for="inicio" class="control-label">Perï¿½do Inï¿½cial</label>
+			<label for="inicio" class="control-label">Período Inicial</label>
 			<input type="date" class="form-control" id="inicio" name="inicio">
 		</div>
 		<div class="form-group col-xs-4 col-md-4">
-			<label for="fim" class="control-label">Perï¿½odo Final</label>
+			<label for="fim" class="control-label">Período Final</label>
 			<input type="date" class="form-control" id="fim" name="fim">
 		</div>
 	</div>

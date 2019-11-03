@@ -17,6 +17,7 @@ public class EstoqueDAO extends AbstractDao {
 			
 		ItemEstoque itemEstoque = null;
 		ItemCarrinho itemCarrinho = null;
+		Boolean reserva = false;
 		
 		if(entidade instanceof ItemEstoque) { 
 			itemEstoque = (ItemEstoque) entidade;
@@ -26,22 +27,34 @@ public class EstoqueDAO extends AbstractDao {
 		}
 		Boolean estoque = itemEstoque != null ? true : false;
 		Boolean carrinho = itemCarrinho != null ? true : false;
-		
+		if(estoque) {
+			reserva = itemEstoque.getQuantidadeReservada() != null ? true : false;
+		}
 		Resultado resultado = new Resultado(); 
 
 		String sql = "UPDATE ESTOQUE SET ";
 		
-		if(estoque)
-			sql += "QUANTIDADE = ? WHERE ID_INSTRUMENTO = ?";
-		else if(carrinho)
+		if(estoque) {
+			if(reserva) {
+				sql += "QUANTIDADE_RESERVADA = ? WHERE ID_INSTRUMENTO = ?";
+			}else {
+				sql += "QUANTIDADE = ? WHERE ID_INSTRUMENTO = ?";
+			}
+		}else if(carrinho) {
 			sql += "QUANTIDADE_RESERVADA = ? WHERE ID_INSTRUMENTO = ?";
-		
+		}
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			
 			if(estoque) {
-				stmt.setInt(1, itemEstoque.getQuantidade());
-				stmt.setLong(2, itemEstoque.getInstrumento().getId());
-				stmt.execute();
+				if(reserva) {
+					stmt.setInt(1, itemEstoque.getQuantidadeReservada());
+					stmt.setLong(2, itemEstoque.getInstrumento().getId());
+					stmt.execute();
+				}else {
+					stmt.setInt(1, itemEstoque.getQuantidade());
+					stmt.setLong(2, itemEstoque.getInstrumento().getId());
+					stmt.execute();
+				}				
 			}else if(carrinho) {
 				stmt.setInt(1, itemCarrinho.getQuantidade());
 				stmt.setLong(2, itemCarrinho.getInstrumento().getId());
@@ -75,11 +88,16 @@ public class EstoqueDAO extends AbstractDao {
 			ResultSet rs = stmt.executeQuery();
 			
 			while (rs.next()) {
+				Instrumento instrumento  = new Instrumento();
+				i.setInstrumento(instrumento);
+				i.setId(rs.getLong("ID"));
 				i.setQuantidade(rs.getInt("QUANTIDADE"));
+				i.setQuantidadeReservada(rs.getInt("QUANTIDADE_RESERVADA"));
+				i.getInstrumento().setId(rs.getLong("ID_INSTRUMENTO"));
+				resultado.setEntidade(i);
 			}
 			rs.close();
 			resultado.setSucesso("");
-			resultado.setEntidade(i);
 		} catch (SQLException e) {
 			resultado.setErro("Erro de consulta");
 			e.printStackTrace();
@@ -96,17 +114,18 @@ public class EstoqueDAO extends AbstractDao {
 	@Override
 	public Resultado salvar(EntidadeDominio entidade) {
 
-		Instrumento instrumento = (Instrumento) entidade;
+		ItemEstoque item = (ItemEstoque) entidade;
 		Resultado resultado = new Resultado();
-		String sql = "INSERT INTO ESTOQUE (ID_INSTRUMENTO) VALUES (?)";
+		String sql = "INSERT INTO ESTOQUE (ID_INSTRUMENTO, QUANTIDADE) VALUES (?, ?)";
 
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 
-			stmt.setLong(1, instrumento.getId());
+			stmt.setLong(1, item.getInstrumento().getId());
+			stmt.setInt(2, item.getQuantidade());
 
 			stmt.execute();
 			resultado.setSucesso("Cadastro Realizado com Sucesso.");
-			resultado.setEntidade(instrumento);
+			resultado.setEntidade(item);
 		} catch (Exception e) {
 			resultado.setErro("Inclusão não realizada.");
 			e.printStackTrace();

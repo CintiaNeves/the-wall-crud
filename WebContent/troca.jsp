@@ -55,29 +55,39 @@
 					<div class="collapse navbar-collapse offset"
 						id="navbarSupportedContent">
 						<ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-							<li class="nav-item active"><a class="nav-link"
-								href="index.jsp">Início</a></li>
+							<li class="nav-item"><a class="nav-link" href="index.html">Site</a></li>
 							<li class="nav-item submenu dropdown"><a href="#"
 								class="nav-link dropdown-toggle" data-toggle="dropdown"
-								role="button" aria-haspopup="true" aria-expanded="false">Categorias</a>
+								role="button" aria-haspopup="true" aria-expanded="false">Consulta</a>
 								<ul class="dropdown-menu">
 									<li class="nav-item"><a class="nav-link"
-										href="bateria.html">Baterias</a></li>
-									<li class="nav-item"><a class="nav-link" href="corda.html">Cordas</a></li>
-									<li class="nav-item"><a class="nav-link" href="piano.html">Pianos</a></li>
-									<li class="nav-item"><a class="nav-link" href="sopro.html">Sopro</a></li>
+										href="consulta-pedido.jsp">Pedidos</a></li>
 								</ul></li>
 							<li class="nav-item submenu dropdown"><a href="#"
 								class="nav-link dropdown-toggle" data-toggle="dropdown"
-								role="button" aria-haspopup="true" aria-expanded="false">Cliente</a>
+								role="button" aria-haspopup="true" aria-expanded="false">Produtos</a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
 									<li class="nav-item"><a class="nav-link"
-										href="register.html">Cadastro</a></li>
+										href="cadastro-instrumento.html">Cadastro</a></li>
 									<li class="nav-item"><a class="nav-link"
-										href="tracking-order.html">Pedidos</a></li>
+										href="consulta-instrumento.html">Consulta</a></li>
 								</ul></li>
-							<li class="nav-item"><a class="nav-link" href="contact.html">Administrador</a></li>
+							<li class="nav-item submenu dropdown"><a href="#"
+								class="nav-link dropdown-toggle" data-toggle="dropdown"
+								role="button" aria-haspopup="true" aria-expanded="false">Estoque</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link"
+										href="entrada-estoque.html">Entrada</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="consulta-estoque.html">Consulta</a></li>
+								</ul></li>
+							<li class="nav-item submenu dropdown"><a href="#"
+								class="nav-link dropdown-toggle" data-toggle="dropdown"
+								role="button" aria-haspopup="true" aria-expanded="false">Relatórios</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link"
+										href="grafico.html">Vendas</a></li>
+								</ul></li>
 						</ul>
 					</div>
 				</div>

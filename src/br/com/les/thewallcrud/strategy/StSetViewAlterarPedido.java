@@ -1,5 +1,8 @@
 package br.com.les.thewallcrud.strategy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.les.thewallcrud.dao.ClienteDAO;
 import br.com.les.thewallcrud.dao.IDAO;
 import br.com.les.thewallcrud.dao.PedidoDAO;
@@ -21,6 +24,28 @@ public class StSetViewAlterarPedido implements IStrategy {
 	@Override
 	public Resultado processar(Resultado resultado) {
 		Pedido pedido = (Pedido) resultado.getEntidade();
+		if(pedido.getId() == null) {
+			IDAO dao = new PedidoDAO();
+			Resultado res = dao.consultar(pedido);
+			List<Pedido> gerenciaveis = new ArrayList<>();
+			
+			for(EntidadeDominio e : res.getListEntidade()) {
+				Pedido p = (Pedido) e;
+				if(p.getStatus().getId() == 2 || p.getStatus().getId() == 4 || p.getStatus().getId() == 6) {
+					gerenciaveis.add(p);
+				}
+			}
+			List<EntidadeDominio> entidades = new ArrayList<>();
+			for(Pedido p : gerenciaveis) {
+				entidades.add(p);
+			}
+			resultado.clear();
+			resultado.setListEntidade(entidades);
+			IStrategy st = new StSetViewPedido();
+			st.processar(resultado);
+			return resultado;
+		}
+			
 		IDAO dao = new PedidoDAO();
 		Resultado r = new Resultado();
 		r = dao.consultarById(pedido);

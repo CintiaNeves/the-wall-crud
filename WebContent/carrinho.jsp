@@ -111,7 +111,7 @@
 							</thead>
 							<tbody id="itens">
 								<c:forEach var="i" items="${itens}">
-									<tr>
+									<tr id="tr-${i.id}">
 										<td>
 											<div class="media">
 												<div class="d-flex">
@@ -123,19 +123,24 @@
 											</div>
 										</td>
 										<td>
-											<h5>
+											<h5 id="valor-venda-${i.id}">
 												<fmt:formatNumber value = "${i.instrumento.valorVenda}" type = "currency"/>
 											</h5>
 										</td>
 										<td><input type="hidden" value="${carrinho.id}"
 											id="carrinho-id" name="carrinho-id">
 											<div class="product_count">
-												<input type="number" name="quantidade" id="quantidade"
-													value="${i.quantidade}" class="input-text qty">
+												<input type="number" name="quantidade" id="${i.id}"
+													value="${i.quantidade}" class="qty" min="1">
 											</div></td>
 										<td>
-											<h5 id="total-itens">
+											<h5 id="total-itens-${i.id}">
 												<fmt:formatNumber value = "${i.total}" type = "currency"/>
+											</h5>
+										</td>
+										<td>
+											<h5 id="remover">
+												<button  type="button" onclick="remover(this)" value="${i.id}" class="btn btn-link">Remover</button>
 											</h5>
 										</td>
 									</tr>
@@ -165,32 +170,6 @@
 										<div class="shipping_box">
 											<input type="hidden" id="frete" readonly> <input
 												type="hidden" id="valorFrete" name="valorFrete" value="">
-										</div>
-									</td>
-								</tr>
-								<tr class="shipping_area">
-									<td>
-										<div class="cupon_text d-flex align-items-center">
-											<h6>Tem um cupom?</h6>
-										</div>
-									</td>
-									<td>
-										<div class="shipping_box">
-											<input type="text" id="cupom"
-												placeholder="Cupom de troca ou promocional" name="cupom">
-											<label id="msg-cupom" style="color: red; display: none;">Digite
-												o código do cupom!</label>
-										</div>
-										<div class="shipping_box">
-											<button class="btn btn-primary" id="aplicar-cupom">Aplicar</button>
-										</div>
-									</td>
-									<td>
-										<div class="shipping_box">
-											<input type="hidden" id="desconto" value="" readonly>
-										</div>
-										<div class="shipping_box">
-											<input type="hidden" id="desconto2" value="" readonly>
 										</div>
 									</td>
 								</tr>
@@ -255,7 +234,7 @@
 	<script src="js/main.js"></script>
 </body>
 
-<script>
+<script>	
 	function getNomeCliente() {
 		let cookies = document.cookie.split(";");
 		let nomeCliente = cookies[0].split("=");
@@ -314,59 +293,73 @@
 		}
 
 	});
-
-	$("#aplicar-cupom").click(function() {
-		event.preventDefault();
-		let cupom = $("#cupom")[0].value;
-
-		if (cupom.trim() === "") {
-			$("#msg-cupom")[0].style.display = "";
-		} else {
-			$("#msg-cupom")[0].style.display = "none";
-			let idCarrinho = $("#carrinho-id")[0].value
-			$.ajax({
-				type : "POST",
-				url : "http://localhost:8080/the-wall-crud/carrinho",
-				dataType : "json",
-				data : {
-					retornoJson : true,
-					btnOperacao : "CONSULTAR",
-					cupom : cupom,
-					idCarrinho : idCarrinho,
-				},
-				success : function(response) {
-					if (response.erro) {
-						$("#msg-cupom").text(response.erro);
-						$("#msg-cupom")[0].style.display = "";
-					} else {
-						$("#desconto").val(response.valor);
-						$("#desconto")[0].type = "text";
-						$("#aplicar-cupom")[0].style.display = "none";
-						calcularTotal();
-					}
-				},
-				error : function(error) {
-					console.log(error);
+		
+	function remover(button) {
+		let id = button.value;
+		let tr = "tr-".concat(id);
+		$.ajax({
+			type: "POST",
+			url: "http://localhost:8080/the-wall-crud/itemCarrinho",
+			dataType: "json",
+			data: {
+				retornoJson: true,
+				btnOperacao: "EXCLUIR",
+				id: id,
+			},
+			success: function(response) {
+				if(response.erro) {
+					console.log(erro);
+				} else {
+					$("#"+tr)[0].remove();	
 				}
-			});
-		}
-
+			},
+			error: function(error) {
+				console.log(error);
+			}
+		});	
+	};
+	
+	$(".qty").blur(function(){
+		let input = this;
+		let id = input.id;
+		let quantidade = $("#"+id)[0].value;
+		let idItem = "valor-venda-".concat(id);
+		let idTotal = "total-itens-".concat(id);
+		let stringValor = $("#"+idItem)[0].textContent;
+		stringValor = stringValor.replace("R$ ", "");
+		stringValor = stringValor.replace(".", "");
+		stringValor = stringValor.replace(",", ".");
+		let valor = new Number(stringValor);
+		valor = valor * quantidade;
+		$.ajax({
+			type: "POST",
+			url: "http://localhost:8080/the-wall-crud/itemCarrinho",
+			dataType: "json",
+			data: {
+				retornoJson: true,
+				btnOperacao: "ALTERAR",
+				id: id,
+				quantidade: quantidade,
+			},
+			success: function(response) {
+				if(response.erro) {
+					console.log(erro);
+				} else {
+					$("#"+idTotal)[0].textContent = "R$ " + valor;
+				}
+			},
+			error: function(error) {
+				console.log(error);
+			}
+		});	
+		
 	});
 	
-	function calcularTotal(){
-		
-		var itens = $("#total-itens")[0].textContent;
-		itens = itens.replace("R$ " , "");
-		var frete = $("#valorFrete")[0].value;
-		var cupom = $("#desconto")[0].value;
-		cupom = cupom.replace("R$ ", "");
-		cupom = cupom.replace(",", ".");
-		
-		var total = new Number(itens) + new Number(frete) + new Number(cupom);
-		
-		$("#total-pedido")[0].textContent = "R$ " + total.toFixed(2);
+	function calcularTotal(element){
 		
 	};
+	
+	
 	
 </script>
 </html>

@@ -29,7 +29,11 @@ public class StCarregaCarrinho implements IStrategy {
 		IDAO dao = new CarrinhoDAO();
 		Resultado r = dao.consultar(cliente);
 		Carrinho carrinho = (Carrinho) r.getEntidade();
-		
+		Resultado res = new Resultado();
+		res.setEntidade(carrinho);
+		IStrategy removeReserva = new StRemoveReservaPorTempo();
+		r = removeReserva.processar(res);
+		carrinho = (Carrinho) r.getEntidade();
 		dao = new ItemCarrinhoDAO();
 		r = dao.consultar(carrinho);
 		List<ItemCarrinho> itens = new ArrayList<>();

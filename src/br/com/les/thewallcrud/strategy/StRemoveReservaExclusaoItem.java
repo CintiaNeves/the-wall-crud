@@ -8,7 +8,7 @@ import br.com.les.thewallcrud.dominio.ItemEstoque;
 import br.com.les.thewallcrud.util.EntidadeDominio;
 import br.com.les.thewallcrud.util.Resultado;
 
-public class StReservaItemEstoque implements IStrategy {
+public class StRemoveReservaExclusaoItem implements IStrategy {
 
 	@Override
 	public String processar(EntidadeDominio entidade) {
@@ -18,21 +18,21 @@ public class StReservaItemEstoque implements IStrategy {
 
 	@Override
 	public Resultado processar(Resultado resultado) {
-
-		if (resultado.getErro())
-			return resultado;
-		ItemCarrinho item = (ItemCarrinho) resultado.getEntidade();
+		
+		ItemCarrinho ic = (ItemCarrinho) resultado.getEntidade();
 		IDAO dao = new EstoqueDAO();
 		ItemEstoque ie = new ItemEstoque();
 		Instrumento instrumento = new Instrumento();
-		instrumento.setId(item.getInstrumento().getId());
-		ie.setInstrumento(instrumento);
-		Resultado r = dao.consultar(ie);
-		ie = (ItemEstoque) r.getEntidade();
+		instrumento.setId(ic.getInstrumento().getId());
+		ie.setInstrumento(instrumento);	
+		Resultado res = dao.consultar(ie);
+		ie = (ItemEstoque) res.getEntidade();
+		Integer qtdRemover = ic.getQuantidade();
 		Integer qtdReservada = ie.getQuantidadeReservada();
-		Integer reserva = item.getQuantidade();
-		ie.setQuantidadeReservada(qtdReservada + reserva);
-		dao.alterar(ie);
+		if(qtdReservada >= qtdRemover) {
+			ie.setQuantidadeReservada(qtdReservada - qtdRemover);
+			dao.alterar(ie);
+		}
 		return resultado;
 	}
 

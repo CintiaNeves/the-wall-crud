@@ -6,10 +6,17 @@ public class ItemEstoque extends EntidadeDominio{
 	
 	private Instrumento instrumento;
 	private Integer quantidade;
+	private Integer quantidadeReservada;
 	private Double custo;
 	private Double total;
 	private Long idEntrada;
 	
+	public Integer getQuantidadeReservada() {
+		return quantidadeReservada;
+	}
+	public void setQuantidadeReservada(Integer quantidadeReservada) {
+		this.quantidadeReservada = quantidadeReservada;
+	}
 	public Double getTotal() {
 		return total;
 	}

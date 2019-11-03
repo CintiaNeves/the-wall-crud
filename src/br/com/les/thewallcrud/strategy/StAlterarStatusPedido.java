@@ -13,6 +13,8 @@ public class StAlterarStatusPedido implements IStrategy {
 	public String processar(EntidadeDominio entidade) {
 		
 		Pedido pedido = (Pedido) entidade;
+		if(pedido.getId() == null)
+			return null;
 		StatusPedido novoStatus = pedido.getStatus();
 		IDAO dao = new PedidoDAO();
 		Resultado resultado = new Resultado();

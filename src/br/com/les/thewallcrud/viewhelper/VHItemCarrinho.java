@@ -1,8 +1,13 @@
 package br.com.les.thewallcrud.viewhelper;
 
+import java.time.LocalDateTime;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.les.thewallcrud.dominio.Instrumento;
 import br.com.les.thewallcrud.dominio.ItemCarrinho;
@@ -17,8 +22,16 @@ public class VHItemCarrinho implements IViewHelper {
 		String stIdInstrumento = request.getParameter("instrumento");
 		String stQuantidade = request.getParameter("quantidade");
 		String stIdCarrinho = request.getParameter("carrinho");
+		String stIdItem = request.getParameter("id");
 		ItemCarrinho item = new ItemCarrinho();
+		
+		if(stIdItem != null) {
+			item.setId(Long.parseLong(stIdItem));
+		}
+		LocalDateTime now = LocalDateTime.now();
+		String data = now.toString();
 		Instrumento instrumento = new Instrumento();
+		item.setData(data);
 		
 		if(stIdInstrumento != null && (!stIdInstrumento.trim().equals(""))) {
 			instrumento.setId(Long.parseLong(stIdInstrumento));
@@ -67,8 +80,45 @@ public class VHItemCarrinho implements IViewHelper {
 				}
 				rd.forward(request, response);
 			} else if (operacao.equals("ALTERAR")) {
-
+				if(request.getParameter("retornoJson") != null && Boolean.parseBoolean(request.getParameter("retornoJson")) == true) {
+					response.addHeader("Access-Control-Allow-Origin", "*");
+					response.setContentType("application/json");
+					response.setCharacterEncoding("utf-8");
+					ObjectMapper mapper = new ObjectMapper();
+					try {
+						String json = null;
+						if(resultado.getErro()) {
+							json = "{\"erro\":\"".concat(resultado.getMensagem().concat("\"}"));
+						} else {
+							json = mapper.writeValueAsString(resultado.getEntidade());
+						}
+						response.getWriter().write(json);
+						response.getWriter().flush();
+					} catch (JsonProcessingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}					
+				}
 			} else if (operacao.equals("EXCLUIR")) {
+				if(request.getParameter("retornoJson") != null && Boolean.parseBoolean(request.getParameter("retornoJson")) == true) {
+					response.addHeader("Access-Control-Allow-Origin", "*");
+					response.setContentType("application/json");
+					response.setCharacterEncoding("utf-8");
+					ObjectMapper mapper = new ObjectMapper();
+					try {
+						String json = null;
+						if(resultado.getErro()) {
+							json = "{\"erro\":\"".concat(resultado.getMensagem().concat("\"}"));
+						} else {
+							json = mapper.writeValueAsString(resultado.getEntidade());
+						}
+						response.getWriter().write(json);
+						response.getWriter().flush();
+					} catch (JsonProcessingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}					
+				}
 				
 			} else if (operacao.equals("CONSULTARBYID")) {
 		

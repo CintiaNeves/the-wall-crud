@@ -60,8 +60,11 @@ public class StSetViewTroca implements IStrategy {
 				cupom.setId(t.getCupom().getId());
 				IDAO dao = new CupomDAO();
 				Resultado r = dao.consultarById(cupom);
-				cupom = (Cupom) r.getEntidade();
-				t.setCupom(cupom);
+				if(r.getListEntidade() != null) {
+					cupom = (Cupom) r.getEntidade();
+					t.setCupom(cupom);
+				}
+				
 				r.getListEntidade().clear();
 				r.setEntidade(t);
 				return r;

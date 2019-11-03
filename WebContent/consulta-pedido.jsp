@@ -55,8 +55,11 @@
 							<li class="nav-item"><a class="nav-link" href="index.html">Site</a></li>
 							<li class="nav-item submenu dropdown"><a href="#"
 								class="nav-link dropdown-toggle" data-toggle="dropdown"
-								role="button" aria-haspopup="true" aria-expanded="false">Pedidos</a>
-							</li>
+								role="button" aria-haspopup="true" aria-expanded="false">Consulta</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link"
+										href="consulta-troca.jsp">Trocas</a></li>
+								</ul></li>
 							<li class="nav-item submenu dropdown"><a href="#"
 								class="nav-link dropdown-toggle" data-toggle="dropdown"
 								role="button" aria-haspopup="true" aria-expanded="false">Produtos</a>
@@ -118,31 +121,38 @@
 					</div>
 					<div>
 						<form action="pedido" method="post">
-							<button id="listar" class="btn btn-secondary" type="submit"
-								name="btnOperacao" id="btnOperacao" value="CONSULTAR">Listar
-								todos</button>
-							<br /> <br />
 							<div class="row">
 								<div class="col-md-6 form-group p_star">
-									<div class="input-group ml-6">
+									<div class="col-md-3 form-group p_star">
+										<button id="listar" class="btn btn-secondary" type="submit"
+											name="btnOperacao" id="btnOperacao" value="CONSULTAR">Listar
+											todos</button>
+									</div>
+								</div>
+								<div class="col-md-6 form-group p_star">
+									<div class="col-md-3 form-group p_star">
+										<button id="listar" class="btn btn-secondary" type="submit"
+											name="btnOperacao" id="btnOperacao" value="ALTERAR">Gerenciar Status</button>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-small">
+									<div class="input-group ml-3">
 										<div class="input-group-prepend">
 											<button class="btn btn-outline-secondary" type="submit"
 												name="btnOperacao" value="CONSULTAR">Filtrar por
 												Status</button>
 										</div>
-										<div class="col-md-6 form-group p_star">
-											<label class="col-md-6" for="grp-precificacao">Status</label>
-											<select class="form-control" id="status" name="status">
-												<c:forEach var="s" items="${status}">
-													<option value="${s.id}"
-														${s.id == pedido.status.id ? "selected=selected" : ""}>${s.descricao}</option>
-												</c:forEach>
-											</select>
-										</div>
+										<select class="form-control col-md-12" id="status" name="status">
+											<c:forEach var="s" items="${status}">
+												<option value="${s.id}"
+													${s.id == pedido.status.id ? "selected=selected" : ""}>${s.descricao}</option>
+											</c:forEach>
+										</select>
 									</div>
 								</div>
 							</div>
-							<br />
 							<hr />
 						</form>
 						<div id="">

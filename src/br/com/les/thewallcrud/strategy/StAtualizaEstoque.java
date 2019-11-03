@@ -31,10 +31,14 @@ public class StAtualizaEstoque implements IStrategy{
 		
 		for(ItemEstoque i : itens) {
 			r = dao.consultar(i);
-			ItemEstoque ie = (ItemEstoque) r.getEntidade();
-			saldo = ie.getQuantidade();
-			i.setQuantidade(saldo + i.getQuantidade()); 
-			dao.alterar(i);
+			if(r.getListEntidade() == null) {
+				dao.salvar(i);
+			}else {
+				ItemEstoque ie = (ItemEstoque) r.getEntidade();
+				saldo = ie.getQuantidade() + i.getQuantidade();
+				ie.setQuantidade(saldo);
+				dao.alterar(ie);
+			}
 		}
 		return resultado;
 		

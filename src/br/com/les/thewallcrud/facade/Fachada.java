@@ -41,6 +41,7 @@ import br.com.les.thewallcrud.dominio.Troca;
 import br.com.les.thewallcrud.dominio.Usuario;
 import br.com.les.thewallcrud.strategy.IStrategy;
 import br.com.les.thewallcrud.strategy.StAdicionaItemEstoque;
+import br.com.les.thewallcrud.strategy.StAlteraQuantidadeReserva;
 import br.com.les.thewallcrud.strategy.StAlteraStatusProduto;
 import br.com.les.thewallcrud.strategy.StAlterarStatusPedido;
 import br.com.les.thewallcrud.strategy.StAtualizaCarrinho;
@@ -70,6 +71,8 @@ import br.com.les.thewallcrud.strategy.StGravaItemTroca;
 import br.com.les.thewallcrud.strategy.StGravaItensEntrada;
 import br.com.les.thewallcrud.strategy.StLogin;
 import br.com.les.thewallcrud.strategy.StPreparaGravacaoPedido;
+import br.com.les.thewallcrud.strategy.StProcessarPagamentos;
+import br.com.les.thewallcrud.strategy.StRemoveReservaExclusaoItem;
 import br.com.les.thewallcrud.strategy.StReservaItemEstoque;
 import br.com.les.thewallcrud.strategy.StSalvaDependecias;
 import br.com.les.thewallcrud.strategy.StSalvarFormaPagamento;
@@ -83,18 +86,21 @@ import br.com.les.thewallcrud.strategy.StSetViewResumo;
 import br.com.les.thewallcrud.strategy.StSetViewTroca;
 import br.com.les.thewallcrud.strategy.StSetViewTrocasAdmin;
 import br.com.les.thewallcrud.strategy.StSetViewUsuario;
+import br.com.les.thewallcrud.strategy.StValidaAlteracaoQuantidadeItemCarrinho;
 import br.com.les.thewallcrud.strategy.StValidaCamposCliente;
 import br.com.les.thewallcrud.strategy.StValidaCamposEntrada;
 import br.com.les.thewallcrud.strategy.StValidaCamposInstrumento;
 import br.com.les.thewallcrud.strategy.StValidaCupom;
 import br.com.les.thewallcrud.strategy.StValidaDadosUsuario;
 import br.com.les.thewallcrud.strategy.StValidaEmail;
+import br.com.les.thewallcrud.strategy.StValidaExclusaoItemCarrinho;
 import br.com.les.thewallcrud.strategy.StValidaExistenciaFornecedor;
 import br.com.les.thewallcrud.strategy.StValidaExistenciaInstrumento;
 import br.com.les.thewallcrud.strategy.StValidaExistenciaNota;
 import br.com.les.thewallcrud.strategy.StValidaExistenciaUsuario;
 import br.com.les.thewallcrud.strategy.StValidaFormaPagamento;
 import br.com.les.thewallcrud.strategy.StValidaInstrumentoUnico;
+import br.com.les.thewallcrud.strategy.StValidaItemExistenteCarrinho;
 import br.com.les.thewallcrud.strategy.StValidaOcorrencia;
 import br.com.les.thewallcrud.strategy.StValidaSenhaForte;
 import br.com.les.thewallcrud.util.EntidadeDominio;
@@ -220,7 +226,9 @@ public class Fachada implements IFachada {
  		List<IStrategy> listStrategyConsultarCarrinho = new ArrayList<>();
  		listStrategyConsultarCarrinho.add(new StCalculaFrete());
  		listStrategyConsultarCarrinho.add(new StValidaCupom());
-		
+ 		
+ 		List<IStrategy> listStrategySalvarItemCarrinho = new ArrayList<>();
+ 		listStrategySalvarItemCarrinho.add(new StValidaItemExistenteCarrinho());
 		// Lista Entrada Pós Processamento
 		List<IStrategy> listStrategySalvarEntradaPos = new ArrayList<>();
 		List<IStrategy> listStrategyConsultarEntradaPos = new ArrayList<>();
@@ -267,6 +275,14 @@ public class Fachada implements IFachada {
 		listStrategySalvarItemCarrinhoPos.add(new StAtualizaCarrinho());
 		List<IStrategy> listStrategyConsultarItemCarrinhoPos = new ArrayList<>();
 		listStrategyConsultarItemCarrinhoPos.add(new StCheckout());
+		List<IStrategy> listStrategyExcluirItemCarrinhoPos = new ArrayList<>();
+		listStrategyExcluirItemCarrinhoPos.add(new StRemoveReservaExclusaoItem());
+		List<IStrategy> listStrategyExcluirItemCarrinho = new ArrayList<>();
+		listStrategyExcluirItemCarrinho.add(new StValidaExclusaoItemCarrinho());
+		List<IStrategy> listStrategyAlterarItemCarrinhoPos = new ArrayList<>();
+		listStrategyAlterarItemCarrinhoPos.add(new StAlteraQuantidadeReserva());
+		List<IStrategy> listStrategyAlterarItemCarrinho = new ArrayList<>();
+		listStrategyAlterarItemCarrinho.add(new StValidaAlteracaoQuantidadeItemCarrinho());
 		
 		
 		//Lista Cupom Pós processamento
@@ -295,6 +311,7 @@ public class Fachada implements IFachada {
 		listStrategyConsultarByIdPedidoPos.add(new StCarregaItens());
 		List<IStrategy> listStrategyAlterarPedido = new ArrayList<>();
 		listStrategyAlterarPedido.add(new StAlterarStatusPedido());
+		listStrategyAlterarPedido.add(new StProcessarPagamentos());
 		// Lista troca
 		List<IStrategy> listStrategySalvarTroca = new ArrayList<>();
 		listStrategySalvarTroca.add(new StGeraCodigoTroca());
@@ -326,6 +343,9 @@ public class Fachada implements IFachada {
 		mapPedidoStrategy.put("ALTERAR", listStrategyAlterarPedido);
 		mapTrocaStrategy.put("SALVAR", listStrategySalvarTroca);
 		mapTrocaStrategy.put("ALTERAR", listStrategyAlterarTroca);
+		mapItemCarrinhoStrategy.put("SALVAR", listStrategySalvarItemCarrinho);
+		mapItemCarrinhoStrategy.put("EXCLUIR", listStrategyExcluirItemCarrinho);
+		mapItemCarrinhoStrategy.put("ALTERAR", listStrategyAlterarItemCarrinho);
 		mapOcorrenciaPosProcessamento.put("SALVAR", listStrategySalvarOcorrenciaPos);
 		mapEntradaPosProcessamento.put("SALVAR", listStrategySalvarEntradaPos);
 		mapEntradaPosProcessamento.put("CONSULTAR", listStrategyConsultarEntradaPos);
@@ -339,6 +359,8 @@ public class Fachada implements IFachada {
 		mapClientePosProcessamento.put("SALVAR", listStrategySalvarClientePos);
 		mapItemCarrinhoPosProcessamento.put("SALVAR", listStrategySalvarItemCarrinhoPos);
 		mapItemCarrinhoPosProcessamento.put("CONSULTAR", listStrategyConsultarItemCarrinhoPos);
+		mapItemCarrinhoPosProcessamento.put("EXCLUIR", listStrategyExcluirItemCarrinhoPos);
+		mapItemCarrinhoPosProcessamento.put("ALTERAR" , listStrategyAlterarItemCarrinhoPos);
 		mapCupomPosProcessamento.put("CONSULTAR", listStrategyConsultarCupomPos);
 		mapCarrinhoPosProcessamento.put("CONSULTARBYID", listStrategyConsultaByIDCarrinhoPos);
 		mapPedidoPosProcessamento.put("SALVAR", listStrategySalvarPedidoPos);
@@ -492,13 +514,13 @@ public class Fachada implements IFachada {
 		IDAO dao = mapDAO.get(entidade.getClass().getSimpleName());
 
 		if (!resultado.getErro()) {
-
 			resultado = dao.excluir(entidade);
-
 		}
+		
 		if (!resultado.getErro()) {
-			resultado = dao.consultar(new Instrumento());
+			resultado = validaStrategyPosProcessamento(resultado, "EXCLUIR");
 		}
+		
 		return resultado;
 	}
 

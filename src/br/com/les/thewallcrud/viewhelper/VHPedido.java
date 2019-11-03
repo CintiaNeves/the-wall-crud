@@ -124,12 +124,11 @@ public class VHPedido implements IViewHelper {
 		} else {
 			pedido.setSalvarEndereco(false);
 		}
-
-		String stNovoCartao = request.getParameter("novo-cartao");
+		String contemBandeira = request.getParameter("bandeira");
 		Boolean novoCartao = false;
 
-		if (stNovoCartao != null && !stNovoCartao.equals("false") && !stNovoCartao.trim().equals("")) {
-			novoCartao = Boolean.parseBoolean(stNovoCartao);
+		if (contemBandeira != null) {
+			novoCartao = true;
 		}
 
 		if (novoCartao) {
@@ -145,7 +144,6 @@ public class VHPedido implements IViewHelper {
 			cartao.setCodSeguranca(request.getParameter("cod"));
 			FormaPagamento nCartao = new FormaPagamento();
 			nCartao.setCartao(cartao);
-			nCartao.setValor(Double.parseDouble(request.getParameter("valor-novo-cartao")));
 			pagamentosUtlizados.add(nCartao);
 			nCartao.setNovoCartao(true);
 

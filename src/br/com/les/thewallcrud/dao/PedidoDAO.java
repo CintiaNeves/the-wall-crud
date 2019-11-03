@@ -21,7 +21,12 @@ public class PedidoDAO extends AbstractDao {
 
 		Pedido pedido = (Pedido) entidade;
 		Resultado resultado = new Resultado();
-
+		
+		if(pedido.getId() == null) {
+			resultado.setEntidade(pedido);
+			return resultado;
+		}
+		
 		String sql = "UPDATE PEDIDO SET ID_STATUS = ? WHERE ID = ?";
 
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
