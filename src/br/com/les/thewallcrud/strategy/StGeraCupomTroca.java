@@ -14,6 +14,8 @@ public class StGeraCupomTroca implements IStrategy {
 	public String processar(EntidadeDominio entidade) {
 		
 		Troca troca = (Troca) entidade;
+		if(troca.getId() == null)
+			return null;
 		IDAO dao = new CupomDAO();
 		StatusPedido status = new StatusPedido();
 		troca.setStatus(status);

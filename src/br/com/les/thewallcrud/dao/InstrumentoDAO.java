@@ -6,13 +6,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import br.com.les.thewallcrud.dominio.Categoria;
 import br.com.les.thewallcrud.dominio.GrupoPrecificacao;
 import br.com.les.thewallcrud.dominio.Instrumento;
 import br.com.les.thewallcrud.dominio.ItemCarrinho;
-import br.com.les.thewallcrud.dominio.Relatorio;
 import br.com.les.thewallcrud.dominio.Subcategoria;
 import br.com.les.thewallcrud.util.EntidadeDominio;
 import br.com.les.thewallcrud.util.Resultado;

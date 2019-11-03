@@ -62,6 +62,7 @@ import br.com.les.thewallcrud.strategy.StComplementaDataTroca;
 import br.com.les.thewallcrud.strategy.StCriaCapaPedido;
 import br.com.les.thewallcrud.strategy.StCriptografia;
 import br.com.les.thewallcrud.strategy.StEsvaziaCarrinho;
+import br.com.les.thewallcrud.strategy.StFiltraTrocasGerenciaveis;
 import br.com.les.thewallcrud.strategy.StFormataDescontoCupom;
 import br.com.les.thewallcrud.strategy.StGeraCodigoCliente;
 import br.com.les.thewallcrud.strategy.StGeraCodigoInstrumento;
@@ -329,13 +330,14 @@ public class Fachada implements IFachada {
 		listStrategySalvarTrocaPos.add(new StGravaItemTroca());
 		List<IStrategy> listStrategyConsultarTrocaPos = new ArrayList<>();
 		listStrategyConsultarTrocaPos.add(new StSetViewTrocasAdmin());
+		List<IStrategy> listStrategyAlterarTrocaPos = new ArrayList<>();
+		listStrategyAlterarTrocaPos.add(new StFiltraTrocasGerenciaveis());
 		
 		List<IStrategy> listStrategyAlterarTroca = new ArrayList<>();
 		listStrategyAlterarTroca.add(new StGeraCupomTroca());
 		
 		List<IStrategy> listStrategyConsultarRelatorio = new ArrayList<>();
 		listStrategyConsultarRelatorio.add(new StRelatorioItensVendidos());
-
 		List<IStrategy> listStrategyRelatorioPosProcessamento = new ArrayList<>();
 		listStrategyRelatorioPosProcessamento.add(new StRelatorioItensVendidos());
 		
@@ -385,6 +387,7 @@ public class Fachada implements IFachada {
 		mapTrocaStrategyPosProcessamento.put("CONSULTAR", listStrategyConsultarTrocaPos);
 		mapTrocaStrategyPosProcessamento.put("ALTERAR", listStrategyConsultarTrocaPos);
 		mapRelatorioPosProcessamento.put("CONSULTAR", listStrategyRelatorioPosProcessamento);
+		mapTrocaStrategyPosProcessamento.put("ALTERAR", listStrategyAlterarTrocaPos);
 		mapDAO.put(Instrumento.class.getSimpleName(), new InstrumentoDAO());
 		mapDAO.put(Ocorrencia.class.getSimpleName(), new OcorrenciaDAO());
 		mapDAO.put(Entrada.class.getSimpleName(), new EntradaDAO());

@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>The Wall - Consulta de Trocas</title>
+<title>The Wall - Gerenciar Entregas</title>
 <link rel="icon" href="img/Fevicon.png" type="image/png">
 <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
 <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
@@ -41,7 +41,9 @@
 		<div class="main_menu">
 			<nav class="navbar navbar-expand-lg navbar-light">
 				<div class="container">
-					<h1>The Wall</h1>
+					<a class="navbar-brand logo_h" href="index.html">
+						<h1>The Wall</h1>
+					</a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
 						data-target="#navbarSupportedContent"
 						aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -52,20 +54,20 @@
 					<div class="collapse navbar-collapse offset"
 						id="navbarSupportedContent">
 						<ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-							<li class="nav-item"><a class="nav-link" href="index.html">Site</a></li>
+							<li class="nav-item"><a class="nav-link" href="index.jsp">Site</a></li>
 							<li class="nav-item submenu dropdown"><a href="#"
 								class="nav-link dropdown-toggle" data-toggle="dropdown"
-								role="button" aria-haspopup="true" aria-expanded="false">Consulta</a>
+								role="button" aria-haspopup="true" aria-expanded="false">Pedidos</a>
 								<ul class="dropdown-menu">
 									<li class="nav-item"><a class="nav-link"
-										href="consulta-pedido.jsp">Pedidos</a></li>
+										href="category.html">Consulta</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="single-product.html">Gerenciar</a></li>
 								</ul></li>
 							<li class="nav-item submenu dropdown"><a href="#"
 								class="nav-link dropdown-toggle" data-toggle="dropdown"
 								role="button" aria-haspopup="true" aria-expanded="false">Produtos</a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link"
-										href="cadastro-instrumento.html">Cadastro</a></li>
 									<li class="nav-item"><a class="nav-link"
 										href="consulta-instrumento.html">Consulta</a></li>
 								</ul></li>
@@ -73,10 +75,9 @@
 								class="nav-link dropdown-toggle" data-toggle="dropdown"
 								role="button" aria-haspopup="true" aria-expanded="false">Estoque</a>
 								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link" href="login.html">Entrada</a></li>
 									<li class="nav-item"><a class="nav-link"
-										href="entrada-estoque.html">Entrada</a></li>
-									<li class="nav-item"><a class="nav-link"
-										href="consulta-estoque.html">Consulta</a></li>
+										href="register.html">Consulta</a></li>
 								</ul></li>
 							<li class="nav-item submenu dropdown"><a href="#"
 								class="nav-link dropdown-toggle" data-toggle="dropdown"
@@ -92,109 +93,62 @@
 		</div>
 	</header>
 	<!--================ End Header Menu Area =================-->
-	<!--================Form Cadastro Area =================-->
-	<section class="section-margin--small" style="margin-left: 15%;">
+
+	<!--================Login Box Area =================-->
+	<section class="section-margin" style="margin-left: 30%;">
 		<div class="billing_details">
 			<div class="row">
-				<div class="col-md-11">
-					<!--============================= Message validation =============================-->
-					<div id="backend_menssagem">
-						<div
-							style="${(sucesso == null || (fn:length(sucesso) == 1 && sucesso[0] == '')) 
-	                   			   && (erro == null || fn:length(erro) == 1 && erro[0] == '') ? 'display:none;' : ''}"
-							class="${sucesso != null ? 'alert alert-primary' : erro != null ? 'alert alert-danger' : ''}"
-							role="alert">
-							<c:forEach var="sucesso" items="${sucesso}">
-						  		${sucesso}<br />
-							</c:forEach>
-							<c:forEach var="erro" items="${erro}">
-						  		${erro}<br />
-							</c:forEach>
+				<div class="col-md-8">
+					<form class="row contact_form" action="troca" method="post"
+						novalidate="novalidate">
+						<div class="col-md-12 form-group p_star">
+							<h3>Pedido</h3>
 						</div>
-					</div>
-					<!--============================= Message validation =============================-->
+						<div class="col-md-6 form-group p_star">
+							<label for="numero">Número</label> <input type="text"
+								class="form-control" id="numero" name="numero" readonly
+								value="${troca.numeroPedidoTroca}"> <input type="hidden"
+								class="form-control" id="id" name="id" value="${troca.id}">
+								<input type="hidden"
+								class="form-control" id="valor" name="valor" value="${troca.valor}">
+						</div>
+						<div class="col-md-6 form-group p_star">
+							<label class="col-md-12" for="grp-precificacao">Status</label> <select
+								class="form-control" id="status" name="status">
+								<c:forEach var="s" items="${status}">
+									<option value="${s.id}"
+										${s.id == troca.status.id ? "selected=selected" : ""}>${s.descricao}</option>
+								</c:forEach>
+							</select>
+						</div>
+						<div class="col-md-6 form-group p_star">
+							<label for="data">Data de Emissão</label> <input type="text"
+								class="form-control" id="data" name="data" readonly
+								value="${troca.data}">
+						</div>
+						<div class="col-md-6 form-group p_star">
+							<label for="cpf">CPF Cliente</label> <input type="text"
+								class="form-control" id="cpf" name="cpf" readonly
+								value="${troca.cliente.cpf}">
+						</div>
+						<div class="col-md-6 form-group p_star">
+							<label for="nome-cli">Nome Cliente</label> <input type="text"
+								class="form-control" id="nome-cli" name="nome-cli" readonly
+								value="${troca.cliente.nome}">
+						</div>
+						<div class="col-md-12 form-group">
+							<div class="col-md-6 form-group">
+								<button class="btn btn-primary" type="submit" name="btnOperacao"
+									value="ALTERAR">Atualizar</button>
+							</div>
+						</div>
+					</form>
+				</div>
 
-				</div>
-				<div class="col-md-10">
-					<div class="col-md-12 form-group p_star">
-						<h3>Consulta de Trocas</h3>
-					</div>
-					<div>
-						<form action="troca" method="post">
-							<input type="hidden" name="admin" value="true">
-							<div class="row">
-								<div class="col-md-6 form-group p_star">
-									<div class="col-md-3 form-group p_star">
-										<button id="listar" class="btn btn-secondary" type="submit"
-											name="btnOperacao" id="btnOperacao" value="CONSULTAR">Listar
-											todas</button>
-									</div>
-								</div>
-								<div class="col-md-6 form-group p_star">
-									<div class="col-md-3 form-group p_star">
-										<button class="btn btn-secondary" type="submit"
-												name="btnOperacao" value="ALTERAR">Gerenciar Trocas</button>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-small">
-									<div class="input-group ml-3">
-										<div class="input-group-prepend">
-											<button class="btn btn-outline-secondary" type="submit"
-												name="btnOperacao" value="CONSULTAR">Filtrar por
-												Status</button>
-										</div>
-										<select class="form-control col-md-12" id="status"
-											name="status">
-											<c:forEach var="s" items="${status}">
-													<option value="${s.id}"
-														${s.id == troca.status.id ? "selected=selected" : ""}>${s.descricao}</option>
-												</c:forEach>
-										</select>
-									</div>
-								</div>
-							</div>
-							<hr />
-						</form>
-						<div id="">
-							<table class="table table-striped">
-								<thead class="thead-dark">
-									<tr style="text-align: center;">
-										<th>Número</th>
-										<th>Cliente</th>
-										<th>Data</th>
-										<th>Status</th>
-										<th>Ações</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="troca" items="${trocas}">
-										<tr style="text-align: center;">
-											<td style="padding-top: 19px;">${troca.numeroPedidoTroca}</td>
-											<td style="padding-top: 19px;">${troca.cliente.nome}</td>
-											<td style="padding-top: 19px;">${troca.data}</td>
-											<td style="padding-top: 19px;">${troca.status.descricao}</td>
-											<td style="padding-top: 19px;">
-												<form action="troca" method="post">
-													<input type="hidden" name="id" value="${troca.id}" />
-													<button class="btn btn-link" type="submit"
-														name="btnOperacao" value="CONSULTARBYID">Gerenciar</button>
-												</form>
-											</td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</section>
-	<!--================End Form Cadastro Area =================-->
-
-
+	<!--================End Login Box Area =================-->
 
 	<!--================ Start footer Area  =================-->
 	<footer class="footer">
@@ -207,6 +161,8 @@
 		</div>
 	</footer>
 	<!--================ End footer Area  =================-->
+
+
 	<script src="vendors/jquery/jquery-3.2.1.min.js"></script>
 	<script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
 	<script src="vendors/skrollr.min.js"></script>
@@ -216,8 +172,4 @@
 	<script src="vendors/mail-script.js"></script>
 	<script src="js/main.js"></script>
 </body>
-
-<script>
-	
-</script>
 </html>

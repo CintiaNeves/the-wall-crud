@@ -195,13 +195,20 @@ public class VHTroca implements IViewHelper{
 						e.printStackTrace();
 					}					
 				}else {
+					Troca troca = (Troca) resultado.getEntidade();
 					if (resultado.getErro()) {
 						request.setAttribute("pedido", resultado.getEntidade());
 						rd = request.getRequestDispatcher("gerenciar-pedido.jsp");
 					} else {
-
-						request.setAttribute("troca", resultado.getEntidade());
-						rd = request.getRequestDispatcher("gerenciar-troca.jsp");
+						if(troca.getStatus().getId() == 6) {
+							request.setAttribute("troca", resultado.getEntidade());
+							rd = request.getRequestDispatcher("gerenciar-troca.jsp");
+						}else {
+							request.setAttribute("troca", resultado.getEntidade());
+							request.setAttribute("status", resultado.getMapEntidade().get("STATUS"));
+							rd = request.getRequestDispatcher("gerenciar-entrega.jsp");
+						}
+						
 					}
 					rd.forward(request, response);
 				}

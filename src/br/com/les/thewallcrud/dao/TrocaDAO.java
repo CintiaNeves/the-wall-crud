@@ -20,6 +20,10 @@ public class TrocaDAO extends AbstractDao {
 		
 		Troca troca = (Troca) entidade;
 		Resultado resultado = new Resultado();
+		if(troca.getId() == null) {
+			resultado.setEntidade(troca);
+			return resultado;
+		}
 		String sql = "UPDATE TROCA SET ";
 		
 		if(troca.getAprova()) {

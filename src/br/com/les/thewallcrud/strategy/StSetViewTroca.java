@@ -67,9 +67,27 @@ public class StSetViewTroca implements IStrategy {
 				
 				r.getListEntidade().clear();
 				r.setEntidade(t);
+				dao = new StatusPedidoDAO();
+				List<StatusPedido> aplicaveis = new ArrayList<>();
+				Resultado res = dao.consultar(new StatusPedido());
+				
+				for(EntidadeDominio e : res.getListEntidade()) {
+					StatusPedido s = (StatusPedido) e;
+					if(s.getId() == 7 || s.getId() == 9) {
+						aplicaveis.add(s);
+					}
+				}
+				
+				List<EntidadeDominio> entidades = new ArrayList<>();
+				for(StatusPedido s : aplicaveis) {
+					entidades.add((EntidadeDominio) s);
+				}
+				resultado.setMapEntidade("STATUS", entidades);
+				
 				return r;
 			}
 		}
+		
 		return resultado;
 	}
 

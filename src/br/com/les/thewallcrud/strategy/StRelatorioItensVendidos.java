@@ -1,6 +1,6 @@
 package br.com.les.thewallcrud.strategy;
 
-import br.com.les.thewallcrud.dao.InstrumentoDAO;
+import br.com.les.thewallcrud.dao.RelatorioDAO;
 import br.com.les.thewallcrud.util.EntidadeDominio;
 import br.com.les.thewallcrud.util.Resultado;
 
@@ -14,8 +14,8 @@ public class StRelatorioItensVendidos implements IStrategy{
 
 	@Override
 	public Resultado processar(Resultado resultado) {
-		InstrumentoDAO dao = new InstrumentoDAO();
-		return dao.relatorio(resultado);
+		RelatorioDAO dao = new RelatorioDAO();
+		return dao.consultar(resultado.getEntidade());
 	}
 
 }

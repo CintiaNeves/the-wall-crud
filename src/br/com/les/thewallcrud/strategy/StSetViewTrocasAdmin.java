@@ -23,12 +23,13 @@ public class StSetViewTrocasAdmin implements IStrategy {
 	@Override
 	public Resultado processar(Resultado resultado) {
 		
-		
 		List<Troca> trocas = new ArrayList<>();
 		IDAO dao;
+		
 		for(EntidadeDominio e : resultado.getListEntidade()){
 			Troca troca = (Troca) e;
 			if(troca.getFlag()) {
+				
 				return resultado;
 			}
 			Resultado r = new Resultado();
