@@ -313,6 +313,7 @@
 					console.log(erro);
 				} else {
 					$("#"+tr)[0].remove();	
+					calcularTotal();
 				}
 			},
 			error: function(error) {
@@ -344,16 +345,7 @@
 					console.log(erro);
 				} else {
 					$("#"+idTotal)[0].textContent = valor.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
-					let total = 0;
-					[...document.getElementsByTagName("h5")].forEach(totalItem => {
-						totalItem.getAttribute("totalItem") != null 
-							&& (total += Number(totalItem.innerText.replace(/[^0-9,-]+/g,"").replace(/[^0-9-]+/g, ".")));
-					});
-					if($("#frete")[0].value) {
-						let frete = Number($("#frete")[0].value.replace(/[^0-9,-]+/g,"").replace(/[^0-9-]+/g, "."));
-						total += frete;						
-					}
-					$("#total-pedido")[0].innerText = "Total " + total.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
+					calcularTotal();
 				}
 			},
 			error: function(error) {
@@ -363,8 +355,17 @@
 		
 	});
 	
-	function calcularTotal(element){
-		
+	function calcularTotal(){
+		let total = 0;
+		[...document.getElementsByTagName("h5")].forEach(totalItem => {
+			totalItem.getAttribute("totalItem") != null 
+				&& (total += Number(totalItem.innerText.replace(/[^0-9,-]+/g,"").replace(/[^0-9-]+/g, ".")));
+		});
+		if($("#frete")[0].value) {
+			let frete = Number($("#frete")[0].value.replace(/[^0-9,-]+/g,"").replace(/[^0-9-]+/g, "."));
+			total += frete;						
+		}
+		$("#total-pedido")[0].innerText = "Total " + total.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
 	};
 	
 	
