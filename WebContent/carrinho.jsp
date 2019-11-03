@@ -134,7 +134,7 @@
 													value="${i.quantidade}" class="qty" min="1">
 											</div></td>
 										<td>
-											<h5 id="total-itens-${i.id}">
+											<h5 totalItem="true" id="total-itens-${i.id}">
 												<fmt:formatNumber value = "${i.total}" type = "currency"/>
 											</h5>
 										</td>
@@ -163,7 +163,7 @@
 										<div class="shipping_box">
 											<input type="text" placeholder="CEP" id="cep" required>
 											<label id="msg-cep" style="color: red; display: none;">Digite o CEP!</label>
-											<button class="btn btn-primary" id="calcular-frete">Calcular</button>
+											<button class="btn btn-primary" type="button" id="calcular-frete">Calcular</button>
 										</div>
 									</td>
 									<td>
@@ -258,7 +258,6 @@
 	$("#carrinho-id")[0].value = getIdCarrinho();
 
 	$("#calcular-frete").click(function() {
-		event.preventDefault();
 		let cep = $("#cep")[0].value;
 		let idCarrinho = $("#carrinho-id")[0].value;
 		if (cep.trim() === "") {
@@ -283,6 +282,9 @@
 						$("#frete").val(response.valor);
 						$("#frete")[0].type = "text";
 						$("#valorFrete").val(response.valorFrete);
+						$("#total-pedido")[0].innerText
+						let totalComFrete = Number($("#total-pedido")[0].innerText.replace(/[^0-9,-]+/g,"").replace(/[^0-9-]+/g, ".")) + Number(response.valorFrete);
+						$("#total-pedido")[0].innerText = "Total " + totalComFrete.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
 					}
 				},
 				error : function(error) {
@@ -319,17 +321,13 @@
 		});	
 	};
 	
-	$(".qty").blur(function(){
+	$(".qty").change(function(){
 		let input = this;
 		let id = input.id;
 		let quantidade = $("#"+id)[0].value;
 		let idItem = "valor-venda-".concat(id);
 		let idTotal = "total-itens-".concat(id);
-		let stringValor = $("#"+idItem)[0].textContent;
-		stringValor = stringValor.replace("R$ ", "");
-		stringValor = stringValor.replace(".", "");
-		stringValor = stringValor.replace(",", ".");
-		let valor = new Number(stringValor);
+		let valor = Number($("#"+idItem)[0].textContent.replace(/[^0-9,-]+/g,"").replace(/[^0-9-]+/g, "."));
 		valor = valor * quantidade;
 		$.ajax({
 			type: "POST",
@@ -345,7 +343,17 @@
 				if(response.erro) {
 					console.log(erro);
 				} else {
-					$("#"+idTotal)[0].textContent = "R$ " + valor;
+					$("#"+idTotal)[0].textContent = valor.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
+					let total = 0;
+					[...document.getElementsByTagName("h5")].forEach(totalItem => {
+						totalItem.getAttribute("totalItem") != null 
+							&& (total += Number(totalItem.innerText.replace(/[^0-9,-]+/g,"").replace(/[^0-9-]+/g, ".")));
+					});
+					if($("#frete")[0].value) {
+						let frete = Number($("#frete")[0].value.replace(/[^0-9,-]+/g,"").replace(/[^0-9-]+/g, "."));
+						total += frete;						
+					}
+					$("#total-pedido")[0].innerText = "Total " + total.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
 				}
 			},
 			error: function(error) {
