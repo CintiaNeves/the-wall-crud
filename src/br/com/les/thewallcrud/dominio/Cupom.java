@@ -11,7 +11,14 @@ public class Cupom extends EntidadeDominio{
 	private String valor;
 	private Long idCarrinho;
 	private Long idPedido;
+	private Long idCliente;
 		
+	public Long getIdCliente() {
+		return idCliente;
+	}
+	public void setIdCliente(Long idCliente) {
+		this.idCliente = idCliente;
+	}
 	public Long getIdPedido() {
 		return idPedido;
 	}

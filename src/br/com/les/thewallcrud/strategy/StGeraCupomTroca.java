@@ -38,6 +38,7 @@ public class StGeraCupomTroca implements IStrategy {
 			cupom.setTroca(true);
 			cupom.setPromocional(false);
 			cupom.setExpirado(false);
+			cupom.setIdCliente(troca.getIdCliente());
 			Resultado r = dao.salvar(cupom);
 			troca.setCupom((Cupom) r.getEntidade());
 			troca.getStatus().setId((long) 7);

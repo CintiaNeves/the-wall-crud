@@ -95,7 +95,7 @@ public class CupomDAO extends AbstractDao {
 		Cupom cupom = (Cupom) entidade;
 		Resultado resultado = new Resultado();
 
-		String sql = "INSERT INTO CUPOM (CODIGO, TROCA, PROMOCIONAL, EXPIRADO, VALOR) VALUES (?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO CUPOM (CODIGO, TROCA, PROMOCIONAL, EXPIRADO, VALOR, ID_CLIENTE) VALUES (?, ?, ?, ?, ?, ?)";
 
 		try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 			
@@ -104,6 +104,7 @@ public class CupomDAO extends AbstractDao {
 			stmt.setBoolean(3, cupom.getPromocional());
 			stmt.setBoolean(4, cupom.getExpirado());
 			stmt.setString(5, cupom.getValor());
+			stmt.setLong(6,  cupom.getIdCliente());
 			stmt.executeUpdate();
 
 			ResultSet rs = stmt.getGeneratedKeys();
