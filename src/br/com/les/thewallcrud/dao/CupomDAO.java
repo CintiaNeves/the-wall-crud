@@ -56,24 +56,36 @@ public class CupomDAO extends AbstractDao {
 
 		Cupom cupom = (Cupom) entidade;
 		Resultado resultado = new Resultado();
-
-		String sql = "SELECT * FROM CUPOM WHERE CODIGO = ? AND EXPIRADO = 0";
+		List<EntidadeDominio> cupons = new ArrayList<>();
+		Boolean contemCodigo = cupom.getCodigo() != null ? true : false;
+		String sql = "SELECT * FROM CUPOM ";
+		
+		if(contemCodigo) {
+			sql += "WHERE CODIGO = ? AND EXPIRADO = 0";	
+		}		
 
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-			stmt.setString(1, cupom.getCodigo());
+			
+			if(contemCodigo) {
+				stmt.setString(1, cupom.getCodigo());
+			}
+			
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				cupom.setExpirado(rs.getBoolean("EXPIRADO"));
-				cupom.setId(rs.getLong("ID"));
-				cupom.setPromocional(rs.getBoolean("PROMOCIONAL"));
-				cupom.setTroca(rs.getBoolean("TROCA"));
-				cupom.setValor(rs.getString("VALOR"));
+				Cupom c = new Cupom();
+				c.setExpirado(rs.getBoolean("EXPIRADO"));
+				c.setCodigo(rs.getString("CODIGO"));
+				c.setId(rs.getLong("ID"));
+				c.setPromocional(rs.getBoolean("PROMOCIONAL"));
+				c.setTroca(rs.getBoolean("TROCA"));
+				c.setValor(rs.getString("VALOR"));
+				c.setIdCliente(rs.getLong("ID_CLIENTE"));
+				cupons.add(c);
 			}
 			rs.close();
 			resultado.setSucesso("");
-			resultado.setEntidade(cupom);
+			resultado.setListEntidade(cupons);
 
 		} catch (SQLException e) {
 			resultado.setErro("Consulta não realizada.\n");

@@ -263,6 +263,14 @@ span {
 												${c.codSeguranca}</label>
 										</div>
 									</c:forEach>
+									<label for="f-option6">Crédito de Cupons</label>
+									<c:forEach var="c" items="${cupons}">
+										<div class="form-check" >
+											<input type="checkbox" value="${c.id}"
+												name="cupom_${c.id}" id="${c.id}"/>
+												<label for="${c.id}">${c.codigo} R$ ${c.valor}</label>
+										</div>
+									</c:forEach>
 									<div class="form-check">
 										<button type="button" class="btn btn-link" id="novo-cartao">Adicionar
 											novo cartão</button>

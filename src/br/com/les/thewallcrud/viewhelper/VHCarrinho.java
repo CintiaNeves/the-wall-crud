@@ -107,6 +107,7 @@ public class VHCarrinho implements IViewHelper {
 						request.setAttribute("cliente", resultado.getEntidade());
 						request.setAttribute("cartoes", resultado.getMapEntidade().get("CARTOES"));
 						request.setAttribute("enderecos", resultado.getMapEntidade().get("ENDERECOS"));
+						request.setAttribute("cupons", resultado.getMapEntidade().get("CUPONS"));
 						rd = request.getRequestDispatcher("checkout.jsp");
 					}
 					rd.forward(request, response);

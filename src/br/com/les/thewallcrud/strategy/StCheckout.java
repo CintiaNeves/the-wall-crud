@@ -112,12 +112,23 @@ public class StCheckout implements IStrategy {
 				end.setPais(pais);
 				enderecos.add(end);
 			}
+			dao = new CupomDAO();
+			r = dao.consultar(new Cupom());
+			List<Cupom> listCupons = new ArrayList<>();
+			for(EntidadeDominio e : r.getListEntidade()) {
+				Cupom c = (Cupom) e;
+				if(c.getIdCliente().equals(cliente.getId())) {
+					listCupons.add(c);
+				}
+				
+			}
 			cliente.setCarrinho(carrinho);
 			resultado.clear();
 			
 			resultado.setEntidade(cliente);
 			List<EntidadeDominio> cartoesEntidade = new ArrayList<>();
 			List<EntidadeDominio> enderecosEntidade = new ArrayList<>();
+			List<EntidadeDominio> cuponsEntidade = new ArrayList<>();
 			
 			for(Cartao c : cartoes) {
 				cartoesEntidade.add((EntidadeDominio) c);
@@ -126,13 +137,17 @@ public class StCheckout implements IStrategy {
 			for(Endereco e : enderecos) {
 				enderecosEntidade.add((EntidadeDominio) e);
 			}
+			for(Cupom c : listCupons) {
+				cuponsEntidade.add((EntidadeDominio) c);
+			}
 			if(carrinho.getId() != null) {
 				dao = new FreteDAO();
 				Resultado rFrete = ((FreteDAO)dao).consutarByIdCarrinho(carrinho);
 				carrinho.setFrete((Frete) rFrete.getEntidade());
 			}
 			resultado.setMapEntidade("CARTOES", cartoesEntidade);
-			resultado.setMapEntidade("ENDERECOS", enderecosEntidade);				
+			resultado.setMapEntidade("ENDERECOS", enderecosEntidade);
+			resultado.setMapEntidade("CUPONS", cuponsEntidade);
 		}
 		return resultado;
 	}
