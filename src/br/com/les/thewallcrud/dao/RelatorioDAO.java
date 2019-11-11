@@ -3,6 +3,7 @@ package br.com.les.thewallcrud.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 import br.com.les.thewallcrud.dominio.Relatorio;
@@ -19,7 +20,20 @@ public class RelatorioDAO extends AbstractDao {
 
 	@Override
 	public Resultado consultar(EntidadeDominio entidade) {
-
+		
+		Relatorio relatorio = (Relatorio) entidade; 
+		Map<String, String> queryFato = new HashMap<String, String>();
+		
+		String fatoVendas = "SELECT YEAR(DATA) ANO, MONTH(DATA) MES, I.DESCRICAO, SUM(QUANTIDADE) QUANTIDADE "
+				+ "FROM PEDIDO P " + "JOIN ITEM_PEDIDO IP ON P.ID = IP.ID_PEDIDO "
+				+ "JOIN INSTRUMENTO I ON I.ID = IP.ID_INSTRUMENTO ";
+		
+		String fatoTrocas = "SELECT YEAR(DATA) ANO, MONTH(DATA) MES, I.DESCRICAO, SUM(QUANTIDADE) QUANTIDADE "
+				+ "FROM TROCA T " + "JOIN ITEM_TROCA IT ON T.ID = IT.ID_TROCA "
+				+ "JOIN INSTRUMENTO I ON I.ID = IT.ID_INSTRUMENTO ";
+		
+		queryFato.put("VENDAS", fatoVendas);
+		queryFato.put("TROCAS", fatoTrocas);
 		Resultado resultado = new Resultado();
 		String where = "";
 		String in = null;
@@ -57,10 +71,10 @@ public class RelatorioDAO extends AbstractDao {
 		if (in != null) {
 			where = where.concat(in.substring(0, in.length() - 2).concat(")"));
 		}
-		String sql = "SELECT YEAR(DATA) ANO, MONTH(DATA) MES, I.DESCRICAO, SUM(QUANTIDADE) QUANTIDADE "
-				+ "FROM PEDIDO P " + "JOIN ITEM_PEDIDO IP ON P.ID = IP.ID_PEDIDO "
-				+ "JOIN INSTRUMENTO I ON I.ID = IP.ID_INSTRUMENTO ".concat(where)
+		
+		String sql = queryFato.get(relatorio.getFato()).concat(where)
 				+ "GROUP BY YEAR(DATA), MONTH(DATA), I.DESCRICAO";
+		
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			ResultSet rs = stmt.executeQuery();
 			Relatorio r = new Relatorio();

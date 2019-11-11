@@ -109,13 +109,16 @@
 								class="form-control" id="numero" name="numero" readonly
 								value="${troca.numeroPedidoTroca}"> <input type="hidden"
 								class="form-control" id="id" name="id" value="${troca.id}">
-								<input type="hidden"
-								class="form-control" id="valor" name="valor" value="${troca.valor}">
+							<input type="hidden" class="form-control" id="valor" name="valor"
+								value="${troca.valor}"> <input type="hidden"
+								class="form-control" id="cliente-id" name="idCliente" value="">
 						</div>
 						<div class="col-md-6 form-group p_star">
 							<label for="data">Status</label> <input type="text"
+								class="form-control" id="status" name="status-desc" readonly
+								value="${troca.status.descricao}"> <input type="hidden"
 								class="form-control" id="status" name="status" readonly
-								value="${troca.status.descricao}">
+								value="${troca.status.id}">
 						</div>
 						<div class="col-md-6 form-group p_star">
 							<label for="data">Data de Emissão</label> <input type="text"
@@ -144,7 +147,8 @@
 								id="reprova" value="false"> <label
 								class="form-check-label" for="exampleRadios2"> Reprova </label>
 						</div>
-						<div class="col-md-6 form-group p_star" id="cupom" style="display: none">
+						<div class="col-md-6 form-group p_star" id="cupom"
+							style="display: none">
 							<label for="nome-cli">Código do Cupom</label> <input type="text"
 								class="form-control" id="codCupom" name="codCupom" readonly
 								value="">
@@ -186,8 +190,23 @@
 	<script src="js/main.js"></script>
 </body>
 <script>
-	$("#aprova").click(function(){
-		
+	function getIdCliente() {
+		let cookies = document.cookie.split(";");
+		let idCliente = cookies[1].split("=");
+		return idCliente[1];
+	}
+
+	function getNomeCliente() {
+		let cookies = document.cookie.split(";");
+		let nomeCliente = cookies[0].split("=");
+		return nomeCliente[1];
+	}
+
+	$("#cliente-id")[0].value = getIdCliente();
+	$("#nome-cli")[0].textContent = getNomeCliente();
+
+	$("#aprova").click(function() {
+
 		$("#cupom")[0].style = "display: ''";
 		let cod = "TRCPC";
 		var valor = $("#valor")[0].value;
@@ -196,14 +215,13 @@
 		let ano = new Date().getFullYear();
 		let random = Math.floor(Math.random() * 10000);
 		cod = cod.concat(ano.toString()).concat(valor).concat(random);
-		
+
 		$("#codCupom")[0].value = cod;
 	});
-	
-	$("#reprova").click(function(){
+
+	$("#reprova").click(function() {
 		$("#cupom")[0].style = "display: none";
 		$("#codCupom")[0].value = "";
 	});
-	
 </script>
 </html>

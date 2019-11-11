@@ -75,7 +75,6 @@ import br.com.les.thewallcrud.strategy.StGravaItensEntrada;
 import br.com.les.thewallcrud.strategy.StLogin;
 import br.com.les.thewallcrud.strategy.StPreparaGravacaoPedido;
 import br.com.les.thewallcrud.strategy.StProcessarPagamentos;
-import br.com.les.thewallcrud.strategy.StRelatorioItensVendidos;
 import br.com.les.thewallcrud.strategy.StRemoveReservaExclusaoItem;
 import br.com.les.thewallcrud.strategy.StReservaItemEstoque;
 import br.com.les.thewallcrud.strategy.StSalvaDependecias;
@@ -123,7 +122,6 @@ public class Fachada implements IFachada {
 	private Map<String, List<IStrategy>> mapTrocaStrategy;
 	private Map<String, List<IStrategy>> mapItemCarrinhoStrategy;
 	private Map<String, List<IStrategy>> mapCarrinhoStrategy;
-	private Map<String, List<IStrategy>> mapRelatorioStrategy;
 	private Map<String, List<IStrategy>> mapOcorrenciaPosProcessamento;
 	private Map<String, List<IStrategy>> mapEntradaPosProcessamento;
 	private Map<String, List<IStrategy>> mapFornecedorPosProcessamento;
@@ -136,7 +134,6 @@ public class Fachada implements IFachada {
 	private Map<String, List<IStrategy>> mapPedidoPosProcessamento;
 	private Map<String, List<IStrategy>> mapCarrinhoStrategyPosProcessamento;
 	private Map<String, List<IStrategy>> mapTrocaStrategyPosProcessamento;
-	private Map<String, List<IStrategy>> mapRelatorioPosProcessamento;
 	private Map<String, Map<String, List<IStrategy>>> mapEntidadeCRUDStrategy;
 	private Map<String, Map<String, List<IStrategy>>> mapEntidadeCRUDPosProcessamento;
 	public Fachada() {
@@ -164,9 +161,7 @@ public class Fachada implements IFachada {
 		mapItemCarrinhoStrategy = new HashMap<String, List<IStrategy>>();
 		mapCarrinhoStrategyPosProcessamento = new HashMap<String, List<IStrategy>>();
 		mapTrocaStrategyPosProcessamento = new HashMap<String, List<IStrategy>>();
-		mapRelatorioPosProcessamento = new HashMap<String, List<IStrategy>>();
 		mapCarrinhoStrategy = new HashMap<String, List<IStrategy>>();
-		mapRelatorioStrategy = new HashMap<String, List<IStrategy>>();
 		// Lista Instrumento Salvar
 		List<IStrategy> listStrategySalvarInstrumento = new ArrayList<>();
 		listStrategySalvarInstrumento.add(new StValidaCamposInstrumento());
@@ -335,12 +330,7 @@ public class Fachada implements IFachada {
 		
 		List<IStrategy> listStrategyAlterarTroca = new ArrayList<>();
 		listStrategyAlterarTroca.add(new StGeraCupomTroca());
-		
-		List<IStrategy> listStrategyConsultarRelatorio = new ArrayList<>();
-		listStrategyConsultarRelatorio.add(new StRelatorioItensVendidos());
-		List<IStrategy> listStrategyRelatorioPosProcessamento = new ArrayList<>();
-		listStrategyRelatorioPosProcessamento.add(new StRelatorioItensVendidos());
-		
+				
 		mapInstrumentoStrategy.put("SALVAR", listStrategySalvarInstrumento);
 		mapOcorrenciaStrategy.put("SALVAR", listStrategySalvarOcorrencia);
 		mapEntradaStrategy.put("SALVAR", listStrategySalvarEntrada);
@@ -359,7 +349,6 @@ public class Fachada implements IFachada {
 		mapItemCarrinhoStrategy.put("SALVAR", listStrategySalvarItemCarrinho);
 		mapItemCarrinhoStrategy.put("EXCLUIR", listStrategyExcluirItemCarrinho);
 		mapItemCarrinhoStrategy.put("ALTERAR", listStrategyAlterarItemCarrinho);
-		mapRelatorioStrategy.put("CONSULTAR", listStrategyConsultarRelatorio);
 		mapOcorrenciaPosProcessamento.put("SALVAR", listStrategySalvarOcorrenciaPos);
 		mapEntradaPosProcessamento.put("SALVAR", listStrategySalvarEntradaPos);
 		mapEntradaPosProcessamento.put("CONSULTAR", listStrategyConsultarEntradaPos);
@@ -386,7 +375,6 @@ public class Fachada implements IFachada {
 		mapTrocaStrategyPosProcessamento.put("SALVAR", listStrategySalvarTrocaPos);
 		mapTrocaStrategyPosProcessamento.put("CONSULTAR", listStrategyConsultarTrocaPos);
 		mapTrocaStrategyPosProcessamento.put("ALTERAR", listStrategyConsultarTrocaPos);
-		mapRelatorioPosProcessamento.put("CONSULTAR", listStrategyRelatorioPosProcessamento);
 		mapTrocaStrategyPosProcessamento.put("ALTERAR", listStrategyAlterarTrocaPos);
 		mapDAO.put(Instrumento.class.getSimpleName(), new InstrumentoDAO());
 		mapDAO.put(Ocorrencia.class.getSimpleName(), new OcorrenciaDAO());
@@ -414,7 +402,6 @@ public class Fachada implements IFachada {
 		mapEntidadeCRUDStrategy.put(ItemCarrinho.class.getSimpleName(), mapItemCarrinhoStrategy);
 		mapEntidadeCRUDStrategy.put(Carrinho.class.getSimpleName(), mapCarrinhoStrategy);
 		mapEntidadeCRUDStrategy.put(Troca.class.getSimpleName(), mapTrocaStrategy);
-		mapEntidadeCRUDStrategy.put(Relatorio.class.getSimpleName(), mapRelatorioStrategy);
 		mapEntidadeCRUDPosProcessamento.put(Ocorrencia.class.getSimpleName(), mapOcorrenciaPosProcessamento);
 		mapEntidadeCRUDPosProcessamento.put(Entrada.class.getSimpleName(), mapEntradaPosProcessamento);
 		mapEntidadeCRUDPosProcessamento.put(Fornecedor.class.getSimpleName(), mapFornecedorPosProcessamento);

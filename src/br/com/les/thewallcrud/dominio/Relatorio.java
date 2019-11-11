@@ -12,6 +12,15 @@ public class Relatorio extends EntidadeDominio {
 	private Set<String> datas;
 	private Set<String> colunas;
 	private Map<String, String> dados;
+	private String fato;
+	
+	public String getFato() {
+		return fato;
+	}
+
+	public void setFato(String fato) {
+		this.fato = fato;
+	}
 
 	public Relatorio() {
 		this.datas = new HashSet<>();

@@ -42,14 +42,12 @@ public class RelatorioController extends HttpServlet {
 		/*
 		 * String relatorio = request.getParameter("relatorio");
 		 * if(relatorio.equals("ITENS_VENDIDOS")) { itensPedido(request, response); }
-		 */		
+		 */	
+		String operacao = request.getParameter("operacao");
+		ICommand command = mapCommand.get(operacao);
 		IViewHelper vhRelatorio = new VHRelatorio();
 		EntidadeDominio entidade = vhRelatorio.getEntidade(request);
-		ICommand command = mapCommand.get(request.getParameter("operacao"));
-		Resultado resultado = null;
-		if(command != null) {
-			resultado = command.executar(entidade);			
-		}
+		Resultado resultado = command.executar(entidade);
 		vhRelatorio.setView(resultado, request, response);
 	}
 }

@@ -22,11 +22,13 @@ public class VHRelatorio implements IViewHelper {
 		String dataInicio = request.getParameter("dataInicio");
 		String dataFim = request.getParameter("dataFim");
 		String idInstrumentos = request.getParameter("idInstrumentos");
+		String stFato = request.getParameter("relatorio");
 		String[] ids = null;
 		if(idInstrumentos != null && !idInstrumentos.equals("")) {
 			ids = idInstrumentos.split("-");			
 		}
 		Relatorio r = new Relatorio();
+		r.setFato(stFato);
 		Map<String, String> dados = new HashMap<>();
 		dados.put("dataInicio", dataInicio);
 		dados.put("dataFim", dataFim);

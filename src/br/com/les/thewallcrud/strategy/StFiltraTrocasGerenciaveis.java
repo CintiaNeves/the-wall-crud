@@ -56,7 +56,12 @@ public class StFiltraTrocasGerenciaveis implements IStrategy{
 			resultado.setListEntidade(entidades);
 			return resultado;
 		}else {
-			
+			IDAO d = new TrocaDAO();
+			Resultado r = d.consultar(new Troca());
+			IStrategy st = new StSetViewTrocasAdmin();
+			st.processar(r);
+			resultado.clear();
+			resultado.setListEntidade(r.getListEntidade());
 			return resultado;
 		}
 	}

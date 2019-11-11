@@ -182,7 +182,7 @@
 										<p>${i.instrumento.valorVenda}</p>
 									</td>
 									<td>
-										<h5>x ${i.quantidade}</h5>
+										<h5>${i.quantidade}</h5>
 									</td>
 									<td>
 										<p>R$ ${i.totalItem}</p>

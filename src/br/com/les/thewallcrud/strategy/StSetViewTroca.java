@@ -63,9 +63,10 @@ public class StSetViewTroca implements IStrategy {
 				if(r.getListEntidade() != null) {
 					cupom = (Cupom) r.getEntidade();
 					t.setCupom(cupom);
+				}	
+				if(r.getListEntidade() != null) {
+					r.getListEntidade().clear();
 				}
-				
-				r.getListEntidade().clear();
 				r.setEntidade(t);
 				dao = new StatusPedidoDAO();
 				List<StatusPedido> aplicaveis = new ArrayList<>();

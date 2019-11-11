@@ -423,13 +423,16 @@
 	
 	function inicializaCookies() {
 		
-		let nome = $("#cliente-nome")[0].value;
-		let id = $("#cliente-id")[0].value;
-		let carrinho = $("#carrinho-id")[0].value;
+		if(document.cookie == ""){
+			let nome = $("#cliente-nome")[0].value;
+			let id = $("#cliente-id")[0].value;
+			let carrinho = $("#carrinho-id")[0].value;
+			
+			criaCookie('nomeCliente', nome);
+			criaCookie('idCliente', id);
+			criaCookie('idCarrinho', carrinho);
+		}
 		
-		criaCookie('nomeCliente', nome);
-		criaCookie('idCliente', id);
-		criaCookie('idCarrinho', carrinho);
 		$("#nome-cli")[0].textContent = getNomeCliente();
 		
 	}

@@ -81,7 +81,7 @@ public class TrocaDAO extends AbstractDao {
 				t.setIdPedidoCompra(rs.getLong("ID_PEDIDO"));
 				t.setIdCliente(rs.getLong("ID_CLIENTE"));
 				t.setValor(rs.getDouble("VALOR"));
-				if(troca.getAdmin()) {
+				if(troca.getAdmin() != null && troca.getAdmin()) {
 					t.setAdmin(troca.getAdmin());
 				}
 				entidades.add(t);

@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>The Wall - Meus Pedidos</title>
+<title>The Wall - Troca</title>
 <link rel="icon" href="img/Fevicon.png" type="image/png">
 <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
 <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
@@ -159,8 +159,6 @@
 							</table>
 						</div>
 						<div class="col-md-12 form-group p_star">
-							<label for="observacao">Observações</label>
-							<textarea id="observacao" name="observacao" class=form-control></textarea>
 							<input type="hidden" value="" id="cliente-id" name="idCliente">
 						</div>
 						<div class="col-md-12 form-group">

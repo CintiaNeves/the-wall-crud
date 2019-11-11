@@ -83,7 +83,9 @@
 								role="button" aria-haspopup="true" aria-expanded="false">Relatórios</a>
 								<ul class="dropdown-menu">
 									<li class="nav-item"><a class="nav-link"
-										href="grafico.html">Vendas</a></li>
+										href="relatorio-vendas.jsp">Vendas</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="relatorio-trocas.jsp">Trocas</a></li>
 								</ul></li>
 						</ul>
 					</div>

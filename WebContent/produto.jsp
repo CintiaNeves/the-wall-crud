@@ -125,6 +125,8 @@
 									name="quantidade" id="quantidade" min="0" size="2"
 									maxlength="12" value="1" title="Quantity:"
 									class="input-text qty">
+							</div>
+							<div>
 								<button class="btn btn-primary" type="submit" name="btnOperacao"
 									value="SALVAR">Adicionar ao carrinho</button>
 							</div>

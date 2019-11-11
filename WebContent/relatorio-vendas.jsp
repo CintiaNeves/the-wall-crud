@@ -7,7 +7,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>The Wall - Entrada Nota Fiscal</title>
+	<title>The Wall - Relatório de Vendas</title>
 	<link rel="icon" href="img/Fevicon.png" type="image/png">
 	<link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
 	<link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
@@ -33,7 +33,7 @@
 		google.charts.setOnLoadCallback(drawCharts);
 
 		function drawCharts() {
-			graficoColunas("Produtos vendidos no período", "line_chart_div", { operacao: "CONSULTAR", relatorio: "ITENS_VENDIDOS", retornoJson: true });
+			graficoColunas("Instrumentos vendidos no período", "line_chart_div", { operacao: "CONSULTAR", relatorio: "VENDAS", retornoJson: true });
 		}
 
 		// graficos de colunas
@@ -194,6 +194,66 @@
 </head>
 
 <body id="body">
+	<!--================ Start Header Menu Area =================-->
+	<header class="header_area">
+		<div class="main_menu">
+			<nav class="navbar navbar-expand-lg navbar-light">
+				<div class="container">
+					<h1>The Wall</h1>
+					<button class="navbar-toggler" type="button" data-toggle="collapse"
+						data-target="#navbarSupportedContent"
+						aria-controls="navbarSupportedContent" aria-expanded="false"
+						aria-label="Toggle navigation">
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<div class="collapse navbar-collapse offset"
+						id="navbarSupportedContent">
+						<ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+							<li class="nav-item"><a class="nav-link" href="index.jsp">Site</a></li>
+							<li class="nav-item submenu dropdown"><a href="#"
+								class="nav-link dropdown-toggle" data-toggle="dropdown"
+								role="button" aria-haspopup="true" aria-expanded="false">Consultas</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link"
+										href="consulta-pedido.jsp">Pedidos</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="consulta-troca.jsp">Trocas</a></li>
+								</ul></li>
+							<li class="nav-item submenu dropdown"><a href="#"
+								class="nav-link dropdown-toggle" data-toggle="dropdown"
+								role="button" aria-haspopup="true" aria-expanded="false">Produtos</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link"
+										href="cadastro.jsp">Cadastro</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="consulta.jsp">Consulta</a></li>
+								</ul></li>
+							<li class="nav-item submenu dropdown"><a href="#"
+								class="nav-link dropdown-toggle" data-toggle="dropdown"
+								role="button" aria-haspopup="true" aria-expanded="false">Estoque</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link"
+										href="entrada.jsp">Entrada</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="consulta-estoque.jsp">Consulta</a></li>
+								</ul></li>
+							<li class="nav-item submenu dropdown"><a href="#"
+								class="nav-link dropdown-toggle" data-toggle="dropdown"
+								role="button" aria-haspopup="true" aria-expanded="false">Relatórios</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link"
+										href="relatorio-vendas.jsp">Vendas</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="relatorio-trocas.jsp">Trocas</a></li>
+								</ul></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</div>
+	</header>
+	<!--================ End Header Menu Area =================-->
 	<div id="fade"></div>
 	<div hidden id="modal">
 		<div class="loader" id="loader"></div>
@@ -222,6 +282,17 @@
 			<button class="btn btn-primary" name="consultar" id="consultar" type="button">Consultar</button>
 		</div>
 	</div>
+		<!--================ Start footer Area  =================-->
+	<footer class="footer">
+		<div class="footer-bottom">
+			<div class="container">
+				<div class="row d-flex">
+					<p class="col-lg-12 footer-text text-center">By Cinty</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!--================ End footer Area  =================-->
 </body>
 
 </html>

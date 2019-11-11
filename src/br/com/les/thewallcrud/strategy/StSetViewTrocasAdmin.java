@@ -47,15 +47,7 @@ public class StSetViewTrocasAdmin implements IStrategy {
 			trocas.add(troca);
 		}
 		
-		resultado.getListEntidade().clear();
 		
-		List<EntidadeDominio> entidades = new ArrayList<>();
-		
-		for(Troca t : trocas) {
-			entidades.add((EntidadeDominio) t);
-		}
-		
-		resultado.setListEntidade(entidades);
 		return resultado;
 	}
 
