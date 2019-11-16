@@ -11,6 +11,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.les.thewallcrud.dao.CartaoDAO;
+import br.com.les.thewallcrud.dao.CupomDAO;
+import br.com.les.thewallcrud.dao.IDAO;
 import br.com.les.thewallcrud.dominio.Bandeira;
 import br.com.les.thewallcrud.dominio.Carrinho;
 import br.com.les.thewallcrud.dominio.Cartao;
@@ -127,7 +129,7 @@ public class VHPedido implements IViewHelper {
 		String contemBandeira = request.getParameter("bandeira");
 		Boolean novoCartao = false;
 
-		if (contemBandeira != null) {
+		if (contemBandeira != null && Integer.parseInt(contemBandeira) != 0) {
 			novoCartao = true;
 		}
 
@@ -148,7 +150,7 @@ public class VHPedido implements IViewHelper {
 			nCartao.setNovoCartao(true);
 
 		}
-		CartaoDAO dao = new CartaoDAO();
+		IDAO dao = new CartaoDAO();
 		if (cliente.getId() != null) {
 
 		}
@@ -177,9 +179,23 @@ public class VHPedido implements IViewHelper {
 			}
 		}
 		Cupom cupom = new Cupom();
-		cupom.setIdCarrinho(cliente.getCarrinho().getId());
+		cupom.setIdCliente(cliente.getId());
 		List<Cupom> cupons = new ArrayList<>();
-		cupons.add(cupom);
+		dao = new CupomDAO();
+		List<EntidadeDominio> entidadesCupom = dao.consultarById(cupom).getListEntidade();
+		
+		if(entidadesCupom != null) {
+			for(EntidadeDominio e : entidadesCupom) {
+				Cupom c = (Cupom) e;
+				String cupomSelecionado = request.getParameter("cupom_".concat(c.getId().toString()));
+				if(cupomSelecionado != null) {
+					cupons.add(c);
+					
+				}
+			}
+		}
+		
+		
 		FormaPagamento forma = new FormaPagamento();
 		forma.setCupons(cupons);
 		pagamentosUtlizados.add(forma);

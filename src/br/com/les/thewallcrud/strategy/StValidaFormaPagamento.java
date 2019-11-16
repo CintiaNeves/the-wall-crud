@@ -3,7 +3,6 @@ package br.com.les.thewallcrud.strategy;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.les.thewallcrud.dao.CupomDAO;
 import br.com.les.thewallcrud.dominio.Cupom;
 import br.com.les.thewallcrud.dominio.FormaPagamento;
 import br.com.les.thewallcrud.dominio.ItemCarrinho;
@@ -33,19 +32,8 @@ public class StValidaFormaPagamento implements IStrategy{
 		
 		for(FormaPagamento f : pedido.getFormasPagamento()) {
 			if(f.getCupons() != null) {
-				if(f.getCupons().get(0) != null) {
-					CupomDAO dao = new CupomDAO();
-					Resultado resultado = new Resultado();
-			
-					resultado = dao.consultarById(f.getCupons().get(0));
-					if(resultado.getListEntidade() != null) {
-						Cupom c = (Cupom)  resultado.getEntidade();
-						if(c.getValor() != null) {
-							desconto = Double.parseDouble(c.getValor());
-						}
-						f.getCupons().clear();
-						f.getCupons().add(c);
-					}	
+				for(Cupom cp : f.getCupons()) {
+					desconto += Double.parseDouble(cp.getValor());
 				}
 			}else {
 				numCartoes +=1;

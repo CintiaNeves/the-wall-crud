@@ -1,6 +1,9 @@
 package br.com.les.thewallcrud.strategy;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import br.com.les.thewallcrud.dominio.Pedido;
 import br.com.les.thewallcrud.util.EntidadeDominio;
@@ -16,7 +19,17 @@ public class StCriaCapaPedido implements IStrategy {
 		st.processar(entidade);
 		LocalDateTime now = LocalDateTime.now();
 		String data = now.toString();
-		pedido.setData(data);
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		Date dataFormatada = null;
+		try {
+			dataFormatada = formato.parse(data);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} 
+		
+		formato.applyPattern("dd/MM/yyyy");
+		pedido.setData(formato.format(dataFormatada));
+		
 		
 		return null;
 	}

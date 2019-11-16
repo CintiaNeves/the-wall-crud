@@ -29,6 +29,10 @@
 span {
 	float: right;
 }
+
+.creditoCupom {
+	
+}
 </style>
 </head>
 
@@ -86,6 +90,7 @@ span {
 	<section class="checkout_area section-margin--small">
 		<div class="container">
 			<div class="billing_details">
+
 				<div class="row">
 					<form action="pedido" method="POST" class="row contact_form">
 						<input type="hidden" value="" id="cliente-id" name="cliente-id">
@@ -111,8 +116,7 @@ span {
 									<label>Entregar em: </label>
 									<c:forEach var="e" items="${enderecos}">
 										<div class="form-check">
-											<input required
-												class="form-check-input" name="radioEndereco"
+											<input required class="form-check-input" name="radioEndereco"
 												type="radio" value="${e.id}" id="${e.id}"> <label
 												class="form-check-label" for="${e.id}">${e.alias}</label>
 										</div>
@@ -181,7 +185,7 @@ span {
 										</select>
 									</div>
 									<div class="col-md-6 form-group p_star">
-										<label for="salvar-endereco">Salvar Endereço?</label>
+										<label for="salvar-endereco">Salvar Endereço</label>
 									</div>
 									<div class="col-md-3 form-group p_star">
 										<input class="form-check-input" type="radio"
@@ -194,6 +198,15 @@ span {
 											class="form-check-label" for="exampleRadios2">Não</label>
 									</div>
 								</div>
+								<div id="alert" class="alert alert-danger" role="alert"
+								style="display: none">
+								<p>
+									Atenção, valor do cupom superior ao valor do pedido! Selecione
+									mais itens para o carrinho ou guarde o cupom para próxima
+									compra.<span id="close"><img style="cursor: pointer"
+										src="img/clear-24px.svg" /></span>
+								</p>
+							</div>
 								<div class="col-md-12 form-group mb-0">
 									<div class="creat_account">
 										<h3>Observações de entrega</h3>
@@ -222,59 +235,63 @@ span {
 									<li><label>Frete</label> <span> <fmt:formatNumber
 												value="${cliente.carrinho.frete.valorFrete}" type="currency" />
 									</span></li>
-									<li><label>Desconto</label> <span> <fmt:formatNumber
+									<li><label>Desconto</label> <span id="desconto"> <fmt:formatNumber
 												value="${cliente.carrinho.desconto}" type="currency" />
 									</span></li>
-									<li><label>Total</label> <span> <fmt:formatNumber
+									<li><label>Total</label> <span id="total"> <fmt:formatNumber
 												value="${cliente.carrinho.valorTotal
                                             + cliente.carrinho.frete.valorFrete
                                             - cliente.carrinho.desconto}"
 												type="currency" />
 									</span></li>
 								</ul>
-								
+
 								<div class="parcelas active">
 									<div class="radion_btn">
 										<label for="f-option6">Parcelamento</label>
 									</div>
-									<input id="a_vista" type="radio" value="1" name="radio_parcelas" required/>
-									<label style="margin-right: 10px;" for="a_vista">À Vista</label>
-									<input id="p_uma" type="radio" value="2" name="radio_parcelas" />
-									<label style="margin-right: 10px;" for="p_uma">2x</label>
-									<input id="p_cinco" type="radio" value="3" name="radio_parcelas" />
-									<label style="margin-right: 10px;" for="p_cinco">3x</label>
-									<input id="p_cinco" type="radio" value="4" name="radio_parcelas" />
-									<label style="margin-right: 10px;" for="p_cinco">4x</label> 
-									<input id="p_cinco" type="radio" value="5" name="radio_parcelas" />
-									<label style="margin-right: 10px;" for="p_cinco">5x</label>   
+									<input id="a_vista" type="radio" value="1"
+										name="radio_parcelas" required /> <label
+										style="margin-right: 10px;" for="a_vista">Á Vista</label> <input
+										id="p_uma" type="radio" value="2" name="radio_parcelas" /> <label
+										style="margin-right: 10px;" for="p_uma">2x</label> <input
+										id="p_cinco" type="radio" value="3" name="radio_parcelas" />
+									<label style="margin-right: 10px;" for="p_cinco">3x</label> <input
+										id="p_cinco" type="radio" value="4" name="radio_parcelas" />
+									<label style="margin-right: 10px;" for="p_cinco">4x</label> <input
+										id="p_cinco" type="radio" value="5" name="radio_parcelas" />
+									<label style="margin-right: 10px;" for="p_cinco">5x</label>
 								</div>
-								
+
 								<div class="payment_item active">
 									<div class="radion_btn">
 										<label for="f-option6">Cartão de Crédito</label> <img
 											src="img/product/card.jpg" alt="">
 									</div>
-									<small id="info-msg" hidden style="color: red;">Defina os valores para cada cartão selecionado ou deixe em branco para que o sistema realize a distribuíção.</small>
+									<small id="info-msg" hidden style="color: red;">Defina
+										os valores para cada cartão selecionado ou deixe em branco
+										para que o sistema realize a distribuição. OK</small>
 									<c:forEach var="c" items="${cartoes}">
-										<div class="form-check" >
-											<input type="checkbox" value="${c.id}"
-												name="cartao_${c.id}" id="${c.id}" /> <label
-												for="${c.id}">${c.bandeira.descricao} COD
-												${c.codSeguranca}</label>
+										<div class="form-check">
+											<input type="checkbox" value="${c.id}" name="cartao_${c.id}"
+												id="${c.id}" /> <label for="${c.id}">${c.bandeira.descricao}
+												COD ${c.codSeguranca}</label>
 										</div>
 									</c:forEach>
 									<label for="f-option6">Crédito de Cupons</label>
 									<c:forEach var="c" items="${cupons}">
-										<div class="form-check" >
-											<input type="checkbox" value="${c.id}"
-												name="cupom_${c.id}" id="${c.id}"/>
-												<label for="${c.id}">${c.codigo} R$ ${c.valor}</label>
+										<div class="form-check">
+											<input type="checkbox" value="${c.id}" name="cupom_${c.id}"
+												id="${c.valor}" onchange="getCupomValue(this)" /> <label
+												for="cupom_${c.id}">${c.codigo} <fmt:formatNumber
+													value="${c.valor}" type="currency" /></label>
 										</div>
 									</c:forEach>
 									<div class="form-check">
 										<button type="button" class="btn btn-link" id="novo-cartao">Adicionar
 											novo cartão</button>
-										<input type="hidden" name="novo-cartao" id="cartao-novo" value="">
+										<input type="hidden" name="novo-cartao" id="cartao-novo"
+											value="">
 									</div>
 									<div id="cartao" style="display: none">
 										<div class="form-group col-md-12">
@@ -306,8 +323,8 @@ span {
 										<c:forEach var="c" items="${cartoes}">
 											<div class="form-check">
 												<label class="form-check-label">Valor para
-													${c.bandeira.descricao} COD ${c.codSeguranca }</label> 
-													<input name="novo-cartao" id="novo-cartao">
+													${c.bandeira.descricao} COD ${c.codSeguranca }</label> <input
+													name="novo-cartao" id="novo-cartao">
 											</div>
 										</c:forEach>
 									</div>
@@ -530,5 +547,47 @@ span {
         });
 
     };
+    
+    function calculaDesconto(valorCupom){
+    	
+    	let totalDesconto = Number($("#desconto")[0].innerText.replace(/[^0-9,-]+/g,"").replace(/[^0-9-]+/g, "."));
+    	let total = Number($("#total")[0].innerText.replace(/[^0-9,-]+/g,"").replace(/[^0-9-]+/g, "."));
+    	totalDesconto += valorCupom;
+    	
+    	if(total >= valorCupom){
+    		total -= valorCupom;
+    		$("#desconto")[0].innerText = totalDesconto.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
+        	$("#total")[0].innerText = total.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
+        	return true;
+    	}else{
+    		return false;
+    	}	
+    };
+    
+    function getCupomValue(cupom){
+    	let valorCupom = new Number (cupom.id);	
+    	if(cupom.checked){
+    		if(!calculaDesconto(valorCupom)){
+    			$("#alert")[0].style.display = "";
+    			cupom.checked = false;
+    		}
+    	}else{
+    		valorCupom = valorCupom * -1;
+    		if(!calculaDesconto(valorCupom)){
+    			cupom.checked = false;
+    		}
+    		
+    	}
+    	
+    };
+    
+    $("#close").click(function(){
+    	$("#alert")[0].style.display = "none";
+    });
+    
+    $("#num-cartao").blur(function() {
+		console.log("Oi");
+	});
+    
 </script>
 </html>
