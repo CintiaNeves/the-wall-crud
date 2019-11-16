@@ -17,7 +17,8 @@
 <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
 <link rel="stylesheet" href="vendors/nice-select/nice-select.css">
 <link rel="stylesheet" href="vendors/nouislider/nouislider.min.css">
-
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 
 <script type="text/javascript" src="vendors/jquery/jquery-3.2.1.min.js"></script>
@@ -88,7 +89,7 @@
 			<p class="text-center billing-alert">Obrigado. Seu pedido foi
 				enviado para processamento.</p>
 			<div class="row mb-5">
-				<div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
+				<div class="col-md-4 col-xl-4 mb-4 mb-xl-0">
 					<div class="confirmation-card">
 						<h3 class="billing-title">Dados do Pedido</h3>
 						<table class="order-rable">
@@ -102,7 +103,7 @@
 							</tr>
 							<tr>
 								<td>Total:</td>
-								<td>R$ ${pedido.total}</td>
+								<td>${pedido.total}</td>
 							</tr>
 							<tr>
 								<td>Status:</td>
@@ -111,7 +112,30 @@
 						</table>
 					</div>
 				</div>
-				<div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
+				<div class="col-md-4 ">
+					<div class="confirmation-card">
+						<h3 class="billing-title">Dados do Pagamento</h3>
+						<table class="order-rable">
+							<tr>
+								<td>Cartão:</td>
+								<td>${pedido.formasPagamento[0].valor}</td>
+							</tr>
+							<tr>
+								<td>Nº de Parcelas:</td>
+								<td>${pedido.formasPagamento[0].parcelas}</td>
+							</tr>
+							<tr>
+								<td>Valor Parcela:</td>
+								<td>${pedido.formasPagamento[0].valor / pedido.formasPagamento[0].parcelas}</td>
+							</tr>
+							<tr>
+								<td>Cupons:</td>
+								<td>${pedido.desconto}</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="col-md-4 ">
 					<div class="confirmation-card">
 						<h3 class="billing-title">Dados de cobrança</h3>
 						<table class="order-rable">
@@ -135,7 +159,7 @@
 						</table>
 					</div>
 				</div>
-				<div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
+				<div class="col-md-4 ">
 					<div class="confirmation-card">
 						<h3 class="billing-title">Dados da entrega</h3>
 						<table class="order-rable">
@@ -205,6 +229,17 @@
 							</tr>
 							<tr>
 								<td>
+									<h4>Descontos</h4>
+								</td>
+								<td>
+									<h5></h5>
+								</td>
+								<td>
+									<p>R$ ${pedido.desconto}</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
 									<h4>Frete</h4>
 								</td>
 								<td>
@@ -256,27 +291,12 @@
 </body>
 
 <script>
-	function carregaCookies() {
-		$("#nome-cli")[0].textContent = getNomeCliente();
-		$("#carrinho")[0].value = getIdCarrinho();
-	};
+function getNomeCliente() {
+	let cookies = document.cookie.split(";");
+	let nomeCliente = cookies[0].split("=");
+	return nomeCliente[1];
+}
 
-	function getNomeCliente() {
-		let cookies = document.cookie.split(";");
-		let nomeCliente = cookies[0].split("=");
-		return nomeCliente[1];
-	}
-
-	function getIdCarrinho() {
-		let cookies = document.cookie.split(";");
-		let idCarrinho = cookies[2].split("=");
-		return idCarrinho[1];
-	}
-
-	function getIdCliente() {
-		let cookies = document.cookie.split(";");
-		let idCliente = cookies[1].split("=");
-		return idCliente[1];
-	}
+$("#nome-cli")[0].textContent = getNomeCliente();
 </script>
 </html>

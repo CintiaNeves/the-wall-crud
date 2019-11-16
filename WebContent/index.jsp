@@ -63,7 +63,7 @@
 								role="button" aria-haspopup="true" aria-expanded="false">Cliente</a>
 								<ul class="dropdown-menu">
 									<li class="nav-item"><a class="nav-link" href="${cliente.nome != null ? 'meus-pedidos.jsp' : 'login.jsp' }">
-										${cliente.nome != null ? 'Meus Pedidos' : 'Login' }</a></li>
+										${cliente.nome != null ? 'Meus Pedidos' : 'Logoff' }</a></li>
 									<li class="nav-item"><a class="nav-link" href="${cliente.nome != null ? 'minhas-trocas.jsp' : 'login.jsp' }">
 										${cliente.nome != null ? 'Minhas trocas' : 'Cadastro' }</a></li>
 									

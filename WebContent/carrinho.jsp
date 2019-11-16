@@ -22,6 +22,7 @@
 	rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 
+
 <script type="text/javascript" src="vendors/jquery/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="vendors/bootstrap/bootstrap.min.js"></script>
 <script type="text/javascript" src="vendors/jquery/mask.min.js"></script>
@@ -368,7 +369,13 @@
 		$("#total-pedido")[0].innerText = "Total " + total.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
 	};
 	
-	
+	function getNomeCliente() {
+		let cookies = document.cookie.split(";");
+		let nomeCliente = cookies[0].split("=");
+		return nomeCliente[1];
+	}
+
+	$("#nome-cli")[0].textContent = getNomeCliente();
 	
 </script>
 </html>

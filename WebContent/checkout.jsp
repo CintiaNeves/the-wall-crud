@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>The Wall - Carrinho</title>
+<title>The Wall - Checkout</title>
 <link rel="icon" href="img/Fevicon.png" type="image/png">
 <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
 <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
@@ -76,6 +76,12 @@ span {
 										href="tracking-order.html">Pedidos</a></li>
 								</ul></li>
 							<li class="nav-item"><a class="nav-link" href="contact.html">Administrador</a></li>
+						</ul>
+						<ul class="nav-shop">
+							<li class="nav-item"><span> <i
+									class="material-icons size"> account_circle </i> <label
+									id="nome-cli"></label>
+							</span></li>
 						</ul>
 					</div>
 				</div>
@@ -411,7 +417,14 @@ span {
         let idCarrinho = cookies[2].split("=");
         return idCarrinho[1];
     }
+    
+    function getNomeCliente() {
+    	let cookies = document.cookie.split(";");
+    	let nomeCliente = cookies[0].split("=");
+    	return nomeCliente[1];
+    }
 
+    $("#nome-cli")[0].textContent = getNomeCliente();
     $("#cliente-id")[0].value = getIdCliente();
     $("#carrinho-id")[0].value = getIdCarrinho();
 
