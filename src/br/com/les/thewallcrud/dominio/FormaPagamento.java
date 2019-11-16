@@ -12,7 +12,7 @@ public class FormaPagamento extends EntidadeDominio{
 	private Double valor;
 	private Boolean novoCartao;
 	private Long idPedido;
-		
+
 	public Long getIdPedido() {
 		return idPedido;
 	}

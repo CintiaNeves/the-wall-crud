@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
@@ -103,7 +104,7 @@
 							</tr>
 							<tr>
 								<td>Total:</td>
-								<td>${pedido.total}</td>
+								<td><fmt:formatNumber value="${pedido.total}" type="currency" /></td>
 							</tr>
 							<tr>
 								<td>Status:</td>
@@ -117,8 +118,8 @@
 						<h3 class="billing-title">Dados do Pagamento</h3>
 						<table class="order-rable">
 							<tr>
-								<td>Cartão:</td>
-								<td>${pedido.formasPagamento[0].valor}</td>
+								<td>Nº Cartões:</td>
+								<td>${pedido.qtdCartoes}</td>
 							</tr>
 							<tr>
 								<td>Nº de Parcelas:</td>
@@ -126,35 +127,11 @@
 							</tr>
 							<tr>
 								<td>Valor Parcela:</td>
-								<td>${pedido.formasPagamento[0].valor / pedido.formasPagamento[0].parcelas}</td>
+								<td><fmt:formatNumber value="${pedido.formasPagamento[0].valor / pedido.formasPagamento[0].parcelas}" type="currency" /></td>
 							</tr>
 							<tr>
 								<td>Cupons:</td>
-								<td>${pedido.desconto}</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-				<div class="col-md-4 ">
-					<div class="confirmation-card">
-						<h3 class="billing-title">Dados de cobrança</h3>
-						<table class="order-rable">
-							<tr>
-								<td>${pedido.cliente.enderecos[0].tpLogradouro}:</td>
-								<td>${pedido.cliente.enderecos[0].logradouro},
-									${pedido.cliente.enderecos[0].numero}</td>
-							</tr>
-							<tr>
-								<td>Cidade:</td>
-								<td>${pedido.cliente.enderecos[0].pais.estado.cidade.nome}</td>
-							</tr>
-							<tr>
-								<td>País:</td>
-								<td>${pedido.cliente.enderecos[0].pais.nome}</td>
-							</tr>
-							<tr>
-								<td>CEP:</td>
-								<td>${pedido.cliente.enderecos[0].cep}</td>
+								<td><fmt:formatNumber value="${pedido.desconto}" type="currency" /></td>
 							</tr>
 						</table>
 					</div>
@@ -203,13 +180,13 @@
 										<p>${i.instrumento.descricao}</p>
 									</td>
 									<td>
-										<p>${i.instrumento.valorVenda}</p>
+										<p><fmt:formatNumber value="${i.instrumento.valorVenda}" type="currency" /></p>
 									</td>
 									<td>
 										<h5>${i.quantidade}</h5>
 									</td>
 									<td>
-										<p>R$ ${i.totalItem}</p>
+										<p><fmt:formatNumber value="${i.totalItem}" type="currency" /></p>
 									</td>
 								</tr>
 							</c:forEach>
@@ -224,7 +201,7 @@
 									<h5></h5>
 								</td>
 								<td>
-									<p>R$ ${pedido.subtotal}</p>
+									<p><fmt:formatNumber value="${pedido.subtotal}" type="currency" /></p>
 								</td>
 							</tr>
 							<tr>
@@ -235,7 +212,7 @@
 									<h5></h5>
 								</td>
 								<td>
-									<p>R$ ${pedido.desconto}</p>
+									<p><fmt:formatNumber value="${pedido.desconto}" type="currency" /></p>
 								</td>
 							</tr>
 							<tr>
@@ -246,7 +223,7 @@
 									<h5></h5>
 								</td>
 								<td>
-									<p>R$ ${pedido.frete.valorFrete}</p>
+									<p><fmt:formatNumber value="${pedido.frete.valorFrete}" type="currency" /></p>
 								</td>
 							</tr>
 							<tr>
@@ -257,7 +234,7 @@
 									<h5></h5>
 								</td>
 								<td>
-									<h4>R$ ${pedido.total}</h4>
+									<h4><fmt:formatNumber value="${pedido.total}" type="currency" /></h4>
 								</td>
 							</tr>
 						</tbody>

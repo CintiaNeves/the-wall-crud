@@ -20,7 +20,14 @@ public class Pedido extends EntidadeDominio{
 	private StatusPedido status;
 	private String pagamento;
 	private Double subtotal;
+	private Integer qtdCartoes;
 	
+	public Integer getQtdCartoes() {
+		return qtdCartoes;
+	}
+	public void setQtdCartoes(Integer qtdCartoes) {
+		this.qtdCartoes = qtdCartoes;
+	}
 	public Double getSubtotal() {
 		return subtotal;
 	}

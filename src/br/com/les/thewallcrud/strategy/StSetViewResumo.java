@@ -52,7 +52,7 @@ public class StSetViewResumo implements IStrategy {
 		}
 		
 		for(Endereco e : enderecos) {
-			if(e.getCobranca()) {
+			if(e.getId() == pedido.getEndereco().getId()) {
 				dao = new CidadeDAO();
 				r = dao.consultarById(e);
 				Cidade cidade = (Cidade) r.getEntidade();
@@ -101,6 +101,7 @@ public class StSetViewResumo implements IStrategy {
 		dao = new StatusPedidoDAO();
 		r = dao.consultarById(pedido.getStatus());
 		pedido.setStatus((StatusPedido) r.getEntidade());
+		pedido.setQtdCartoes(pedido.getFormasPagamento().size() - 1);
 		return resultado;
 	}
 
