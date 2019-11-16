@@ -8,6 +8,7 @@ import br.com.les.thewallcrud.dao.InstrumentoDAO;
 import br.com.les.thewallcrud.dominio.Cliente;
 import br.com.les.thewallcrud.dominio.Instrumento;
 import br.com.les.thewallcrud.dominio.ItemCarrinho;
+import br.com.les.thewallcrud.dominio.Usuario;
 import br.com.les.thewallcrud.util.EntidadeDominio;
 import br.com.les.thewallcrud.util.Resultado;
 
@@ -22,7 +23,9 @@ public class StAtualizaCarrinhoLogon implements IStrategy {
 	@Override
 	public Resultado processar(Resultado resultado) {
 		
-		
+		if(resultado.getEntidade() instanceof Usuario) {
+			return resultado;
+		}
 		Cliente cliente = (Cliente) resultado.getEntidade();
 		List<ItemCarrinho> itens = new ArrayList<ItemCarrinho>();
 		IDAO dao = new InstrumentoDAO();

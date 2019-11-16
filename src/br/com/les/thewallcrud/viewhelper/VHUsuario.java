@@ -4,6 +4,9 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import br.com.les.thewallcrud.dominio.Usuario;
 import br.com.les.thewallcrud.util.EntidadeDominio;
 import br.com.les.thewallcrud.util.Resultado;
@@ -16,13 +19,16 @@ public class VHUsuario implements IViewHelper {
 		String stNome = request.getParameter("nome");
 		String stSenha = request.getParameter("senha");
 		String stConSenha = request.getParameter("confSenha");
+		String stReset = request.getParameter("reset");
 
 		Usuario usuario = new Usuario();
 		usuario.setNome(stNome);
 		usuario.setSenha(stSenha);
 		usuario.setConfSenha(stConSenha);
-		usuario.setAdministrador(false);
-
+		if(stReset != null) {
+			usuario.setReset(Boolean.parseBoolean(stReset));
+		}
+		
 		return usuario;
 	}
 
@@ -33,24 +39,45 @@ public class VHUsuario implements IViewHelper {
 		String mensagem[] = resultado.getMensagem().split("\n");
 
 		try {
-			RequestDispatcher rd;
+			RequestDispatcher rd = null;
 			if (operacao.equals("CONSULTAR")) {
-				if (resultado.getErro()) {
+				if(request.getParameter("retornoJson") != null && Boolean.parseBoolean(request.getParameter("retornoJson")) == true) {
+					response.addHeader("Access-Control-Allow-Origin", "*");
+					response.setContentType("application/json");
+					response.setCharacterEncoding("utf-8");
+					ObjectMapper mapper = new ObjectMapper();
+					try {
+						String json = null;
+						if(resultado.getErro()) {
+							json = "{\"erro\":\"".concat(resultado.getMensagem().concat("\"}"));
+						} else {
+							json = mapper.writeValueAsString(resultado);
+						}
+						response.getWriter().write(json);
+						response.getWriter().flush();
+					} catch (JsonProcessingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}					
+				}else if (resultado.getErro()) {
 					request.setAttribute("erro", mensagem);
 					request.setAttribute("usuario", resultado.getEntidade());
 					rd = request.getRequestDispatcher("login.jsp");
+					rd.forward(request, response);
 				} else {
 					request.setAttribute("sucesso", mensagem);
 					request.setAttribute("cliente", resultado.getEntidade());
 					rd = request.getRequestDispatcher("index.jsp");
+					rd.forward(request, response);
 				}
-				rd.forward(request, response);
+				
 			} else if (operacao.equals("SALVAR")) {
 				if (resultado.getErro()) {
 					request.setAttribute("erro", mensagem);
 					request.setAttribute("cadastro", 1);
 					request.setAttribute("usuario", resultado.getEntidade());
 					rd = request.getRequestDispatcher("login.jsp");
+					rd.forward(request, response);
 				} else {
 					request.setAttribute("cliente", resultado.getEntidade());
 					request.setAttribute("generos", resultado.getMapEntidade().get("GENEROS"));
@@ -59,8 +86,8 @@ public class VHUsuario implements IViewHelper {
 					request.setAttribute("cidades", resultado.getMapEntidade().get("CIDADES"));
 					request.setAttribute("estados", resultado.getMapEntidade().get("ESTADOS"));
 					rd = request.getRequestDispatcher("registro.jsp");
-				}
-				rd.forward(request, response);
+					rd.forward(request, response);
+				}	
 			} else if (operacao.equals("ALTERAR")) {
 
 			} else if (operacao.equals("EXCLUIR")) {

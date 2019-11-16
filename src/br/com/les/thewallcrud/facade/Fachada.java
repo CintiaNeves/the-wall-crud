@@ -61,6 +61,7 @@ import br.com.les.thewallcrud.strategy.StCheckout;
 import br.com.les.thewallcrud.strategy.StComplementaDataTroca;
 import br.com.les.thewallcrud.strategy.StCriaCapaPedido;
 import br.com.les.thewallcrud.strategy.StCriptografia;
+import br.com.les.thewallcrud.strategy.StEnviaEmail;
 import br.com.les.thewallcrud.strategy.StEsvaziaCarrinho;
 import br.com.les.thewallcrud.strategy.StFiltraTrocasGerenciaveis;
 import br.com.les.thewallcrud.strategy.StFormataDescontoCupom;
@@ -195,8 +196,11 @@ public class Fachada implements IFachada {
 		listStrategySalvarUsuario.add(new StValidaExistenciaUsuario());
 		listStrategySalvarUsuario.add(new StValidaSenhaForte());
 		listStrategySalvarUsuario.add(new StCriptografia());
-
-		// Lista Ocorrencia PÃ³s Processamento
+		
+		// Lista Usuario Consultar JSON
+		List<IStrategy> listStrategyConsultarUsuarioPosJson = new ArrayList<>();
+		listStrategyConsultarUsuarioPosJson.add(new StEnviaEmail());
+		// Lista Ocorrencia Pós Processamento
 		List<IStrategy> listStrategySalvarOcorrenciaPos = new ArrayList<>();
 		listStrategySalvarOcorrenciaPos.add(new StSetViewOcorrencia());
 
@@ -339,6 +343,7 @@ public class Fachada implements IFachada {
 		mapItemEstoqueStrategy.put("ALTERAR", listStrategyAlterarItemEstoque);
 		mapUsuarioStrategy.put("SALVAR", listStrategySalvarUsuario);
 		mapUsuarioStrategy.put("CONSULTAR", listStrategyConsultarUsuario);
+		mapUsuarioPosProcessamento.put("CONSULTAR-JSON", listStrategyConsultarUsuarioPosJson);
 		mapClienteStrategy.put("SALVAR", listStrategySalvarCliente);
 		mapCarrinhoStrategy.put("CONSULTAR", listStrategyConsultarCarrinho);
 		mapPedidoStrategy.put("CONSULTAR", listStrategyConsultarPedido);
@@ -355,6 +360,7 @@ public class Fachada implements IFachada {
 		mapFornecedorPosProcessamento.put("CONSULTAR", listStrategyConsultarFornecedorPos);
 		mapInstrumentoPosProcessamento.put("CONSULTAR", listStrategyConsultarInstrumentoPos);
 		mapInstrumentoPosProcessamento.put("CONSULTAR-JSON", listStrategyConsultarInstrumentoPosJson);
+		mapUsuarioPosProcessamento.put("CONSULTAR-JSON", listStrategyConsultarUsuarioPosJson);
 		mapInstrumentoPosProcessamento.put("SALVAR", listStrategySalvarInstrumentoPos);
 		mapInstrumentoPosProcessamento.put("ALTERAR", listStrategyAlterarInstrumentoPos);
 		mapUsuarioPosProcessamento.put("CONSULTAR", listStrategyConsultarUsuarioPos);

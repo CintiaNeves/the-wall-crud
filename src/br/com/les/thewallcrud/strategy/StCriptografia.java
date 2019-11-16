@@ -14,6 +14,9 @@ public class StCriptografia implements IStrategy {
 	public String processar(EntidadeDominio entidade) {
 
 		Usuario usuario = (Usuario) entidade;
+		if(usuario.getReset()) {
+			return null;
+		}
 		String original = usuario.getSenha();
 		byte messageDigest[] = {0};
 		try {

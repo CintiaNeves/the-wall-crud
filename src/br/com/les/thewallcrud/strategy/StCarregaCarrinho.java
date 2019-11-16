@@ -9,6 +9,7 @@ import br.com.les.thewallcrud.dao.ItemCarrinhoDAO;
 import br.com.les.thewallcrud.dominio.Carrinho;
 import br.com.les.thewallcrud.dominio.Cliente;
 import br.com.les.thewallcrud.dominio.ItemCarrinho;
+import br.com.les.thewallcrud.dominio.Usuario;
 import br.com.les.thewallcrud.util.EntidadeDominio;
 import br.com.les.thewallcrud.util.Resultado;
 
@@ -23,6 +24,9 @@ public class StCarregaCarrinho implements IStrategy {
 	@Override
 	public Resultado processar(Resultado resultado) {
 		
+		if(resultado.getEntidade() instanceof Usuario) {
+			return resultado;
+		}
 		if (resultado.getErro())
 			return resultado;
 		Cliente cliente = (Cliente) resultado.getEntidade();

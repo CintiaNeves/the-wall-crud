@@ -25,14 +25,14 @@ public class StSetViewCliente implements IStrategy {
 
 	@Override
 	public Resultado processar(Resultado resultado) {
-
-		if (resultado.getErro())
+		Usuario usuario = (Usuario) resultado.getEntidade();
+		
+		if(resultado.getErro() || usuario.getReset())
 			return resultado;
 		
 		IDAO dao = new ClienteDAO();
 		Resultado r = new Resultado();
 		Cliente cliente = new Cliente();
-		Usuario usuario = (Usuario) resultado.getEntidade();
 		cliente.setUsuario(usuario);
 		r = dao.consultar(cliente);
 		

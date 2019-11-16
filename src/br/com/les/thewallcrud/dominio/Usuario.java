@@ -1,5 +1,7 @@
 package br.com.les.thewallcrud.dominio;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.les.thewallcrud.util.EntidadeDominio;
 
 public class Usuario extends EntidadeDominio{
@@ -8,7 +10,22 @@ public class Usuario extends EntidadeDominio{
 	private String senha;
 	private String confSenha;
 	private Boolean administrador;
+	private Boolean reset;
 	
+	public Usuario() {
+		this.reset = false;
+		this.administrador = false;
+	}
+	public Boolean getReset() {
+		return reset;
+	}
+	public void setReset(Boolean reset) {
+		this.reset = reset;
+	}
+	@JsonIgnore
+	public Boolean getAdministrador() {
+		return administrador;
+	}
 	public String getNome() {
 		return nome;
 	}
