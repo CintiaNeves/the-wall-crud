@@ -12,15 +12,15 @@ public class StValidaDadosUsuario implements IStrategy {
 		Usuario usuario = (Usuario) entidade;
 		StringBuilder mensagem = new StringBuilder();
 		if(usuario.getNome().trim().length() == 0) {
-			mensagem.append("O campo e-mail n√£o pode estar vazio.\n");
+			mensagem.append("O campo e-mail n„oo pode estar vazio.\n");
 		}
 		if(usuario.getSenha().trim().length() == 0) {
-			mensagem.append("O campo senha n√£o pode estar vazio.\n");
+			mensagem.append("O campo senha n„o pode estar vazio.\n");
 		}
 		if(usuario.getConfSenha().trim().length() == 0) {
-			mensagem.append("o campo de confirma√ß√£o de senha n√£o pode estar vazio.\n");
+			mensagem.append("o campo de confirmaÁ„o de senha n„o pode estar vazio.\n");
 		}else if(!usuario.getSenha().equals(usuario.getConfSenha())){
-			mensagem.append("As senhas n√£o conferem.\n");
+			mensagem.append("As senhas n„oo conferem.\n");
 		}
 		if(usuario.getSenha().trim().length() < 8) {
 			mensagem.append("A senha deve conter pelo menos 8 caracteres.\n");

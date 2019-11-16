@@ -12,8 +12,24 @@ public class UsuarioDAO extends AbstractDao{
 
 	@Override
 	public Resultado alterar(EntidadeDominio entidade) {
-		// TODO Auto-generated method stub
-		return null;
+		Usuario usuario = (Usuario) entidade;
+		Resultado resultado = new Resultado();
+		String sql = "UPDATE USUARIO SET SENHA = ? WHERE ID = ?";
+		
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+			
+			stmt.setString(1, usuario.getSenha());
+			stmt.setLong(2, usuario.getId());
+			stmt.execute();
+
+			resultado.setSucesso("Senha Alterada!");
+			resultado.setEntidade(usuario);
+		} catch (Exception e) {
+			resultado.setErro("AlteraÁ„o n„o realizada.\n");
+			e.printStackTrace();
+		}
+		return resultado;
 	}
 
 	@Override
@@ -23,9 +39,10 @@ public class UsuarioDAO extends AbstractDao{
 		Resultado resultado = new Resultado();
 		Boolean possuiNome = usuario.getNome() != null ? true : false;
 		Boolean possuiSenha = usuario.getSenha() != null ? true : false;
+		Boolean restSenha = usuario.getReset() != null ? true : false;
 		
 		String sql = null;
-		if(possuiNome && possuiSenha) {
+		if(possuiNome && possuiSenha && restSenha == false) {
 			sql = "SELECT * FROM USUARIO WHERE NOME = ? AND SENHA = ?";
 		}else if(possuiNome) {
 			sql = "SELECT * FROM USUARIO WHERE NOME = ?";
@@ -34,7 +51,7 @@ public class UsuarioDAO extends AbstractDao{
 		
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			
-			if(possuiNome && possuiSenha) {
+			if(possuiNome && possuiSenha && restSenha == false) {
 				stmt.setString(1, usuario.getNome());
 				stmt.setString(2, usuario.getSenha());
 			}else if(possuiNome) {
@@ -51,7 +68,7 @@ public class UsuarioDAO extends AbstractDao{
 			resultado.setEntidade(usuario);
 			resultado.setSucesso("");
 		} catch (SQLException e) {
-			resultado.setErro("Consulta n√£o realizada.\n");
+			resultado.setErro("Consulta n„o realizada.\n");
 			e.printStackTrace();
 		}
 
@@ -81,7 +98,7 @@ public class UsuarioDAO extends AbstractDao{
 			resultado.setSucesso("Cadastro Realizado com Sucesso.");
 			resultado.setEntidade(usuario);
 		} catch (Exception e) {
-			resultado.setErro("Inclus√£o n√£o realizada.");
+			resultado.setErro("Inclus„o n„o realizada.");
 			e.printStackTrace();
 		}
 		return resultado;

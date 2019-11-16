@@ -21,7 +21,7 @@ public class StValidaEmail implements IStrategy{
 	         }
 	    }
 		if(!(achouArroba && achouPonto)) {
-			return "Por favor, digite um e-mail no formato v√°lido: exemplo@email.com\n";
+			return "Por favor, digite um e-mail no formato v·lido: exemplo@email.com\n";
 		}
 		return null;
 	}

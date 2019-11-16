@@ -89,7 +89,17 @@ public class VHUsuario implements IViewHelper {
 					rd.forward(request, response);
 				}	
 			} else if (operacao.equals("ALTERAR")) {
-
+				if (resultado.getErro()) {
+					request.setAttribute("erro", mensagem);
+					request.setAttribute("usuario", resultado.getEntidade());
+					rd = request.getRequestDispatcher("reset-senha.jsp");
+					rd.forward(request, response);
+				} else {
+					request.setAttribute("sucesso", mensagem);
+					request.setAttribute("ok", true);
+					rd = request.getRequestDispatcher("reset-senha.jsp");
+					rd.forward(request, response);
+				}	
 			} else if (operacao.equals("EXCLUIR")) {
 				
 			} else if (operacao.equals("CONSULTARBYID")) {

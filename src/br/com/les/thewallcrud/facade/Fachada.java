@@ -73,6 +73,7 @@ import br.com.les.thewallcrud.strategy.StGravaDependenciasCliente;
 import br.com.les.thewallcrud.strategy.StGravaItemPedido;
 import br.com.les.thewallcrud.strategy.StGravaItemTroca;
 import br.com.les.thewallcrud.strategy.StGravaItensEntrada;
+import br.com.les.thewallcrud.strategy.StLocalizaUsuario;
 import br.com.les.thewallcrud.strategy.StLogin;
 import br.com.les.thewallcrud.strategy.StPreparaGravacaoPedido;
 import br.com.les.thewallcrud.strategy.StProcessarPagamentos;
@@ -197,6 +198,14 @@ public class Fachada implements IFachada {
 		listStrategySalvarUsuario.add(new StValidaSenhaForte());
 		listStrategySalvarUsuario.add(new StCriptografia());
 		
+		// Lista Usuario Alterar
+		List<IStrategy> listStrategyAlterarUsuario = new ArrayList<>();		
+		listStrategyAlterarUsuario.add(new StValidaDadosUsuario());
+		listStrategyAlterarUsuario.add(new StValidaEmail());
+		listStrategyAlterarUsuario.add(new StValidaSenhaForte());
+		listStrategyAlterarUsuario.add(new StCriptografia());
+		listStrategyAlterarUsuario.add(new StLocalizaUsuario());
+		
 		// Lista Usuario Consultar JSON
 		List<IStrategy> listStrategyConsultarUsuarioPosJson = new ArrayList<>();
 		listStrategyConsultarUsuarioPosJson.add(new StEnviaEmail());
@@ -234,7 +243,7 @@ public class Fachada implements IFachada {
  		
  		List<IStrategy> listStrategySalvarItemCarrinho = new ArrayList<>();
  		listStrategySalvarItemCarrinho.add(new StValidaItemExistenteCarrinho());
-		// Lista Entrada P贸s Processamento
+		// Lista Entrada p髎 Processamento
 		List<IStrategy> listStrategySalvarEntradaPos = new ArrayList<>();
 		List<IStrategy> listStrategyConsultarEntradaPos = new ArrayList<>();
 		listStrategySalvarEntradaPos.add(new StGravaItensEntrada());
@@ -242,7 +251,7 @@ public class Fachada implements IFachada {
 		listStrategySalvarEntradaPos.add(new StAtualizaEstoque());
 		listStrategyConsultarEntradaPos.add(new StValidaExistenciaNota());
 
-		// Lista Isntrumento P贸s Processamento
+		// Lista Isntrumento p髎 Processamento
 		List<IStrategy> listStrategyConsultarInstrumentoPos = new ArrayList<>();
 		List<IStrategy> listStrategyConsultarInstrumentoPosJson = new ArrayList<>();
 		List<IStrategy> listStrategySalvarInstrumentoPos = new ArrayList<>();
@@ -254,11 +263,11 @@ public class Fachada implements IFachada {
 		listStrategySalvarInstrumentoPos.add(new StAdicionaItemEstoque());
 		listStrategySalvarInstrumentoPos.add(new StSetViewInstrumento());
 
-		// Lista Fornecedor P贸s Processamento
+		// Lista Fornecedor p髎 Processamento
 		List<IStrategy> listStrategyConsultarFornecedorPos = new ArrayList<>();
 		listStrategyConsultarFornecedorPos.add(new StValidaExistenciaFornecedor());
 
-		// Lista Usuario P贸s Processamento
+		// Lista Usuario p髎 Processamento
 		List<IStrategy> listStrategyConsultarUsuarioPos = new ArrayList<>();
 		List<IStrategy> listStrategySalvarUsuarioPos = new ArrayList<>();
 		listStrategyConsultarUsuarioPos.add(new StLogin());
@@ -269,12 +278,12 @@ public class Fachada implements IFachada {
 		listStrategySalvarUsuarioPos.add(new StSetViewCliente());
 		listStrategySalvarUsuarioPos.add(new StCarregaCombos());
 		
-		//Lista Cliente P贸s Processamento
+		//Lista Cliente p髎 Processamento
 		List<IStrategy> listStrategySalvarClientePos = new ArrayList<>();
 		listStrategySalvarClientePos.add(new StCarregaCombos());
 		listStrategySalvarClientePos.add(new StGravaDependenciasCliente());
 
-		//Lista ItemCarrinho P贸s processamento
+		//Lista ItemCarrinho p髎 processamento
 		List<IStrategy> listStrategySalvarItemCarrinhoPos = new ArrayList<>();
 		listStrategySalvarItemCarrinhoPos.add(new StReservaItemEstoque());
 		listStrategySalvarItemCarrinhoPos.add(new StAtualizaCarrinho());
@@ -290,7 +299,7 @@ public class Fachada implements IFachada {
 		listStrategyAlterarItemCarrinho.add(new StValidaAlteracaoQuantidadeItemCarrinho());
 		
 		
-		//Lista Cupom P贸s processamento
+		//Lista Cupom p髎 processamento
 		List<IStrategy> listStrategyConsultarCupomPos = new ArrayList<>();
 		listStrategyConsultarCupomPos.add(new StFormataDescontoCupom());
 		
@@ -298,7 +307,7 @@ public class Fachada implements IFachada {
 		List<IStrategy> listStrategyConsultaByIDCarrinhoPos = new ArrayList<>();
 		listStrategyConsultaByIDCarrinhoPos.add(new StSetViewCarrinho());
 		
-		//Lista Pedido P贸s Processamento
+		//Lista Pedido p髎 Processamento
 		List<IStrategy> listStrategySalvarPedidoPos = new ArrayList<>();
 		listStrategySalvarPedidoPos.add(new StGravaItemPedido());
 		listStrategySalvarPedidoPos.add(new StSalvaDependecias());
@@ -343,6 +352,7 @@ public class Fachada implements IFachada {
 		mapItemEstoqueStrategy.put("ALTERAR", listStrategyAlterarItemEstoque);
 		mapUsuarioStrategy.put("SALVAR", listStrategySalvarUsuario);
 		mapUsuarioStrategy.put("CONSULTAR", listStrategyConsultarUsuario);
+		mapUsuarioStrategy.put("ALTERAR", listStrategyAlterarUsuario);
 		mapUsuarioPosProcessamento.put("CONSULTAR-JSON", listStrategyConsultarUsuarioPosJson);
 		mapClienteStrategy.put("SALVAR", listStrategySalvarCliente);
 		mapCarrinhoStrategy.put("CONSULTAR", listStrategyConsultarCarrinho);

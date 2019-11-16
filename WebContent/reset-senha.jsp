@@ -29,52 +29,44 @@
 	border: 0;
 	background-color: rgba(0, 0, 0, 0);
 }
+
 .table-striped tbody tr:nth-of-type(even) {
-    background-color: #c1c1c1;
+	background-color: #c1c1c1;
 }
 </style>
 
 </head>
-<body>
+<body onload="validResetSenha()">
 	<!--================ Start Header Menu Area =================-->
 	<header class="header_area">
 		<div class="main_menu">
 			<nav class="navbar navbar-expand-lg navbar-light">
 				<div class="container">
-						<h1>The Wall</h1>
+					<h1>The Wall</h1>
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
-						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-						aria-expanded="false" aria-label="Toggle navigation">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
+						data-target="#navbarSupportedContent"
+						aria-controls="navbarSupportedContent" aria-expanded="false"
+						aria-label="Toggle navigation">
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
 					</button>
-					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+					<div class="collapse navbar-collapse offset"
+						id="navbarSupportedContent">
 						<ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-							<li class="nav-item"><a class="nav-link" href="index.jsp">Inicio</a></li>
-							<li class="nav-item submenu dropdown">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-									aria-haspopup="true" aria-expanded="false">Categorias</a>
+							<li class="nav-item"><a class="nav-link" href="login.jsp"></a></li>
+							<li class="nav-item submenu dropdown"><a href="#"
+								class="nav-link dropdown-toggle" data-toggle="dropdown"
+								role="button" aria-haspopup="true" aria-expanded="false"></a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="bateria.jsp">Baterias</a></li>
-									<li class="nav-item"><a class="nav-link" href="corda.jsp">Cordas</a></li>
-									<li class="nav-item"><a class="nav-link" href="piano.jsp">Piano</a></li>
-									<li class="nav-item"><a class="nav-link" href="sopro.jsp">Sopro</a></li>
-								</ul>
-							</li>
-							<li class="nav-item active submenu dropdown">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-									aria-haspopup="true" aria-expanded="false">Área do Cliente</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="meus-pedidos.jsp">Meus Pedidos</a>
-									</li>
-								</ul>
-							</li>
+								</ul></li>
 						</ul>
 						<ul class="nav-shop">
-							<li class="nav-item"><button><i class="ti-search"></i></button></li>
-							<li class="nav-item"><button><i class="ti-shopping-cart"></i><span
-							class="nav-shop__circle"></span></button></li>
+							<li class="nav-item"><button>
+									<i class="ti-search"></i>
+								</button></li>
+							<li class="nav-item"><button>
+									<i class="ti-shopping-cart"></i><span class="nav-shop__circle"></span>
+								</button></li>
 						</ul>
 					</div>
 				</div>
@@ -87,9 +79,9 @@
 	<section class="login_box_area section-margin--small">
 		<div class="container">
 			<div class="row">
-					<div class="col-md-12">
+				<div class="col-md-12">
 					<!--============================= Message validation =============================-->
-					<div id="backend_menssagem" >
+					<div id="backend_menssagem" class="col-md-3">
 						<div
 							style="${(sucesso == null || (fn:length(sucesso) == 1 && sucesso[0] == '')) 
 	                   			   && (erro == null || fn:length(erro) == 1 && erro[0] == '') ? 'display:none;' : ''}"
@@ -102,40 +94,42 @@
 						  		${erro}<br />
 							</c:forEach>
 						</div>
+						<div id="backend_menssagem" class="col-md-3">
+							<a class="btn btn-primary" href="login.jsp" id="link"
+								style="display: none; float: left;" >Voltar para o login</a>
+						</div>
 					</div>
 					<!--============================= Message validation =============================-->
 				</div>
+				<div class="col-lg-3"></div>
 				<div class="col-lg-6">
-					<div class="login_box_img">
-						<div class="hover">
-							<h4 id="titulo-h4">Novo por aqui?</h4>
-							<p>Existem muitas vantagens em ser cliente The Wall, aproveite!</p>
-							<button class="btn btn-primary" id="btn-criar-conta" style="display:">Criar Conta</button>
-							<button class="btn btn-primary" id="reload-login" style="display:none">Login</button>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-6">
+					<input type="hidden" value="${ok}" id="ok">
 					<div class="login_form_inner">
-						<h3 id="titulo">Entrar na sua Conta</h3>
-						<form id="form-login" class="row login_form" action="login" method="POST">
+						<h3 id="titulo">Redefinição de Senha</h3>
+						<form id="form-login" class="row login_form" action="login"
+							method="POST">
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="nome" name="nome" placeholder="E-mail"
-									value = "${usuario.nome}"onfocus="this.placeholder = ''" onblur="this.placeholder = 'E-mail'" required>
+								<input type="text" class="form-control" id="nome" name="nome"
+									placeholder="E-mail" value="${usuario.nome}"
+									onfocus="this.placeholder = ''"
+									onblur="this.placeholder = 'E-mail'" required>
 							</div>
 							<div class="col-md-12 form-group">
-								<input type="password" class="form-control" id="senha" name="senha" placeholder="Senha"
-									onfocus="this.placeholder = ''" onblur="this.placeholder = 'Senha'" required>
+								<input type="password" class="form-control" id="senha"
+									name="senha" placeholder="Senha"
+									onfocus="this.placeholder = ''"
+									onblur="this.placeholder = 'Senha'" required>
 							</div>
-							<div class="col-md-12 form-group" id="div-confSenha" style="display:none">
-								<input type="password" class="form-control" id="confSenha" name="confSenha"
-									placeholder="Confirma Senha" onfocus="this.placeholder = ''"
+							<div class="col-md-12 form-group" id="div-confSenha">
+								<input type="password" class="form-control" id="confSenha"
+									name="confSenha" placeholder="Confirma Senha"
+									onfocus="this.placeholder = ''"
 									onblur="this.placeholder = 'Confirma Senha'">
 							</div>
 							<div class="col-md-12 form-group">
 								<input type="hidden" id="cadastro" value="${cadastro}">
-								<button type="submit" value="CONSULTAR" class="btn btn-primary" id="btnOperacao" name="btnOperacao">Entrar</button>
-								<button class="btn btn-link" type="submit" value="ALETRAR" id="btnOperacao" name="btnOperacao">Esqueceu a senha?</button>
+								<button type="submit" value="ALTERAR" class="btn btn-primary"
+									id="btnOperacao" name="btnOperacao">Alterar</button>
 							</div>
 						</form>
 					</div>
@@ -146,8 +140,8 @@
 	<!--================End Login Box Area =================-->
 
 
-  <!--================ Start footer Area  =================-->	
-  <footer class="footer">
+	<!--================ Start footer Area  =================-->
+	<footer class="footer">
 		<div class="footer-bottom">
 			<div class="container">
 				<div class="row d-flex">
@@ -170,51 +164,15 @@
 	<script src="js/main.js"></script>
 </body>
 <script>
-
-var cadastro = document.querySelector("#cadastro");
-
-if(cadastro.value == 1){
-	$("#div-confSenha")[0].style.display = "";
-	$("#btnOperacao")[0].value = "SALVAR";
-	$("#btnOperacao")[0].textContent = "Criar Conta";
-	$("#btn-criar-conta")[0].style.display = "none";
-	$("#reload-login")[0].style.display = "";
-	$("#titulo")[0].textContent = "Criar conta";
-	document.querySelector("#cadastro").value = 0;
-}
-
-
-$("#nome").change(function (){
-	$("#backend_menssagem").html("");
-	$("#backend_menssagem").removeClass("alert-danger");
-});
-
-$("#senha").change(function (){
-	$("#backend_menssagem").html("");
-	$("#backend_menssagem").removeClass("alert-danger");
-});
-
-$("#btn-criar-conta").click(function (){
-	event.preventDefault();
-	$("#div-confSenha")[0].style.display = "";
-	$("#btnOperacao")[0].value = "SALVAR";
-	$("#btnOperacao")[0].textContent = "Criar Conta";
-	$("#titulo")[0].textContent = "Criar conta";
-	$("#reload-login")[0].style.display = "";
-	$("#titulo-h4")[0].textContent = "Entrar na sua conta";
-	this.style.display = "none";
-});
-
-
-$("#reload-login").click(function (){
-	location.href = "http://127.0.1.1:8080/the-wall-crud/login.jsp";
-})
-
-$("#btnOperacao").click(function(){
-	document.cookie = "nomeCliente=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-	document.cookie = "idCliente=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-	document.cookie = "idCarrinho=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-})
-
+	function validResetSenha() {
+		let ok = $("#ok")[0].value;
+		if (ok) {
+			$("#nome").prop("disabled", true);
+			$("#senha").prop("disabled", true);
+			$("#confSenha").prop("disabled", true);
+			$("#btnOperacao").prop("disabled", true);
+			$("#link")[0].style.display = "";
+		}
+	};
 </script>
 </html>

@@ -29,13 +29,13 @@ public class StValidaSenhaForte implements IStrategy {
 	         }
 	    }
 	    if(!achouNumero) {
-	    	mensagem.append("Senha deve conter pelo menos 1 caractere nÃºmerico.\n");
+	    	mensagem.append("Senha deve conter pelo menos 1 caractere numérico.\n");
 	    }
 	    if(!achouMaiuscula) {
-	    	mensagem.append("Senha deve conter pelo menos uma letra maiÃºscula.\n");
+	    	mensagem.append("Senha deve conter pelo menos uma letra maiúscula.\n");
 	    }
 	    if(!achouMinuscula) {	
-	    	mensagem.append("Senha deve conter pelo menos uma letra minÃºscula.\n");
+	    	mensagem.append("Senha deve conter pelo menos uma letra minúscula.\n");
 	    }
 	    if(!achouSimbolo) {
 	    	mensagem.append("Senha deve conter pelo menos um caractere especial.\n");
