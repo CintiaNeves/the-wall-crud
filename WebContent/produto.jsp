@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
@@ -111,12 +112,12 @@
 							<h3 id="descricao"></h3>
 							<input type="hidden" name="instrumento" id="instrumento"
 								value="${param['instrumento']}">
-							<h2 id="valor"></h2>
+							<h2 id="valor"><fmt:formatNumber value = '' type = 'currency'/></h2>
 							<ul class="list">
-								<li><a class="active" href="bateria.html"><span>Categoria</span>
-										: Baterias</a></li>
+								<li>
+									<h6 id="text-categoria"></h6>
+								</li>
 							</ul>
-							<p id="detalhes"></p>
 							<div class="product_count">
 								<label for="qty">Quantidade:</label> <input type="number"
 									name="quantidade" id="quantidade" min="0" size="2"
@@ -142,18 +143,11 @@
 				<li class="nav-item"><a class="nav-link" id="home-tab"
 					data-toggle="tab" href="#home" role="tab" aria-controls="home"
 					aria-selected="true">Detalhes</a></li>
-				<li class="nav-item"><a class="nav-link" id="profile-tab"
+					<li class="nav-item"><a class="nav-link" id="profile-tab"
 					data-toggle="tab" href="#profile" role="tab"
 					aria-controls="profile" aria-selected="false">Especificações</a></li>
 			</ul>
 			<div class="tab-content" id="myTabContent">
-				<div class="tab-pane fade show active" id="home" role="tabpanel"
-					aria-labelledby="home-tab">
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-						do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-						enim ad minim veniam, quis nostrud exercitation ullamco laboris
-						nisi ut aliquip ex ea commodo consequat.</p>
-				</div>
 				<div class="tab-pane fade" id="profile" role="tabpanel"
 					aria-labelledby="profile-tab">
 					<div class="table-responsive">
@@ -164,7 +158,7 @@
 										<h5>Categoria</h5>
 									</td>
 									<td>
-										<h5>Baterias</h5>
+										<h5 id="categoria"></h5>
 									</td>
 								</tr>
 								<tr>
@@ -172,7 +166,7 @@
 										<h5>Marca</h5>
 									</td>
 									<td>
-										<h5>Ludwig</h5>
+										<h5 id="marca"></h5>
 									</td>
 								</tr>
 								<tr>
@@ -180,7 +174,7 @@
 										<h5>Modelo</h5>
 									</td>
 									<td>
-										<h5>Neon</h5>
+										<h5 id="modelo"></h5>
 									</td>
 								</tr>
 								<tr>
@@ -188,12 +182,16 @@
 										<h5>Cor</h5>
 									</td>
 									<td>
-										<h5>Preta</h5>
+										<h5 id="cor"></h5>
 									</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
+				</div>
+				<div class="tab-pane fade show active" id="home" role="tabpanel"
+					aria-labelledby="home-tab">
+					<p id="text-detalhes"></p>
 				</div>
 			</div>
 		</div>
@@ -355,12 +353,19 @@
 					$("#backend_menssagem").removeAttr("style");
 					$("#backend_menssagem").addClass("alert alert-danger");
 				} else {
+					let valor = response.valorVenda;
 					$("#descricao").text(response.descricao);
-					$("#valor").text(response.valorVenda);
+					$("#valor")[0].innerText = valor.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
 					$("#detalhes").text(response.especificacoes);
 					let src = response.imagem;
 					let tag = "<img class='img-fluid' src='" + src + "'>";
 					$("#img").append(tag);
+					$("#text-categoria").text("Categoria: " + response.categoria.descricao);
+					$("#categoria").text(response.categoria.descricao);
+					$("#marca").text(response.marca);
+					$("#modelo").text(response.modelo);
+					$("#cor").text(response.cor);
+					$("#text-detalhes").text(response.especificacoes);
 					
 				}
 			},

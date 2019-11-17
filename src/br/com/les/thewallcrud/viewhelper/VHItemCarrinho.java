@@ -71,7 +71,6 @@ public class VHItemCarrinho implements IViewHelper {
 			} else if (operacao.equals("SALVAR")) {
 				if (resultado.getErro()) {
 					request.setAttribute("erro", mensagem);
-					request.setAttribute("usuario", resultado.getEntidade());
 					rd = request.getRequestDispatcher("login.jsp");
 				} else {
 					request.setAttribute("carrinho", resultado.getEntidade());

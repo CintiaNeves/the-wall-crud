@@ -94,9 +94,14 @@ public class CatalogoDAO extends AbstractDao {
 				g.setId(rs.getLong("ID_GRUPO_PRECIFICACAO"));
 				i.setCategoria(c);
 				i.setGrupoPrecificacao(g);
-				resultado.setEntidade(i);				
+								
 			}
 			rs.close();
+			IDAO dao = new CategoriaDAO();
+			Resultado r = dao.consultarById(i.getCategoria());
+			Categoria categoria = (Categoria) r.getEntidade();
+			i.setCategoria(categoria);
+			resultado.setEntidade(i);
 			resultado.setSucesso("");
 		} catch (SQLException e) {
 			resultado.setErro("Erro de consulta");

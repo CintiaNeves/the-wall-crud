@@ -97,6 +97,7 @@ import br.com.les.thewallcrud.strategy.StValidaAlteracaoQuantidadeItemCarrinho;
 import br.com.les.thewallcrud.strategy.StValidaCamposCliente;
 import br.com.les.thewallcrud.strategy.StValidaCamposEntrada;
 import br.com.les.thewallcrud.strategy.StValidaCamposInstrumento;
+import br.com.les.thewallcrud.strategy.StValidaCarrinhoLogado;
 import br.com.les.thewallcrud.strategy.StValidaCupom;
 import br.com.les.thewallcrud.strategy.StValidaDadosUsuario;
 import br.com.les.thewallcrud.strategy.StValidaEmail;
@@ -247,6 +248,7 @@ public class Fachada implements IFachada {
  		listStrategyConsultarCarrinho.add(new StValidaCupom());
  		
  		List<IStrategy> listStrategySalvarItemCarrinho = new ArrayList<>();
+ 		listStrategySalvarItemCarrinho.add(new StValidaCarrinhoLogado());
  		listStrategySalvarItemCarrinho.add(new StValidaItemExistenteCarrinho());
 		// Lista Entrada pós Processamento
 		List<IStrategy> listStrategySalvarEntradaPos = new ArrayList<>();
