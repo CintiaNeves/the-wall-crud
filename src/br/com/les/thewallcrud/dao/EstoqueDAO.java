@@ -18,6 +18,7 @@ public class EstoqueDAO extends AbstractDao {
 		ItemEstoque itemEstoque = null;
 		ItemCarrinho itemCarrinho = null;
 		Boolean reserva = false;
+		Boolean baixa = false;
 		
 		if(entidade instanceof ItemEstoque) { 
 			itemEstoque = (ItemEstoque) entidade;
@@ -29,13 +30,16 @@ public class EstoqueDAO extends AbstractDao {
 		Boolean carrinho = itemCarrinho != null ? true : false;
 		if(estoque) {
 			reserva = itemEstoque.getQuantidadeReservada() != null ? true : false;
+			baixa = itemEstoque.getQuantidade() != null ? true : false;
 		}
 		Resultado resultado = new Resultado(); 
 
 		String sql = "UPDATE ESTOQUE SET ";
 		
 		if(estoque) {
-			if(reserva) {
+			if(reserva && baixa) {
+				sql += "QUANTIDADE = ?, QUANTIDADE_RESERVADA = ? WHERE ID_INSTRUMENTO = ?";
+			}else if(reserva) {
 				sql += "QUANTIDADE_RESERVADA = ? WHERE ID_INSTRUMENTO = ?";
 			}else {
 				sql += "QUANTIDADE = ? WHERE ID_INSTRUMENTO = ?";
@@ -46,7 +50,12 @@ public class EstoqueDAO extends AbstractDao {
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			
 			if(estoque) {
-				if(reserva) {
+				if(reserva && baixa) {
+					stmt.setInt(1, itemEstoque.getQuantidade());
+					stmt.setInt(2, itemEstoque.getQuantidadeReservada());
+					stmt.setLong(3, itemEstoque.getInstrumento().getId());
+					stmt.execute();
+				}else if (reserva){
 					stmt.setInt(1, itemEstoque.getQuantidadeReservada());
 					stmt.setLong(2, itemEstoque.getInstrumento().getId());
 					stmt.execute();
@@ -54,7 +63,7 @@ public class EstoqueDAO extends AbstractDao {
 					stmt.setInt(1, itemEstoque.getQuantidade());
 					stmt.setLong(2, itemEstoque.getInstrumento().getId());
 					stmt.execute();
-				}				
+				}
 			}else if(carrinho) {
 				stmt.setInt(1, itemCarrinho.getQuantidade());
 				stmt.setLong(2, itemCarrinho.getInstrumento().getId());
@@ -67,7 +76,7 @@ public class EstoqueDAO extends AbstractDao {
 			if(carrinho)
 				resultado.setEntidade(itemCarrinho);
 		} catch (Exception e) {
-			resultado.setErro("Altera√ß√£o n√£o realizada.\n");
+			resultado.setErro("AlteraÁ„o n„o realizada.\n");
 			e.printStackTrace();
 		}
 		return resultado;

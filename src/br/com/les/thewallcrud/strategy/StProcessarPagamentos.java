@@ -27,15 +27,18 @@ public class StProcessarPagamentos implements IStrategy{
 				listProcessando.add(p);
 			}
 		}
+		IStrategy  baixaEstoque = new StBaixaEstoque();
 		
 		for(Pedido p : listProcessando) {
 			Random random = new Random();
 			Integer aprovado = random.nextInt(8) + 1;
-			if(aprovado < 7) {
+			if(aprovado < 8) {
 				p.getStatus().setId((long) 2);
+				
 			}else {
 				p.getStatus().setId((long) 3);
 			}
+			baixaEstoque.processar(p);
 			dao.alterar(p);
 			
 		}

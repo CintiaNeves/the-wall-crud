@@ -99,8 +99,8 @@
 			<div class="row s_product_inner">
 				<div class="col-lg-6">
 					<div class="owl-carousel owl-theme s_Product_carousel">
-						<div class="single-prd-item">
-							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+						<div class="single-prd-item" id="img">
+							
 						</div>
 					</div>
 				</div>
@@ -108,10 +108,10 @@
 					<form action="itemCarrinho" method="POST">
 						<input type="hidden" name="carrinho" id="carrinho" value=""> 
 						<div class="s_product_text">
-							<h3>Bateria Ludwig</h3>
+							<h3 id="descricao"></h3>
 							<input type="hidden" name="instrumento" id="instrumento"
 								value="${param['instrumento']}">
-							<h2>R$ 2.899,26</h2>
+							<h2 id="valor"></h2>
 							<ul class="list">
 								<li><a class="active" href="bateria.html"><span>Categoria</span>
 										: Baterias</a></li>
@@ -340,5 +340,36 @@
 		let idCliente = cookies[1].split("=");
 		return idCliente[1];
 	}
+	
+	$(document).ready(function() {
+		let id = $("#instrumento")[0].value;
+		$.ajax({
+			type: "POST",
+			url: "http://localhost:8080/the-wall-crud/catalogo",
+			dataType: "json",
+			data: {
+				retornoJson: true,
+				btnOperacao: "CONSULTARBYID",
+				id: id,
+			},
+			success: function(response) {
+				if(response.erro) {
+					$("#backend_menssagem")[0].innerHTML = response.erro;
+					$("#backend_menssagem").removeAttr("style");
+					$("#backend_menssagem").addClass("alert alert-danger");
+				} else {
+					$("#descricao").text(response.descricao);
+					$("#valor").text(response.valorVenda);
+					$("#img")[0].append('<img class="img-fluid" src="'+ response.imagem +'">');
+					console.log(response);
+				}
+			},
+			error: function(error) {
+				console.log(error);
+			}
+		});		
+		
+	})
+	
 </script>
 </html>

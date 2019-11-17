@@ -586,12 +586,8 @@ public class Fachada implements IFachada {
 		if (!resultado.getErro()) {
 			IDAO dao = mapDAO.get(entidade.getClass().getSimpleName());
 			resultado = dao.consultarById(entidade);
-		}
-		
-			
+		}	
 		resultado = validaStrategyPosProcessamento(resultado, "CONSULTARBYID");
-		
-		
 		return resultado;
 	}
 

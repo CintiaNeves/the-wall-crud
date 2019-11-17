@@ -25,7 +25,11 @@
 <script type="text/javascript" src="vendors/jquery/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="vendors/bootstrap/bootstrap.min.js"></script>
 <script type="text/javascript" src="vendors/jquery/mask.min.js"></script>
-
+<style>
+.prices {
+	
+}
+</style>
 </head>
 <body onload="inicializaCookies()">
 	<!--================ Start Header Menu Area =================-->
@@ -364,26 +368,37 @@
 				} else {
 					for (let i of response.instumentos) {
 						let div = "<div class='col-md-6 col-lg-4 col-xl-3'>"+
-										"<div class='card-product__img'>"+
-										"<img width='330' height='250px' class='card-img' src='"+ i.imagem +"' alt=''>"+
-									"</div>"+
-									"<div class='card-body'>"+
-										"<p>" + i.categoria.descricao + "</p>"+
-										"<h4 class='card-product__title'>"+	
-										"<a class='btn btn-link' href='produto.jsp?instrumento=" + i.id + "'>" + i.descricao+"</a>"+
-									    "</h4>"+
-									    "<p class='card-product__price'><fmt:formatNumber value='' type='currency'/></p>"+
+										"<div class='card text-center card-product'>"+
+											"<div class='card-product__img'>"+
+											"<img width='330' height='250px' class='card-img' src='"+ i.imagem +"' alt=''>"+
+										"</div>"+
+										"<div class='card-body'>"+
+											"<p>" + i.categoria.descricao + "</p>"+
+											"<h4 class='card-product__title'>"+	
+											"<a class='btn btn-link' href='produto.jsp?instrumento=" + i.id + "'>" + i.descricao+"</a>"+
+										    "</h4>"+
+										    "<label class='card-product__price prices'>"+ i.valorVenda+"</label>"+
+										"</div>"+
 									"</div>"+
 			                    "</div>";
 								
 						$("#card").append(div);
                     }
+					formataPrecos();
 				}
 			},
 			error : function(error) {
 				console.log(error);
 			}
 		});
+	};
+	function formataPrecos(){
+		let precos = $(".prices");
+		let total = precos.length;
+		for(var i = 0; i < total; i++){
+			let valor = precos[i].textContent;
+			//precos[i].innerText = valor.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
+		}
 	};
 </script>
 </html>

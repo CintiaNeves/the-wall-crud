@@ -49,7 +49,7 @@ public class ItemPedidoDAO extends AbstractDao {
 			resultado.setSucesso("Entrada Realizada com Sucesso.");
 			resultado.setEntidade(item);
 		} catch (Exception e) {
-			resultado.setErro("Inclus√£o n√£o realizada.");
+			resultado.setErro("Inclus„o n„o realizada.");
 			e.printStackTrace();
 		}
 		return resultado;
@@ -83,7 +83,7 @@ public class ItemPedidoDAO extends AbstractDao {
 			resultado.setSucesso("");
 			resultado.setListEntidade(itens);
 		} catch (SQLException e) {
-			resultado.setErro("Consulta n√£o realizada.\n");
+			resultado.setErro("Consulta n„o realizada.\n");
 			e.printStackTrace();
 		}
 

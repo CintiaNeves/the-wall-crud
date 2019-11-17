@@ -129,7 +129,7 @@
 					dataInicio = inicio.value;
 					dataFim = fim.value;
 					graficoColunas("Produtos vendidos no período", "line_chart_div",
-						{ operacao: "CONSULTAR", relatorio: "ITENS_VENDIDOS", retornoJson: true, idInstrumentos, dataInicio, dataFim });
+						{ operacao: "CONSULTAR", relatorio: "TROCAS", retornoJson: true, idInstrumentos, dataInicio, dataFim });
 				}
 			});
 		});
