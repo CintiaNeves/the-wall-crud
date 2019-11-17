@@ -97,8 +97,8 @@
 	<div class="product_image_area">
 		<div class="container">
 			<div class="row s_product_inner">
-				<div class="col-lg-6">
-					<div class="owl-carousel owl-theme s_Product_carousel">
+				<div class="col-lg-5">
+					<div class="">
 						<div class="single-prd-item" id="img">
 							
 						</div>
@@ -116,10 +116,7 @@
 								<li><a class="active" href="bateria.html"><span>Categoria</span>
 										: Baterias</a></li>
 							</ul>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-								sed do eiusmod tempor incididunt ut labore et dolore magna
-								aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-								ullamco laboris nisi ut aliquip ex ea commodo consequat..</p>
+							<p id="detalhes"></p>
 							<div class="product_count">
 								<label for="qty">Quantidade:</label> <input type="number"
 									name="quantidade" id="quantidade" min="0" size="2"
@@ -360,8 +357,11 @@
 				} else {
 					$("#descricao").text(response.descricao);
 					$("#valor").text(response.valorVenda);
-					$("#img")[0].append('<img class="img-fluid" src="'+ response.imagem +'">');
-					console.log(response);
+					$("#detalhes").text(response.especificacoes);
+					let src = response.imagem;
+					let tag = "<img class='img-fluid' src='" + src + "'>";
+					$("#img").append(tag);
+					
 				}
 			},
 			error: function(error) {
