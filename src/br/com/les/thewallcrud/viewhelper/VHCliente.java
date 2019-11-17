@@ -31,8 +31,10 @@ public class VHCliente implements IViewHelper {
 		
 		String stRetornoJson = request.getParameter("retornoJson");
 		String stIdCliente = request.getParameter("idCliente");
+		String stAlter = request.getParameter("alter");
 		
-		if(stRetornoJson != null && stRetornoJson.trim().equals("true")) {
+		
+		if(stRetornoJson != null && stRetornoJson.trim().equals("true") || stAlter != null && stAlter.trim().equals("true")) {
 			Cliente cliente = new Cliente();
 			if(stIdCliente != null && !stIdCliente.trim().equals("")) {
 				cliente.setId(Long.parseLong(stIdCliente));
@@ -243,6 +245,21 @@ public class VHCliente implements IViewHelper {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}					
+				}else if(request.getParameter("alter") != null && Boolean.parseBoolean(request.getParameter("alter")) == true) {
+					if (resultado.getErro()) {
+						request.setAttribute("erro", mensagem);
+						rd = request.getRequestDispatcher("index.jsp");
+					} else {
+						request.setAttribute("sucesso", mensagem);
+						request.setAttribute("generos", resultado.getMapEntidade().get("GENEROS"));
+						request.setAttribute("bandeiras", resultado.getMapEntidade().get("BANDEIRAS"));
+						request.setAttribute("paises", resultado.getMapEntidade().get("PAISES"));
+						request.setAttribute("cidades", resultado.getMapEntidade().get("CIDADES"));
+						request.setAttribute("estados", resultado.getMapEntidade().get("ESTADOS"));
+						request.setAttribute("cliente", resultado.getEntidade());
+						rd = request.getRequestDispatcher("registro.jsp");
+					}
+					rd.forward(request, response);
 				}
 			}
 		} catch (Exception e) {

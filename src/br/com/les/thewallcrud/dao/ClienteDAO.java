@@ -156,7 +156,7 @@ public class ClienteDAO extends AbstractDao {
 			resultado.setEntidade(cliente);
 			resultado.setSucesso("");
 		} catch (SQLException e) {
-			resultado.setErro("Consulta n√£o realizada.\n");
+			resultado.setErro("Consulta n„o realizada.\n");
 			e.printStackTrace();
 		}
 

@@ -1,6 +1,9 @@
 package br.com.les.thewallcrud.dao;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.les.thewallcrud.dominio.Cliente;
@@ -57,8 +60,34 @@ public class TelefoneDAO extends AbstractDao{
 
 	@Override
 	public Resultado consultarById(EntidadeDominio entidade) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Cliente cliente = (Cliente) entidade;
+		Resultado resultado = new Resultado();
+		List<EntidadeDominio> telefones = new ArrayList<>();
+
+		String sql = "SELECT * FROM TELEFONE WHERE ID_CLIENTE = ? ";
+
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			
+			stmt.setLong(1, cliente.getId());
+			
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				Telefone telefone = new Telefone();
+				telefone.setId(rs.getLong("ID"));
+				telefone.setTipo(rs.getString("TIPO"));
+				telefone.setDdd(rs.getString("DDD"));
+				telefone.setNumero(rs.getString("NUMERO"));				
+				telefones.add(telefone);
+			}
+			rs.close();
+			resultado.setSucesso("");
+			resultado.setListEntidade(telefones);
+		} catch (SQLException e) {
+			resultado.setErro("Erro de consulta");
+			e.printStackTrace();
+		}
+		return resultado;
 	}
 
 }

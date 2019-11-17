@@ -107,7 +107,7 @@ public class EnderecoDAO extends AbstractDao{
 			resultado.setSucesso("Cadastro Realizado com Sucesso.");
 			resultado.setEntidade(cliente);
 		} catch (Exception e) {
-			resultado.setErro("Inclus√£o n√£o realizada.");
+			resultado.setErro("Inclus„o n„o realizada.");
 			e.printStackTrace();
 		}
 		return resultado;

@@ -16,7 +16,8 @@
 	href="vendors/owl-carousel/owl.theme.default.min.css">
 <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
 <link rel="stylesheet" href="vendors/nouislider/nouislider.min.css">
-
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 
 <script type="text/javascript" src="vendors/jquery/jquery-3.2.1.min.js"></script>
@@ -78,6 +79,11 @@
 									<li class="nav-item"><a class="nav-link"
 										href="tracking-order.html">Pedidos</a></li>
 								</ul></li>
+						</ul>
+						<ul class="nav-shop">
+							<li class="nav-item"><span> <i class="material-icons size"> account_circle </i> 
+									<label id="nome-cli" style="cursor: pointer"></label>
+							</span></li>
 						</ul>
 					</div>
 				</div>
@@ -407,6 +413,13 @@
 
 </body>
 <script>	
+function getNomeCliente() {
+	let cookies = document.cookie.split(";");
+	let nomeCliente = cookies[0].split("=");
+	return nomeCliente[1];
+}
+
+$("#nome-cli")[0].textContent = getNomeCliente();
 
 function carregaBandeira() {	
 	let options = "";

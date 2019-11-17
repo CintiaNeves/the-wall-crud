@@ -82,7 +82,7 @@ public class EstadoDAO extends AbstractDao {
 			resultado.setEntidade(estado);
 
 		} catch (SQLException e) {
-			resultado.setErro("Consulta n√£o realizada.\n");
+			resultado.setErro("Consulta n„o realizada.\n");
 			e.printStackTrace();
 		}
 

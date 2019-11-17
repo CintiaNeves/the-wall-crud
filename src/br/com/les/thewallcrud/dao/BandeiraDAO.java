@@ -81,7 +81,7 @@ public class BandeiraDAO extends AbstractDao {
 			resultado.setEntidade(bandeira);
 
 		} catch (SQLException e) {
-			resultado.setErro("Consulta n√£o realizada.\n");
+			resultado.setErro("Consulta n„o realizada.\n");
 			e.printStackTrace();
 		}
 

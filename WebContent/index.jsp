@@ -87,9 +87,8 @@
 										id="direcionaCarrinho">
 										<i class="ti-shopping-cart"></i><span class="nav-shop__circle">${cliente.carrinho.quantidadeItem}</span>
 									</button></a></li>
-							<li class="nav-item"><span> <i
-									class="material-icons size"> account_circle </i> <label
-									id="nome-cli"></label>
+							<li class="nav-item"><span> <i class="material-icons size"> account_circle </i> 
+									<label id="nome-cli" style="cursor: pointer"></label>
 							</span></li>
 						</ul>
 					</div>
@@ -280,7 +279,11 @@
 		</div>
 	</section>
 	<!-- ================ Best Selling item  carousel end ================= -->
-
+	<form action="registro" method="POST">
+		<input type="hidden" value="${cliente.id}" id="dataClient" name="idCliente">
+		<input type="hidden" value="true"  name="alter">
+		<button type="submit" id="sendCliente" name="btnOperacao" value="CONSULTARBYID"></button>
+	</form>
 
 	<!--================ Start footer Area  =================-->
 	<footer class="footer">
@@ -389,5 +392,10 @@
 			}
 		});
 	};
+	
+	$("#nome-cli").click(function(){
+		let id = $("#cliente-id");
+		$("#sendCliente").click();
+	});
 </script>
 </html>

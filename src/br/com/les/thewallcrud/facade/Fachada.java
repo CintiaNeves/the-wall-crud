@@ -86,6 +86,7 @@ import br.com.les.thewallcrud.strategy.StSetViewAlterarPedido;
 import br.com.les.thewallcrud.strategy.StSetViewCarrinho;
 import br.com.les.thewallcrud.strategy.StSetViewCatalogo;
 import br.com.les.thewallcrud.strategy.StSetViewCliente;
+import br.com.les.thewallcrud.strategy.StSetViewDadosCliente;
 import br.com.les.thewallcrud.strategy.StSetViewInstrumento;
 import br.com.les.thewallcrud.strategy.StSetViewOcorrencia;
 import br.com.les.thewallcrud.strategy.StSetViewPedido;
@@ -354,7 +355,8 @@ public class Fachada implements IFachada {
 		List<IStrategy> listStrategyAlterarTroca = new ArrayList<>();
 		listStrategyAlterarTroca.add(new StGeraCupomTroca());
 		
-		
+		List<IStrategy> listStrategyConsultarByIdClientePos = new ArrayList<>();
+		listStrategyConsultarByIdClientePos.add(new StSetViewDadosCliente());
 				
 		mapInstrumentoStrategy.put("SALVAR", listStrategySalvarInstrumento);
 		mapOcorrenciaStrategy.put("SALVAR", listStrategySalvarOcorrencia);
@@ -389,6 +391,7 @@ public class Fachada implements IFachada {
 		mapUsuarioPosProcessamento.put("CONSULTAR", listStrategyConsultarUsuarioPos);
 		mapUsuarioPosProcessamento.put("SALVAR", listStrategySalvarUsuarioPos);
 		mapClientePosProcessamento.put("SALVAR", listStrategySalvarClientePos);
+		mapClientePosProcessamento.put("CONSULTARBYID", listStrategyConsultarByIdClientePos);
 		mapItemCarrinhoPosProcessamento.put("SALVAR", listStrategySalvarItemCarrinhoPos);
 		mapItemCarrinhoPosProcessamento.put("CONSULTAR", listStrategyConsultarItemCarrinhoPos);
 		mapItemCarrinhoPosProcessamento.put("EXCLUIR", listStrategyExcluirItemCarrinhoPos);

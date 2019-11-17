@@ -82,7 +82,7 @@ public class PaisDAO extends AbstractDao{
 			resultado.setEntidade(pais);
 
 		} catch (SQLException e) {
-			resultado.setErro("Consulta n√£o realizada.\n");
+			resultado.setErro("Consulta n„o realizada.\n");
 			e.printStackTrace();
 		}
 
