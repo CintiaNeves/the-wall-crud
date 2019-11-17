@@ -25,11 +25,6 @@
 <script type="text/javascript" src="vendors/jquery/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="vendors/bootstrap/bootstrap.min.js"></script>
 <script type="text/javascript" src="vendors/jquery/mask.min.js"></script>
-<style>
-.prices {
-	
-}
-</style>
 </head>
 <body onload="inicializaCookies()">
 	<!--================ Start Header Menu Area =================-->
@@ -377,28 +372,22 @@
 											"<h4 class='card-product__title'>"+	
 											"<a class='btn btn-link' href='produto.jsp?instrumento=" + i.id + "'>" + i.descricao+"</a>"+
 										    "</h4>"+
-										    "<label class='card-product__price prices'>"+ i.valorVenda+"</label>"+
+										    "<h5 id='preco-" + i.id+ "' class='card-product__price'><fmt:formatNumber value = '' type = 'currency'/></h5>"+
 										"</div>"+
 									"</div>"+
 			                    "</div>";
 								
 						$("#card").append(div);
+						let preco = i.valorVenda;
+						let id = "#preco-".concat(i.id);
+						$(id)[0].innerText = preco.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
                     }
-					formataPrecos();
 				}
 			},
 			error : function(error) {
 				console.log(error);
 			}
 		});
-	};
-	function formataPrecos(){
-		let precos = $(".prices");
-		let total = precos.length;
-		for(var i = 0; i < total; i++){
-			let valor = precos[i].textContent;
-			//precos[i].innerText = valor.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
-		}
 	};
 </script>
 </html>
