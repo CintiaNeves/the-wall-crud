@@ -7,6 +7,7 @@ import java.util.Map;
 
 import br.com.les.thewallcrud.dao.BandeiraDAO;
 import br.com.les.thewallcrud.dao.CarrinhoDAO;
+import br.com.les.thewallcrud.dao.CatalogoDAO;
 import br.com.les.thewallcrud.dao.CidadeDAO;
 import br.com.les.thewallcrud.dao.ClienteDAO;
 import br.com.les.thewallcrud.dao.EnderecoDAO;
@@ -25,6 +26,7 @@ import br.com.les.thewallcrud.dao.TrocaDAO;
 import br.com.les.thewallcrud.dao.UsuarioDAO;
 import br.com.les.thewallcrud.dominio.Bandeira;
 import br.com.les.thewallcrud.dominio.Carrinho;
+import br.com.les.thewallcrud.dominio.Catalogo;
 import br.com.les.thewallcrud.dominio.Cidade;
 import br.com.les.thewallcrud.dominio.Cliente;
 import br.com.les.thewallcrud.dominio.Cupom;
@@ -42,7 +44,6 @@ import br.com.les.thewallcrud.dominio.Relatorio;
 import br.com.les.thewallcrud.dominio.Troca;
 import br.com.les.thewallcrud.dominio.Usuario;
 import br.com.les.thewallcrud.strategy.IStrategy;
-import br.com.les.thewallcrud.strategy.StAdicionaItemEstoque;
 import br.com.les.thewallcrud.strategy.StAlteraQuantidadeReserva;
 import br.com.les.thewallcrud.strategy.StAlteraStatusProduto;
 import br.com.les.thewallcrud.strategy.StAlterarStatusPedido;
@@ -83,6 +84,7 @@ import br.com.les.thewallcrud.strategy.StSalvaDependecias;
 import br.com.les.thewallcrud.strategy.StSalvarFormaPagamento;
 import br.com.les.thewallcrud.strategy.StSetViewAlterarPedido;
 import br.com.les.thewallcrud.strategy.StSetViewCarrinho;
+import br.com.les.thewallcrud.strategy.StSetViewCatalogo;
 import br.com.les.thewallcrud.strategy.StSetViewCliente;
 import br.com.les.thewallcrud.strategy.StSetViewInstrumento;
 import br.com.les.thewallcrud.strategy.StSetViewOcorrencia;
@@ -136,8 +138,10 @@ public class Fachada implements IFachada {
 	private Map<String, List<IStrategy>> mapPedidoPosProcessamento;
 	private Map<String, List<IStrategy>> mapCarrinhoStrategyPosProcessamento;
 	private Map<String, List<IStrategy>> mapTrocaStrategyPosProcessamento;
+	private Map<String, List<IStrategy>> mapCatalogoPosProcessamento;
 	private Map<String, Map<String, List<IStrategy>>> mapEntidadeCRUDStrategy;
 	private Map<String, Map<String, List<IStrategy>>> mapEntidadeCRUDPosProcessamento;
+	
 	public Fachada() {
 		mapDAO = new HashMap<String, IDAO>();
 		mapInstrumentoStrategy = new HashMap<String, List<IStrategy>>();
@@ -163,7 +167,9 @@ public class Fachada implements IFachada {
 		mapItemCarrinhoStrategy = new HashMap<String, List<IStrategy>>();
 		mapCarrinhoStrategyPosProcessamento = new HashMap<String, List<IStrategy>>();
 		mapTrocaStrategyPosProcessamento = new HashMap<String, List<IStrategy>>();
+		mapCatalogoPosProcessamento = new HashMap<String, List<IStrategy>>();
 		mapCarrinhoStrategy = new HashMap<String, List<IStrategy>>();
+		
 		// Lista Instrumento Salvar
 		List<IStrategy> listStrategySalvarInstrumento = new ArrayList<>();
 		listStrategySalvarInstrumento.add(new StValidaCamposInstrumento());
@@ -183,7 +189,6 @@ public class Fachada implements IFachada {
 		listStrategySalvarEntrada.add(new StValidaCamposEntrada());
 		listStrategySalvarEntrada.add(new StCarregaFornecedor());
 		listStrategySalvarEntrada.add(new StValidaExistenciaNota());
-
 		// Lista Item Estoque Salvar
 		List<IStrategy> listStrategySalvarItemEstoque = new ArrayList<>();
 
@@ -260,7 +265,6 @@ public class Fachada implements IFachada {
 		listStrategyConsultarInstrumentoPosJson.add(new StValidaExistenciaInstrumento());
 		listStrategyConsultarInstrumentoPosJson.add(new StValidaInstrumentoUnico());
 		listStrategyConsultarInstrumentoPos.add(new StSetViewInstrumento());
-		listStrategySalvarInstrumentoPos.add(new StAdicionaItemEstoque());
 		listStrategySalvarInstrumentoPos.add(new StSetViewInstrumento());
 
 		// Lista Fornecedor pós Processamento
@@ -303,7 +307,7 @@ public class Fachada implements IFachada {
 		List<IStrategy> listStrategyConsultarCupomPos = new ArrayList<>();
 		listStrategyConsultarCupomPos.add(new StFormataDescontoCupom());
 		
-		//Lista Carrinho PÃ³s Processamento
+		//Lista Carrinho pós Processamento
 		List<IStrategy> listStrategyConsultaByIDCarrinhoPos = new ArrayList<>();
 		listStrategyConsultaByIDCarrinhoPos.add(new StSetViewCarrinho());
 		
@@ -326,6 +330,10 @@ public class Fachada implements IFachada {
 		List<IStrategy> listStrategyAlterarPedido = new ArrayList<>();
 		listStrategyAlterarPedido.add(new StAlterarStatusPedido());
 		listStrategyAlterarPedido.add(new StProcessarPagamentos());
+		
+		//Lista Catálogo pós Processamento
+		List<IStrategy> listStrategyConsultarCatalogoPos = new ArrayList<>();
+		listStrategyConsultarCatalogoPos.add(new StSetViewCatalogo());
 		// Lista troca
 		List<IStrategy> listStrategySalvarTroca = new ArrayList<>();
 		listStrategySalvarTroca.add(new StGeraCodigoTroca());
@@ -343,6 +351,8 @@ public class Fachada implements IFachada {
 		
 		List<IStrategy> listStrategyAlterarTroca = new ArrayList<>();
 		listStrategyAlterarTroca.add(new StGeraCupomTroca());
+		
+		
 				
 		mapInstrumentoStrategy.put("SALVAR", listStrategySalvarInstrumento);
 		mapOcorrenciaStrategy.put("SALVAR", listStrategySalvarOcorrencia);
@@ -369,6 +379,7 @@ public class Fachada implements IFachada {
 		mapEntradaPosProcessamento.put("CONSULTAR", listStrategyConsultarEntradaPos);
 		mapFornecedorPosProcessamento.put("CONSULTAR", listStrategyConsultarFornecedorPos);
 		mapInstrumentoPosProcessamento.put("CONSULTAR", listStrategyConsultarInstrumentoPos);
+		mapCatalogoPosProcessamento.put("CONSULTAR", listStrategyConsultarCatalogoPos);
 		mapInstrumentoPosProcessamento.put("CONSULTAR-JSON", listStrategyConsultarInstrumentoPosJson);
 		mapUsuarioPosProcessamento.put("CONSULTAR-JSON", listStrategyConsultarUsuarioPosJson);
 		mapInstrumentoPosProcessamento.put("SALVAR", listStrategySalvarInstrumentoPos);
@@ -409,6 +420,7 @@ public class Fachada implements IFachada {
 		mapDAO.put(Pedido.class.getSimpleName(), new PedidoDAO());
 		mapDAO.put(Troca.class.getSimpleName(), new TrocaDAO());
 		mapDAO.put(Relatorio.class.getSimpleName(), new RelatorioDAO());
+		mapDAO.put(Catalogo.class.getSimpleName(), new CatalogoDAO());
 		mapEntidadeCRUDStrategy.put(Instrumento.class.getSimpleName(), mapInstrumentoStrategy);
 		mapEntidadeCRUDStrategy.put(Ocorrencia.class.getSimpleName(), mapOcorrenciaStrategy);
 		mapEntidadeCRUDStrategy.put(Entrada.class.getSimpleName(), mapEntradaStrategy);
@@ -430,6 +442,7 @@ public class Fachada implements IFachada {
 		mapEntidadeCRUDPosProcessamento.put(Pedido.class.getSimpleName(), mapPedidoPosProcessamento);
 		mapEntidadeCRUDPosProcessamento.put(Carrinho.class.getSimpleName(), mapCarrinhoStrategyPosProcessamento);
 		mapEntidadeCRUDPosProcessamento.put(Troca.class.getSimpleName(), mapTrocaStrategyPosProcessamento);
+		mapEntidadeCRUDPosProcessamento.put(Catalogo.class.getSimpleName(), mapCatalogoPosProcessamento);
 	}
 
 	private Resultado validaStrategy(EntidadeDominio entidade, String operacao) {

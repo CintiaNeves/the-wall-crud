@@ -16,7 +16,16 @@ public class Instrumento extends EntidadeDominio{
 	private String serie;
 	private Boolean entrada;
 	private Boolean cadastro;
+	private String imagem;
+	private Categoria categoria;
 	
+		
+	public String getImagem() {
+		return imagem;
+	}
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
+	}
 	public Boolean getCadastro() {
 		return cadastro;
 	}
@@ -30,7 +39,6 @@ public class Instrumento extends EntidadeDominio{
 		this.entrada = entrada;
 	}
 	private GrupoPrecificacao grupoPrecificacao;
-	private Categoria categoria;
 	
 	public boolean isAtivo() {
 		return ativo;

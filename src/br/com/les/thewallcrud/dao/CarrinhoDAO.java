@@ -55,7 +55,7 @@ public class CarrinhoDAO extends AbstractDao {
 			resultado.setEntidade(carrinho);
 			resultado.setSucesso("");
 		} catch (SQLException e) {
-			resultado.setErro("Consulta n√£o realizada.\n");
+			resultado.setErro("Consulta n„o realizada.\n");
 			e.printStackTrace();
 		}
 

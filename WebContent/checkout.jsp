@@ -322,8 +322,7 @@ span {
 										</div>
 									</div>
 									<div class="radion_btn">
-										<label for="f-option6">Opções de Pagamento: Valor
-											mínimo por cartão R$ 10,00</label><br> <label></label>
+										
 									</div>
 									<div style="display: none">
 										<c:forEach var="c" items="${cartoes}">

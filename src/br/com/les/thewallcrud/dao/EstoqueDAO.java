@@ -113,21 +113,23 @@ public class EstoqueDAO extends AbstractDao {
 
 	@Override
 	public Resultado salvar(EntidadeDominio entidade) {
-
+		
 		ItemEstoque item = (ItemEstoque) entidade;
+		item.setQuantidadeReservada(0);
 		Resultado resultado = new Resultado();
-		String sql = "INSERT INTO ESTOQUE (ID_INSTRUMENTO, QUANTIDADE) VALUES (?, ?)";
+		String sql = "INSERT INTO ESTOQUE (ID_INSTRUMENTO, QUANTIDADE, QUANTIDADE_RESERVADA) VALUES (?, ?, ?)";
 
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 
 			stmt.setLong(1, item.getInstrumento().getId());
 			stmt.setInt(2, item.getQuantidade());
+			stmt.setInt(3, item.getQuantidadeReservada());
 
 			stmt.execute();
 			resultado.setSucesso("Cadastro Realizado com Sucesso.");
 			resultado.setEntidade(item);
 		} catch (Exception e) {
-			resultado.setErro("Inclus√£o n√£o realizada.");
+			resultado.setErro("Inclus„oo n„o realizada.");
 			e.printStackTrace();
 		}
 		return resultado;
@@ -138,5 +140,6 @@ public class EstoqueDAO extends AbstractDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 
 }

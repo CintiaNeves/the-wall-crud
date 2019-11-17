@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
@@ -18,7 +19,7 @@
 <link rel="stylesheet" href="vendors/nice-select/nice-select.css">
 <link rel="stylesheet" href="vendors/nouislider/nouislider.min.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+	rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 
 <script type="text/javascript" src="vendors/jquery/jquery-3.2.1.min.js"></script>
@@ -26,12 +27,14 @@
 <script type="text/javascript" src="vendors/jquery/mask.min.js"></script>
 
 </head>
-<body onload="inicializaCookies()"> 
+<body onload="inicializaCookies()">
 	<!--================ Start Header Menu Area =================-->
 	<header class="header_area">
-			<input type="hidden" value="${cliente.nome}" id="cliente-nome"name="cliente-nome"> 
-			<input type="hidden" value="${cliente.id}" id="cliente-id" name="cliente-id"> 
-			<input type="hidden" value="${cliente.carrinho.id}" id="carrinho-id" name="carrinho-id">
+		<input type="hidden" value="${cliente.nome}" id="cliente-nome"
+			name="cliente-nome"> <input type="hidden"
+			value="${cliente.id}" id="cliente-id" name="cliente-id"> <input
+			type="hidden" value="${cliente.carrinho.id}" id="carrinho-id"
+			name="carrinho-id">
 		<div class="main_menu">
 			<nav class="navbar navbar-expand-lg navbar-light">
 				<div class="container">
@@ -62,11 +65,17 @@
 								class="nav-link dropdown-toggle" data-toggle="dropdown"
 								role="button" aria-haspopup="true" aria-expanded="false">Cliente</a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="${cliente.nome != null ? 'meus-pedidos.jsp' : 'login.jsp' }">
-										${cliente.nome != null ? 'Meus Pedidos' : 'Logoff' }</a></li>
-									<li class="nav-item"><a class="nav-link" href="${cliente.nome != null ? 'minhas-trocas.jsp' : 'login.jsp' }">
-										${cliente.nome != null ? 'Minhas trocas' : 'Cadastro' }</a></li>
-									
+									<li class="nav-item"><a class="nav-link"
+										href="${cliente.nome != null ? 'meus-pedidos.jsp' : 'login.jsp' }">
+											${cliente.nome != null ? 'Meus Pedidos' : 'Logoff' }</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="${cliente.nome != null ? 'minhas-trocas.jsp' : 'login.jsp' }">
+											${cliente.nome != null ? 'Minhas trocas' : 'Cadastro' }</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="meus-pedidos.jsp">Meus Pedidos</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="minhas-trocas.jsp">Minhas Trocas</a></li>
+
 								</ul></li>
 						</ul>
 						<ul class="nav-shop">
@@ -75,17 +84,14 @@
 									<i class="ti-search"></i>
 								</button>
 							</li>
-							<li class="nav-item"><a href="carrinho.jsp"><button id="direcionaCarrinho">
-									<i class="ti-shopping-cart"></i><span class="nav-shop__circle">${cliente.carrinho.quantidadeItem}</span>
-							</button></a></li>
-							<li class="nav-item">
-								<span>
-									<i class="material-icons size">
-										account_circle
-									</i>
-									<label id="nome-cli"></label>
-								</span>
-							</li>
+							<li class="nav-item"><a href="carrinho.jsp"><button
+										id="direcionaCarrinho">
+										<i class="ti-shopping-cart"></i><span class="nav-shop__circle">${cliente.carrinho.quantidadeItem}</span>
+									</button></a></li>
+							<li class="nav-item"><span> <i
+									class="material-icons size"> account_circle </i> <label
+									id="nome-cli"></label>
+							</span></li>
 						</ul>
 					</div>
 				</div>
@@ -152,122 +158,8 @@
 					Grandes <span class="section-intro__style">Marcas</span>
 				</h2>
 			</div>
-			<div class="row">
-				<div class="col-md-6 col-lg-4 col-xl-3">
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="card-img" src="img/product/product1.jpg" alt="">
-						</div>
-						<div class="card-body">
-							<p>Bateria</p>
-							<h4 class="card-product__title">
-								<a class="btn btn-link"
-	                           		href="produto.jsp?instrumento=129&qtd=${cliente.carrinho.quantidadeItem}">Bateria Concert</a>
-							</h4>
-							<p class="card-product__price">R$ 2.89926,00</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-lg-4 col-xl-3">
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="card-img" src="img/product/product1.jpg" alt="">
-						</div>
-						<div class="card-body">
-							<p>Banjo</p>
-							<h4 class="card-product__title">
-								<a class="btn btn-link"
-	                           		href="produto.jsp?instrumento=159&qtd=${cliente.carrinho.quantidadeItem}">Banjo</a>
-			
-							</h4>
-							<p class="card-product__price">R$ 2.500,00</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-lg-4 col-xl-3">
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="card-img" src="img/product/product1.jpg" alt="">
-						</div>
-						<div class="card-body">
-							<p>Flauta</p>
-							<h4 class="card-product__title">
-								<a href="produto.jsp?instrumento=115&qtd=${cliente.carrinho.quantidadeItem}">Flauta</a>
-							</h4>
-							<p class="card-product__price">R$ 2.500,00</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-lg-4 col-xl-3">
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="card-img" src="img/product/product1.jpg" alt="">
-						</div>
-						<div class="card-body">
-							<p>Bateria</p>
-							<h4 class="card-product__title">
-								<a href="produto.jsp?instrumento=161&qtd=${cliente.carrinho.quantidadeItem}">Bateria Ludwig</a>
-							</h4>
-							<p class="card-product__price">R$ 2.500,00</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-lg-4 col-xl-3">
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="card-img" src="img/product/product1.jpg" alt="">
-						</div>
-						<div class="card-body">
-							<p>Bateria</p>
-							<h4 class="card-product__title">
-								<a href="produto.jsp?instrumento=160&qtd=${cliente.carrinho.quantidadeItem}">Bateria</a>
-							</h4>
-							<p class="card-product__price">R$ 2.500,00</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-lg-4 col-xl-3">
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="card-img" src="img/product/product1.jpg" alt="">
-						</div>
-						<div class="card-body">
-							<p>Bateria</p>
-							<h4 class="card-product__title">
-								<a href="produto.jspt">Bateria Ludwig</a>
-							</h4>
-							<p class="card-product__price">R$ 2.500,00</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-lg-4 col-xl-3">
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="card-img" src="img/product/product1.jpg" alt="">
-						</div>
-						<div class="card-body">
-							<p>Cordas</p>
-							<h4 class="card-product__title">
-								<a href="produto.jsp">Bateria Ludwig</a>
-							</h4>
-							<p class="card-product__price">R$ 2.500,00</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-lg-4 col-xl-3">
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="card-img" src="img/product/product1.jpg" alt="">
-						</div>
-						<div class="card-body">
-							<p>Cordas</p>
-							<h4 class="card-product__title">
-								<a href="#">Bateria Ludwig</a>
-							</h4>
-							<p class="card-product__price">R$ 2.500,00</p>
-						</div>
-					</div>
-				</div>
+			<div class="row" id="card">
+				
 			</div>
 		</div>
 	</section>
@@ -285,7 +177,19 @@
 			<div class="owl-carousel owl-theme" id="bestSellerCarousel">
 				<div class="card text-center card-product">
 					<div class="card-product__img">
-						<img class="img-fluid" src="img/product/product1.jpg" alt="">
+						<img class="img-fluid" src="" alt="">
+					</div>
+					<div class="card-body">
+						<p>Cordas</p>
+						<h4 class="card-product__title">
+							<a href="produto.jsp">Bateria Ludwig</a>
+						</h4>
+						<p class="card-product__price">R$ 2.500,00</p>
+					</div>
+				</div>
+				<div class="card text-center card-product">
+					<div class="card-product__img">
+						<img class="img-fluid" src="" alt="">
 					</div>
 					<div class="card-body">
 						<p>Cordas</p>
@@ -298,7 +202,7 @@
 
 				<div class="card text-center card-product">
 					<div class="card-product__img">
-						<img class="img-fluid" src="img/product/product1.jpg" alt="">
+						<img class="img-fluid" src="" alt="">
 					</div>
 					<div class="card-body">
 						<p>Cordas</p>
@@ -311,7 +215,7 @@
 
 				<div class="card text-center card-product">
 					<div class="card-product__img">
-						<img class="img-fluid" src="img/product/product1.jpg" alt="">
+						<img class="img-fluid" src="" alt="">
 					</div>
 					<div class="card-body">
 						<p>Cordas</p>
@@ -324,7 +228,7 @@
 
 				<div class="card text-center card-product">
 					<div class="card-product__img">
-						<img class="img-fluid" src="img/product/product1.jpg" alt="">
+						<img class="img-fluid" src="" alt="">
 					</div>
 					<div class="card-body">
 						<p>Cordas</p>
@@ -337,7 +241,7 @@
 
 				<div class="card text-center card-product">
 					<div class="card-product__img">
-						<img class="img-fluid" src="img/product/product1.png" alt="">
+						<img class="img-fluid" src="" alt="">
 					</div>
 					<div class="card-body">
 						<p>Cordas</p>
@@ -350,7 +254,7 @@
 
 				<div class="card text-center card-product">
 					<div class="card-product__img">
-						<img class="img-fluid" src="img/product/product1.jpg" alt="">
+						<img class="img-fluid" src="" alt="">
 					</div>
 					<div class="card-body">
 						<p>Cordas</p>
@@ -363,20 +267,7 @@
 
 				<div class="card text-center card-product">
 					<div class="card-product__img">
-						<img class="img-fluid" src="img/product/product1.jpg" alt="">
-					</div>
-					<div class="card-body">
-						<p>Cordas</p>
-						<h4 class="card-product__title">
-							<a href="produto.jsp">Bateria Ludwig</a>
-						</h4>
-						<p class="card-product__price">R$ 2.500,00</p>
-					</div>
-				</div>
-
-				<div class="card text-center card-product">
-					<div class="card-product__img">
-						<img class="img-fluid" src="img/product/product1.jpg" alt="">
+						<img class="img-fluid" src="" alt="">
 					</div>
 					<div class="card-body">
 						<p>Cordas</p>
@@ -413,47 +304,86 @@
 	<script src="js/main.js"></script>
 </body>
 <script>
-	
-	function criaCookie(nomeCookie, valorCookie){
+	function criaCookie(nomeCookie, valorCookie) {
 		var data = new Date();
 		data.setTime(data.getTime() + 6000000);
-		document.cookie = nomeCookie + "= " + valorCookie + "; expires= " + data.toUTCString() +
-		"; path=/";
+		document.cookie = nomeCookie + "= " + valorCookie + "; expires= "
+				+ data.toUTCString() + "; path=/";
 	}
-	
+
 	function inicializaCookies() {
-		
-		if(document.cookie == ""){
+
+		if (document.cookie == "") {
 			let nome = $("#cliente-nome")[0].value;
 			let id = $("#cliente-id")[0].value;
 			let carrinho = $("#carrinho-id")[0].value;
-			
+
 			criaCookie('nomeCliente', nome);
 			criaCookie('idCliente', id);
 			criaCookie('idCarrinho', carrinho);
+
 		}
-		
+
 		$("#nome-cli")[0].textContent = getNomeCliente();
-		
+		carregaCatalogo();
 	}
-	
-	function getNomeCliente(){
+
+	function getNomeCliente() {
 		let cookies = document.cookie.split(";");
 		let nomeCliente = cookies[0].split("=");
 		return nomeCliente[1];
 	}
-	
-	function getIdCarrinho(){
+
+	function getIdCarrinho() {
 		let cookies = document.cookie.split(";");
 		let idCarrinho = cookies[2].split("=");
 		return idCarrinho[1];
 	}
-	
-	function getIdCliente(){
+
+	function getIdCliente() {
 		let cookies = document.cookie.split(";");
 		let idCliente = cookies[1].split("=");
 		return idCliente[1];
 	}
-			
+
+	function carregaCatalogo() {
+		$.ajax({
+			type : "POST",
+			url : "http://localhost:8080/the-wall-crud/catalogo",
+			dataType : "json",
+			data : {
+				retornoJson : true,
+				btnOperacao : "CONSULTAR",
+				async: false,
+			},
+			success : function(response) {
+				if (response.erro) {
+					$("#backend_menssagem")[0].innerHTML = response.erro;
+					$("#backend_menssagem").removeAttr("style");
+					$("#backend_menssagem").addClass("alert alert-danger");
+				} else {
+					for (let i of response.instumentos) {
+						let div = "<div class='col-md-6 col-lg-4 col-xl-3'>"+
+										"<div class='card-product__img'>"+
+										"<img width='330' height='250px' class='card-img' src='"+ i.imagem +"' alt=''>"+
+									"</div>"+
+									"<div class='card-body'>"+
+										"<p>" + i.categoria.descricao + "</p>"+
+										"<h4 class='card-product__title'>"+	
+										"<a class='btn btn-link' href='produto.jsp?instrumento=" + i.id + "'>" + i.descricao+"</a>"+
+									    "</h4>"+
+									    "<p class='card-product__price'><fmt:formatNumber value='' type='currency'/></p>"+
+									"</div>"+
+			                    "</div>";
+								
+						$("#card").append(div);
+                    }
+				}
+			},
+			error : function(error) {
+				console.log(error);
+			}
+		});
+	};
 </script>
 </html>

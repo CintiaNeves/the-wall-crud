@@ -182,6 +182,7 @@ public class InstrumentoDAO extends AbstractDao {
 				i.setValorCusto(rs.getDouble("VALOR_CUSTO"));
 				i.setValorVenda(rs.getDouble("VALOR_VENDA"));
 				i.setSerie(rs.getString("SERIE"));
+				i.setImagem(rs.getString("IMAGEM"));
 				instrumentos.add(i);
 			}
 			rs.close();
@@ -193,7 +194,7 @@ public class InstrumentoDAO extends AbstractDao {
 			}
 			
 		} catch (SQLException e) {
-			resultado.setErro("Consulta n√£o realizada.\n");
+			resultado.setErro("Consulta n„o realizada.\n");
 			e.printStackTrace();
 		}
 		return resultado;
@@ -254,7 +255,7 @@ public class InstrumentoDAO extends AbstractDao {
 			resultado.setSucesso("Cadastro Realizado com Sucesso.");
 			resultado.setEntidade(instrumento);
 		} catch (Exception e) {
-			resultado.setErro("Inclus√£o n√£o realizada.");
+			resultado.setErro("Inclus„o n„o realizada.");
 			e.printStackTrace();
 		}
 		return resultado;
@@ -298,6 +299,7 @@ public class InstrumentoDAO extends AbstractDao {
 				i.setValorCusto(rs.getDouble("VALOR_CUSTO"));
 				i.setValorVenda(rs.getDouble("VALOR_VENDA"));
 				i.setEspecificacoes(rs.getString("ESPECIFICACOES"));
+				i.setImagem(rs.getString("IMAGEM"));
 				sc.setId(rs.getLong("ID_SUBCATEGORIA"));
 				c.setSubcategoria(sc);
 				c.setId(rs.getLong("ID_CATEGORIA"));
