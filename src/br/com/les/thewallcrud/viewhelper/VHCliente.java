@@ -257,6 +257,7 @@ public class VHCliente implements IViewHelper {
 						request.setAttribute("cidades", resultado.getMapEntidade().get("CIDADES"));
 						request.setAttribute("estados", resultado.getMapEntidade().get("ESTADOS"));
 						request.setAttribute("cliente", resultado.getEntidade());
+						request.setAttribute("alterar", true);
 						rd = request.getRequestDispatcher("registro.jsp");
 					}
 					rd.forward(request, response);

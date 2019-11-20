@@ -175,102 +175,12 @@
 			<div class="owl-carousel owl-theme" id="bestSellerCarousel">
 				<div class="card text-center card-product">
 					<div class="card-product__img">
-						<img class="img-fluid" src="" alt="">
+						<img class="img-fluid" src="img/product/bateria-ludwig.jpg" alt="">
 					</div>
 					<div class="card-body">
-						<p>Cordas</p>
+						<p>Bateria</p>
 						<h4 class="card-product__title">
-							<a href="produto.jsp">Bateria Ludwig</a>
-						</h4>
-						<p class="card-product__price">R$ 2.500,00</p>
-					</div>
-				</div>
-				<div class="card text-center card-product">
-					<div class="card-product__img">
-						<img class="img-fluid" src="" alt="">
-					</div>
-					<div class="card-body">
-						<p>Cordas</p>
-						<h4 class="card-product__title">
-							<a href="produto.jsp">Bateria Ludwig</a>
-						</h4>
-						<p class="card-product__price">R$ 2.500,00</p>
-					</div>
-				</div>
-
-				<div class="card text-center card-product">
-					<div class="card-product__img">
-						<img class="img-fluid" src="" alt="">
-					</div>
-					<div class="card-body">
-						<p>Cordas</p>
-						<h4 class="card-product__title">
-							<a href="produto.jsp">Bateria Ludwig</a>
-						</h4>
-						<p class="card-product__price">R$ 2.500,00</p>
-					</div>
-				</div>
-
-				<div class="card text-center card-product">
-					<div class="card-product__img">
-						<img class="img-fluid" src="" alt="">
-					</div>
-					<div class="card-body">
-						<p>Cordas</p>
-						<h4 class="card-product__title">
-							<a href="produto.jsp">Bateria Ludwig</a>
-						</h4>
-						<p class="card-product__price">R$ 2.500,00</p>
-					</div>
-				</div>
-
-				<div class="card text-center card-product">
-					<div class="card-product__img">
-						<img class="img-fluid" src="" alt="">
-					</div>
-					<div class="card-body">
-						<p>Cordas</p>
-						<h4 class="card-product__title">
-							<a href="produto.jsp">Bateria Ludwig</a>
-						</h4>
-						<p class="card-product__price">R$ 2.500,00</p>
-					</div>
-				</div>
-
-				<div class="card text-center card-product">
-					<div class="card-product__img">
-						<img class="img-fluid" src="" alt="">
-					</div>
-					<div class="card-body">
-						<p>Cordas</p>
-						<h4 class="card-product__title">
-							<a href="produto.jsp">Bateria Ludwig</a>
-						</h4>
-						<p class="card-product__price">R$ 2.500,00</p>
-					</div>
-				</div>
-
-				<div class="card text-center card-product">
-					<div class="card-product__img">
-						<img class="img-fluid" src="" alt="">
-					</div>
-					<div class="card-body">
-						<p>Cordas</p>
-						<h4 class="card-product__title">
-							<a href="produto.jsp">Bateria Ludwig</a>
-						</h4>
-						<p class="card-product__price">R$ 2.500,00</p>
-					</div>
-				</div>
-
-				<div class="card text-center card-product">
-					<div class="card-product__img">
-						<img class="img-fluid" src="" alt="">
-					</div>
-					<div class="card-body">
-						<p>Cordas</p>
-						<h4 class="card-product__title">
-							<a href="produto.jsp">Bateria Ludwig</a>
+							<a href="#">Bateria Ludwig</a>
 						</h4>
 						<p class="card-product__price">R$ 2.500,00</p>
 					</div>
@@ -280,7 +190,7 @@
 	</section>
 	<!-- ================ Best Selling item  carousel end ================= -->
 	<form action="registro" method="POST">
-		<input type="hidden" value="${cliente.id}" id="dataClient" name="idCliente">
+		<input type="hidden" value="" id="dataClient" name="idCliente">
 		<input type="hidden" value="true"  name="alter">
 		<button type="submit" id="sendCliente" name="btnOperacao" value="CONSULTARBYID"></button>
 	</form>
@@ -396,6 +306,11 @@
 	$("#nome-cli").click(function(){
 		let id = $("#cliente-id");
 		$("#sendCliente").click();
+	});
+	
+	$(document).ready(function(){
+		let idCli = getIdCliente();
+		$("#dataClient")[0].value = idCli;
 	});
 </script>
 </html>

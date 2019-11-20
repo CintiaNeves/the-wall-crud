@@ -212,6 +212,9 @@
 									<h5></h5>
 								</td>
 								<td>
+									<h5></h5>
+								</td>
+								<td>
 									<p><fmt:formatNumber value="${pedido.desconto}" type="currency" /></p>
 								</td>
 							</tr>
@@ -223,12 +226,18 @@
 									<h5></h5>
 								</td>
 								<td>
+									<h5></h5>
+								</td>
+								<td>
 									<p><fmt:formatNumber value="${pedido.frete.valorFrete}" type="currency" /></p>
 								</td>
 							</tr>
 							<tr>
 								<td>
 									<h4>Total</h4>
+								</td>
+								<td>
+									<h5></h5>
 								</td>
 								<td>
 									<h5></h5>

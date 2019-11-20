@@ -388,8 +388,12 @@
 							de entrega?</button>
 					</div>
 					<div class="col-md-6 form-group">
+						<input type="hidden" value="${alterar}" id="alterar">
 						<button type="submit" name="btnOperacao" class="btn btn-primary"
-							value="SALVAR">Cadastrar</button>
+							value="SALVAR" id="btn-cadastrar">Cadastrar</button>
+						<button type="submit" name="btnOperacao" class="btn btn-primary" style="display: none"
+							value="ALTERAR" id="btn-alterar">Alterar</button>
+						<a href="index.jsp" style="display: none" class="btn btn-primary" id="btn-cancelar">Cancelar</a>
 					</div>
 				</form>
 			</div>
@@ -420,6 +424,8 @@ function getNomeCliente() {
 }
 
 $("#nome-cli")[0].textContent = getNomeCliente();
+
+
 
 function carregaBandeira() {	
 	let options = "";
@@ -693,6 +699,15 @@ function carregaCidade() {
 						let optionsCidade = carregaCidade();
 						$('#cidade-ent-' + enderecoCount).append(optionsCidade);
 					});
+	
+	$(document).ready(function(){
+		let alterar = $("#alterar")[0].value;
+		if(alterar){
+			$("#btn-cadastrar")[0].style.display = "none";
+			$("#btn-alterar")[0].style.display = "";
+			$("#btn-cancelar")[0].style.display = "";
+		}
+	});
 	
 	
 </script>

@@ -56,7 +56,7 @@
 							<li class="nav-item"><a class="nav-link" href="index.jsp">Site</a></li>
 							<li class="nav-item submenu dropdown"><a href="#"
 								class="nav-link dropdown-toggle" data-toggle="dropdown"
-								role="button" aria-haspopup="true" aria-expanded="false">Consultas</a>
+								role="button" aria-haspopup="true" aria-expanded="false">Gerenciar</a>
 								<ul class="dropdown-menu">
 									<li class="nav-item"><a class="nav-link"
 										href="consulta-pedido.jsp">Pedidos</a></li>
