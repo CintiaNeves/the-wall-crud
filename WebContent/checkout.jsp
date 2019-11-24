@@ -204,15 +204,11 @@ span {
 											class="form-check-label" for="exampleRadios2">Não</label>
 									</div>
 								</div>
-								<div id="alert" class="alert alert-danger" role="alert"
-								style="display: none">
-								<p>
-									Atenção, valor do cupom superior ao valor do pedido! Selecione
-									mais itens para o carrinho ou guarde o cupom para próxima
-									compra.<span id="close"><img style="cursor: pointer"
-										src="img/clear-24px.svg" /></span>
-								</p>
-							</div>
+								<div id="alert" class="alert alert-warning" role="alert"
+									style="display: none">
+									<p>Alerta! Valor do desconto supera valor da compra, será
+										gerado um novo cupom com a diferença de saldo.</p>
+								</div>
 								<div class="col-md-12 form-group mb-0">
 									<div class="creat_account">
 										<h3>Observações de entrega</h3>
@@ -241,15 +237,29 @@ span {
 									<li><label>Frete</label> <span> <fmt:formatNumber
 												value="${cliente.carrinho.frete.valorFrete}" type="currency" />
 									</span></li>
-									<li><label>Desconto</label> <span id="desconto"> <fmt:formatNumber
+									<li><label>Total sem Desconto</label> <span id="total-sem-desconto"> <fmt:formatNumber
+												value="${cliente.carrinho.valorTotal
+                                            + cliente.carrinho.frete.valorFrete}" type="currency" />
+									</span></li>
+									<li style="color: red"><label>Desconto</label> <span id="desconto"> <fmt:formatNumber
 												value="${cliente.carrinho.desconto}" type="currency" />
 									</span></li>
-									<li><label>Total</label> <span id="total"> <fmt:formatNumber
+									<li id="li-total"><label>Total</label> <span id="total"> <fmt:formatNumber
 												value="${cliente.carrinho.valorTotal
                                             + cliente.carrinho.frete.valorFrete
                                             - cliente.carrinho.desconto}"
 												type="currency" />
+									</span>
+									</li>
+									<li id="li-saldo" style="display: none; color: blue"><label>Saldo</label> <span id="saldo"> <fmt:formatNumber
+												value="0"
+												type="currency" />
 									</span></li>
+									<li id="total-saldo" style="display: none"><label>Total</label> <span> <fmt:formatNumber
+												value="0"
+												type="currency" />
+									</span>
+									</li>
 								</ul>
 
 								<div class="parcelas active">
@@ -321,9 +331,7 @@ span {
 												type="text" class="form-control" id="cod" name="cod">
 										</div>
 									</div>
-									<div class="radion_btn">
-										
-									</div>
+									<div class="radion_btn"></div>
 									<div style="display: none">
 										<c:forEach var="c" items="${cartoes}">
 											<div class="form-check">
@@ -564,42 +572,47 @@ span {
     	
     	let totalDesconto = Number($("#desconto")[0].innerText.replace(/[^0-9,-]+/g,"").replace(/[^0-9-]+/g, "."));
     	let total = Number($("#total")[0].innerText.replace(/[^0-9,-]+/g,"").replace(/[^0-9-]+/g, "."));
+    	let saldo = Number($("#saldo")[0].innerText.replace(/[^0-9,-]+/g,"").replace(/[^0-9-]+/g, "."));
+    	let totalSemDesconto = Number($("#total-sem-desconto")[0].innerText.replace(/[^0-9,-]+/g,"").replace(/[^0-9-]+/g, "."));
+    		
+    	 
     	totalDesconto += valorCupom;
+    	saldo =  totalDesconto - total;
     	
-    	if(total >= valorCupom){
-    		total -= valorCupom;
-    		$("#desconto")[0].innerText = totalDesconto.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
-        	$("#total")[0].innerText = total.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
-        	return true;
+    	if(saldo > 0){
+    		$("#li-saldo")[0].style.display = "";
+    		$("#alert")[0].style.display = "";
+    		$("#li-total")[0].style.display = "none";
+    		$("#total-saldo")[0].style.display = "";
+    		$("#a_vista").removeAttr("required");
+    		
     	}else{
-    		return false;
-    	}	
+    		total -= valorCupom;
+    		$("#alert")[0].style.display = "none";
+    		$("#li-saldo")[0].style.display = "none";
+    		$("#total-saldo")[0].style.display = "none";
+    		$("#total-saldo")[0].style.display = "";
+    		$("#a_vista").attr("required", "required");
+    	}
+    	if(totalDesconto == 0){
+    		$("#total-saldo")[0].style.display = "none";
+    		$("#li-total")[0].style.display = "";
+    		total = totalSemDesconto;
+    	}
+
+    	$("#total")[0].innerText = total.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
+    	$("#desconto")[0].innerText = totalDesconto.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
+    	$("#saldo")[0].innerText = saldo.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
     };
     
     function getCupomValue(cupom){
     	let valorCupom = new Number (cupom.id);	
-    	if(cupom.checked){
-    		if(!calculaDesconto(valorCupom)){
-    			$("#alert")[0].style.display = "";
-    			cupom.checked = false;
-    		}
-    	}else{
-    		valorCupom = valorCupom * -1;
-    		if(!calculaDesconto(valorCupom)){
-    			cupom.checked = false;
-    		}
+    	    	
+    	if(!cupom.checked){
+    		valorCupom *= -1;
     		
     	}
-    	
+    	calculaDesconto(valorCupom);
     };
-    
-    $("#close").click(function(){
-    	$("#alert")[0].style.display = "none";
-    });
-    
-    $("#num-cartao").blur(function() {
-		console.log("Oi");
-	});
-    
 </script>
 </html>

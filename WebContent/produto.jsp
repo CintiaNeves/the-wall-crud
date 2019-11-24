@@ -120,7 +120,7 @@
 							</ul>
 							<div class="product_count">
 								<label for="qty">Quantidade:</label> <input type="number"
-									name="quantidade" id="quantidade" min="0" size="2"
+									name="quantidade" id="quantidade" min="1" size="2"
 									maxlength="12" value="1" title="Quantity:"
 									class="input-text qty">
 							</div>
