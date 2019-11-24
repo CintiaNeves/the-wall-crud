@@ -141,6 +141,7 @@ public class CupomDAO extends AbstractDao {
 		List<EntidadeDominio> cupons = new ArrayList<>();
 		Boolean contemIdCliente = cupom.getIdCliente() != null ? true : false;
 		Boolean contemIdCarrinho = cupom.getIdCarrinho() != null ? true : false;
+		Boolean contemIdPedido = cupom.getIdCarrinho() != null ? true : false;
 		
 		String sql = "SELECT * FROM CUPOM WHERE ";
 		if(cupom.getId() != null) {
@@ -149,6 +150,8 @@ public class CupomDAO extends AbstractDao {
 			sql += "ID_CARRINHO = ? AND EXPIRADO = 0";
 		}else if(contemIdCliente) {
 			sql += "ID_CLIENTE = ? AND EXPIRADO = 0";
+		}else if(contemIdPedido) {
+			sql += "ID_PEDIDO = ? AND EXPIRADO = 0";
 		}
 		
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -159,6 +162,8 @@ public class CupomDAO extends AbstractDao {
 				stmt.setLong(1, cupom.getIdCarrinho());
 			}else if(contemIdCliente) {
 				stmt.setLong(1, cupom.getIdCliente());
+			}else if(contemIdPedido) {
+				stmt.setLong(1, cupom.getIdPedido());
 			}
 			ResultSet rs = stmt.executeQuery();
 
@@ -171,6 +176,7 @@ public class CupomDAO extends AbstractDao {
 				c.setTroca(rs.getBoolean("TROCA"));
 				c.setValor(rs.getString("VALOR"));
 				c.setIdCliente(rs.getLong("ID_CLIENTE"));
+				c.setIdPedido(rs.getLong("ID_PEDIDO"));
 				cupons.add(c);
 			}
 			rs.close();

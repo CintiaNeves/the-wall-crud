@@ -28,13 +28,16 @@ public class StProcessarPagamentos implements IStrategy{
 			}
 		}
 		IStrategy  baixaEstoque = new StBaixaEstoque();
-		
+		IStrategy  baixaCupom = new StBaixaCupons();
+				
 		for(Pedido p : listProcessando) {
 			Random random = new Random();
 			Integer aprovado = random.nextInt(8) + 1;
 			if(aprovado < 8) {
 				p.getStatus().setId((long) 2);
-				
+				Resultado r = new Resultado();
+				r.setEntidade(p);
+				baixaCupom.processar(r);
 			}else {
 				p.getStatus().setId((long) 3);
 			}

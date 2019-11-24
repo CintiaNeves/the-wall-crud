@@ -51,7 +51,6 @@ import br.com.les.thewallcrud.strategy.StAtualizaCarrinho;
 import br.com.les.thewallcrud.strategy.StAtualizaCarrinhoLogon;
 import br.com.les.thewallcrud.strategy.StAtualizaCustoInstrumento;
 import br.com.les.thewallcrud.strategy.StAtualizaEstoque;
-import br.com.les.thewallcrud.strategy.StBaixaCupons;
 import br.com.les.thewallcrud.strategy.StCalculaFrete;
 import br.com.les.thewallcrud.strategy.StCarregaCarrinho;
 import br.com.les.thewallcrud.strategy.StCarregaCombos;
@@ -318,7 +317,7 @@ public class Fachada implements IFachada {
 		List<IStrategy> listStrategySalvarPedidoPos = new ArrayList<>();
 		listStrategySalvarPedidoPos.add(new StGravaItemPedido());
 		listStrategySalvarPedidoPos.add(new StSalvaDependecias());
-		listStrategySalvarPedidoPos.add(new StBaixaCupons());
+		//listStrategySalvarPedidoPos.add(new StBaixaCupons());
 		listStrategySalvarPedidoPos.add(new StEsvaziaCarrinho());
 		listStrategySalvarPedidoPos.add(new StSalvarFormaPagamento());
 		listStrategySalvarPedidoPos.add(new StSetViewResumo());

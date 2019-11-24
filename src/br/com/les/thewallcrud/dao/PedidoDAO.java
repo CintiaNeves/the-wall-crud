@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.les.thewallcrud.dominio.Cliente;
+import br.com.les.thewallcrud.dominio.FormaPagamento;
 import br.com.les.thewallcrud.dominio.Frete;
 import br.com.les.thewallcrud.dominio.Pedido;
 import br.com.les.thewallcrud.dominio.StatusPedido;
@@ -61,6 +62,10 @@ public class PedidoDAO extends AbstractDao {
 				Frete frete = new Frete();
 				Cliente cliente = new Cliente();
 				StatusPedido status = new StatusPedido();
+				List<FormaPagamento> pagamentos = new ArrayList<>();
+				FormaPagamento f = new FormaPagamento();
+				pagamentos.add(f);
+				p.setFormasPagamento(pagamentos);
 				p.setFrete(frete);
 				p.setCliente(cliente);
 				p.setStatus(status);
