@@ -22,9 +22,9 @@ public class StCalculaFrete implements IStrategy {
 		Boolean comtemCep = carrinho.getFrete().getCep() != null && (!carrinho.getFrete().getCep().trim().equals("")) ? true : false;
 		if (comtemCep) {
 			Random random = new Random();
-			Double frete = random.nextDouble() * 300;
-			if (frete < 100)
-				frete += 100;
+			Double frete = random.nextDouble() * 1000;
+			if (frete < 300)
+				frete += 200;
 			carrinho.getFrete().setValorFrete(frete);
 			DecimalFormat df = new DecimalFormat("#,###.00");
 			String stfrete = "R$ ";

@@ -577,7 +577,7 @@ span {
     		
     	 
     	totalDesconto += valorCupom;
-    	saldo =  totalDesconto - total;
+    	saldo =  totalDesconto - totalSemDesconto;
     	
     	if(saldo > 0){
     		$("#li-saldo")[0].style.display = "";
@@ -587,11 +587,13 @@ span {
     		$("#a_vista").removeAttr("required");
     		
     	}else{
-    		total -= valorCupom;
+    		saldo *= -1;
+    		total = saldo;
+    		saldo = 0;
     		$("#alert")[0].style.display = "none";
     		$("#li-saldo")[0].style.display = "none";
     		$("#total-saldo")[0].style.display = "none";
-    		$("#total-saldo")[0].style.display = "";
+    		$("#li-total")[0].style.display = "";
     		$("#a_vista").attr("required", "required");
     	}
     	if(totalDesconto == 0){

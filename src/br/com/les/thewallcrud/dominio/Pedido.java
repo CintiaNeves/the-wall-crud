@@ -21,7 +21,18 @@ public class Pedido extends EntidadeDominio{
 	private String pagamento;
 	private Double subtotal;
 	private Integer qtdCartoes;
+	private Double saldoTroca;
 	
+	public Pedido(){
+		this.qtdCartoes = 0;
+	}
+		
+	public Double getSaldoTroca() {
+		return saldoTroca;
+	}
+	public void setSaldoTroca(Double saldoTroca) {
+		this.saldoTroca = saldoTroca;
+	}
 	public Integer getQtdCartoes() {
 		return qtdCartoes;
 	}

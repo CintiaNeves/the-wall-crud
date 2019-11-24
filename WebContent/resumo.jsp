@@ -118,20 +118,20 @@
 						<h3 class="billing-title">Dados do Pagamento</h3>
 						<table class="order-rable">
 							<tr>
+								<td>Cupons:</td>
+								<td><fmt:formatNumber value="${pedido.desconto}" type="currency" /></td>
+							</tr>
+							<tr>
+								<td>Cartão:</td>
+								<td><fmt:formatNumber value="${pedido.formasPagamento[0].valor}" type="currency" /></td>
+							</tr>
+							<tr>
 								<td>Nº Cartões:</td>
 								<td>${pedido.qtdCartoes}</td>
 							</tr>
 							<tr>
-								<td>Nº de Parcelas:</td>
-								<td>${pedido.formasPagamento[0].parcelas}</td>
-							</tr>
-							<tr>
-								<td>Valor Parcela:</td>
-								<td><fmt:formatNumber value="${pedido.formasPagamento[0].valor / pedido.formasPagamento[0].parcelas}" type="currency" /></td>
-							</tr>
-							<tr>
-								<td>Cupons:</td>
-								<td><fmt:formatNumber value="${pedido.desconto}" type="currency" /></td>
+								<td>Saldo de cupom:</td>
+								<td><fmt:formatNumber value="${pedido.saldoTroca}" type="currency" /></td>
 							</tr>
 						</table>
 					</div>
@@ -192,6 +192,20 @@
 							</c:forEach>
 							<tr>
 								<td>
+									<h4>Frete</h4>
+								</td>
+								<td>
+									<h5></h5>
+								</td>
+								<td>
+									<h5></h5>
+								</td>
+								<td>
+									<p><fmt:formatNumber value="${pedido.frete.valorFrete}" type="currency" /></p>
+								</td>
+							</tr>
+							<tr>
+								<td>
 									<h4>Subtotal</h4>
 								</td>
 								<td>
@@ -217,10 +231,10 @@
 								<td>
 									<p><fmt:formatNumber value="${pedido.desconto}" type="currency" /></p>
 								</td>
-							</tr>
+							</tr>	
 							<tr>
 								<td>
-									<h4>Frete</h4>
+									<h4>Saldo de Cupom</h4>
 								</td>
 								<td>
 									<h5></h5>
@@ -229,9 +243,9 @@
 									<h5></h5>
 								</td>
 								<td>
-									<p><fmt:formatNumber value="${pedido.frete.valorFrete}" type="currency" /></p>
+									<p><fmt:formatNumber value="${pedido.saldoTroca}" type="currency" /></p>
 								</td>
-							</tr>
+							</tr>							
 							<tr>
 								<td>
 									<h4>Total</h4>

@@ -41,9 +41,20 @@ public class StValidaFormaPagamento implements IStrategy{
 			
 		}
 		pedido.setDesconto(desconto);
-		pedido.setSubtotal(pedido.getCliente().getCarrinho().getValorTotal());
-		pedido.setTotal(pedido.getSubtotal() + pedido.getFrete().getValorFrete() - pedido.getDesconto());
-		Double valorDevido = pedido.getTotal();
+		pedido.setSubtotal(pedido.getCliente().getCarrinho().getValorTotal() + pedido.getFrete().getValorFrete());
+		Double valorDevido = 0.0;
+		
+		
+		if(desconto < pedido.getSubtotal()) {
+			pedido.setTotal(pedido.getSubtotal() - pedido.getDesconto());
+			valorDevido = pedido.getTotal();
+			
+		}else {
+			pedido.setSaldoTroca(pedido.getDesconto() - pedido.getSubtotal());
+			pedido.setTotal(0.0);
+			IStrategy stGeraCupomSaldo = new StGeraCupomSaldo();
+			stGeraCupomSaldo.processar(pedido);
+		}
 		List<FormaPagamento> pgtoValoresFixos = new ArrayList<>();
 		List<FormaPagamento> pgtoAutomatico = new ArrayList<>();
 		
@@ -60,17 +71,17 @@ public class StValidaFormaPagamento implements IStrategy{
 		}
 		
 		List<FormaPagamento> pagamentosValidos = new ArrayList<>();
-		
-		for(FormaPagamento f : pgtoValoresFixos) {
-			valorDevido -= f.getValor();
-			pagamentosValidos.add(f);
+		if(valorDevido > 0) {
+			for(FormaPagamento f : pgtoValoresFixos) {
+				valorDevido -= f.getValor();
+				pagamentosValidos.add(f);
+			}
+			
+			for(FormaPagamento f : pgtoAutomatico) {
+				f.setValor(valorDevido / numCartoes);
+				pagamentosValidos.add(f);
+			}
 		}
-		
-		for(FormaPagamento f : pgtoAutomatico) {
-			f.setValor(valorDevido / numCartoes);
-			pagamentosValidos.add(f);
-		}
-		
 		for(FormaPagamento f : pedido.getFormasPagamento()) {
 			if(f.getCupons() != null) {
 				pagamentosValidos.add(f);
