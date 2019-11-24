@@ -6,10 +6,12 @@ import java.util.List;
 import br.com.les.thewallcrud.dao.ClienteDAO;
 import br.com.les.thewallcrud.dao.CupomDAO;
 import br.com.les.thewallcrud.dao.IDAO;
+import br.com.les.thewallcrud.dao.InstrumentoDAO;
 import br.com.les.thewallcrud.dao.ItemTrocaDAO;
 import br.com.les.thewallcrud.dao.StatusPedidoDAO;
 import br.com.les.thewallcrud.dominio.Cliente;
 import br.com.les.thewallcrud.dominio.Cupom;
+import br.com.les.thewallcrud.dominio.Instrumento;
 import br.com.les.thewallcrud.dominio.ItemTroca;
 import br.com.les.thewallcrud.dominio.StatusPedido;
 import br.com.les.thewallcrud.dominio.Troca;
@@ -38,13 +40,20 @@ public class StSetViewTroca implements IStrategy {
 			r = dao.consultarById(troca);
 
 			List<ItemTroca> itens = new ArrayList<>();
-
+			
+			dao = new InstrumentoDAO();
 			if (r.getListEntidade() != null) {
 				for (EntidadeDominio ent : r.getListEntidade()) {
 					itens.add((ItemTroca) ent);
 				}
+				for(ItemTroca item : itens) {
+					Instrumento instrumento = item.getInstrumento();
+					Resultado res = dao.consultarById(instrumento);
+					item.setInstrumento((Instrumento) res.getEntidade());
+				}
 				troca.setItens(itens);
 			}
+			
 			Cliente cliente = new Cliente();
 			cliente.setId(troca.getIdCliente());
 			dao = new ClienteDAO();

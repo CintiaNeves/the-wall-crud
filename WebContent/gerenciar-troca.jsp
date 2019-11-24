@@ -153,6 +153,45 @@
 								class="form-control" id="codCupom" name="codCupom" readonly
 								value="">
 						</div>
+						<div class="col-md-12 form-group p_star">
+							<table class="table table-striped">
+								<thead class="thead-dark">
+									<tr style="text-align: center;">
+										<th>Código</th>
+										<th>Produto</th>
+										<th>Quantidade</th>
+										<th>Valor Unitário</th>
+										<th>Valor Total</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="item" items="${troca.itens}">
+										<tr style="text-align: center;">
+											<td style="padding-top: 19px;"><input
+												class="form-control input-transparent" name="codInstrumento"
+												type="text" value="${item.instrumento.codigo}" readonly></input></td>
+											<td style="padding-top: 19px;"><input
+												class="form-control input-transparent" type="text"
+												value="${item.instrumento.descricao}" readonly></input></td>
+											<td style="padding-top: 19px;"><input
+												class="form-control input-transparent" type="number"
+												value="${item.quantidade}" name="quantidade" min="1"
+												max="${item.quantidade}" id="qtd-${item.instrumento.id}"
+												readonly></td>
+											<td style="padding-top: 19px;"><input
+												class="form-control input-transparent" type="text"
+												value="${item.instrumento.valorVenda}" readonly
+												id="valor-${item.instrumento.id}"></td>
+											<td style="padding-top: 19px;"><input
+												class="form-control input-transparent" name="valor"
+												type="text"
+												value="${item.instrumento.valorVenda * item.quantidade}"
+												id="total-${item.instrumento.id}" readonly></td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
 						<div class="col-md-12 form-group">
 							<div class="col-md-6 form-group">
 								<button class="btn btn-primary" type="submit" name="btnOperacao"

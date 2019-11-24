@@ -26,6 +26,8 @@ public class StGeraCupomTroca implements IStrategy {
 				Troca t = (Troca) re.getEntidade();
 				troca.setStatus(s);
 				troca.setCupom(t.getCupom());
+				IStrategy st = new StDevolveItemTrocado();
+				st.processar(entidade);
 				return null;
 			}
 		}

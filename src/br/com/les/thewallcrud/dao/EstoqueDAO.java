@@ -26,8 +26,10 @@ public class EstoqueDAO extends AbstractDao {
 		else if(entidade instanceof ItemCarrinho) {
 			itemCarrinho = (ItemCarrinho) entidade;
 		}
+		
 		Boolean estoque = itemEstoque != null ? true : false;
 		Boolean carrinho = itemCarrinho != null ? true : false;
+		
 		if(estoque) {
 			reserva = itemEstoque.getQuantidadeReservada() != null ? true : false;
 			baixa = itemEstoque.getQuantidade() != null ? true : false;
@@ -69,7 +71,6 @@ public class EstoqueDAO extends AbstractDao {
 				stmt.setLong(2, itemCarrinho.getInstrumento().getId());
 				stmt.execute();
 			}
-
 			resultado.setSucesso("Registro Alterado com sucesso!");
 			if(estoque)
 				resultado.setEntidade(itemEstoque);

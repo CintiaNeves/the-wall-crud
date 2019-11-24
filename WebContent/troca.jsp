@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
@@ -55,7 +56,7 @@
 					<div class="collapse navbar-collapse offset"
 						id="navbarSupportedContent">
 						<ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-							<li class="nav-item"><a class="nav-link" href="index.html">Site</a></li>
+							<li class="nav-item"><a class="nav-link" href="index.jsp">Site</a></li>
 							<li class="nav-item submenu dropdown"><a href="#"
 								class="nav-link dropdown-toggle" data-toggle="dropdown"
 								role="button" aria-haspopup="true" aria-expanded="false">Consulta</a>
@@ -148,11 +149,11 @@
 								<tbody>
 									<c:forEach var="item" items="${troca.itens}">
 										<tr style="text-align: center;">
-											<td style="padding-top: 19px;"><input class="form-control input-transparent" name="codInstrumento" type="text" value="${item.instrumento.codigo}"></input></td>
-											<td style="padding-top: 19px;"><input class="form-control input-transparent" type="text" value="${item.instrumento.descricao}"></input></td>
-											<td style="padding-top: 19px;"><input class="form-control input-transparent" type="text" value="${item.quantidade}" name="quantidade"></td>
-											<td style="padding-top: 19px;"><input class="form-control input-transparent" type="text" value="${item.instrumento.valorVenda}"></td>
-											<td style="padding-top: 19px;"><input class="form-control input-transparent" name="valor" type="text" value="${item.instrumento.valorVenda * item.quantidade}"></td>
+											<td style="padding-top: 19px;"><input class="form-control input-transparent" name="codInstrumento" type="text" value="${item.instrumento.codigo}" readonly></input></td>
+											<td style="padding-top: 19px;"><input class="form-control input-transparent" type="text" value="${item.instrumento.descricao}" readonly></input></td>
+											<td style="padding-top: 19px;"><input class="form-control input-transparent" type="number" value="${item.quantidade}" name="quantidade" min="1" max="${item.quantidade}" id="qtd-${item.instrumento.id}" onchange="recalcula(${item.instrumento.id})"></td>
+											<td style="padding-top: 19px;"><input class="form-control input-transparent" type="text" value="${item.instrumento.valorVenda}" readonly id="valor-${item.instrumento.id}"></td>
+											<td style="padding-top: 19px;"><input class="form-control input-transparent" name="valor" type="text" value="${item.instrumento.valorVenda * item.quantidade}" id="total-${item.instrumento.id}" readonly></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -207,6 +208,20 @@ function getNomeCliente() {
 }
 
 $("#cliente-id")[0].value = getIdCliente();
-$("#nome-cli")[0].textContent = getNomeCliente();
+
+
+function recalcula(id){
+	console.log(id);
+	let quantidade = $("#qtd-".concat(id))[0].value;
+	let valor = $("#valor-".concat(id))[0].value;
+	let total = $("#total-".concat(id))[0].value;
+	
+	total = quantidade * valor;
+	
+	$("#total-".concat(id))[0].value = total;
+	
+	console.log(quantidade);
+}
+
 </script>
 </html>
