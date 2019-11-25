@@ -138,6 +138,11 @@ span {
 										readonly> <input type="hidden" class="form-control"
 										id="idPedido" value="" name="idPedido">
 								</div>
+								<div class="col-md-6 form-group p_star" id="pedido">
+									<label for="first">Valor</label> <input type="text"
+										class="form-control" id="valor" name="status" value=""
+										readonly>
+								</div>
 								<div class="col-md-6 form-group p_star" id="data">
 									<label for="first">Cupom de troca </label> <input type="text"
 										class="form-control" id="cupom" name="cupom" value="" readonly>
@@ -268,6 +273,7 @@ function carregaPedidos() {
 					$("#status").val(response[0].status.descricao);
 					$("#idPedido").val(response[0].id);
 					$("#cupom").val(response[0].cupom.codigo);
+					$("#valor").val(response[0].valor);
 					
 					for(let item of response[0].itens) {
 						let linha = "<tr><td>" + item.instrumento.descricao + "</td><td>" +

@@ -76,8 +76,8 @@ span {
 								class="nav-link dropdown-toggle" data-toggle="dropdown"
 								role="button" aria-haspopup="true" aria-expanded="false">Cliente</a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="minhas-trocas.jsp">Minhas
-											Trocas</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="minhas-trocas.jsp">Minhas Trocas</a></li>
 								</ul></li>
 							<li class="nav-item submenu dropdown"><span> <i
 									class="material-icons size"> account_circle </i> <label
@@ -124,8 +124,7 @@ span {
 							<input type="hidden" value="true" id="consulta" name="consulta">
 							<div class="col-md-6 form-group p_star">
 								<label for="first">Nome</label> <input type="text"
-									class="form-control" id="nome" value="${cliente.nome}"
-									readonly>
+									class="form-control" id="nome" value="${cliente.nome}" readonly>
 							</div>
 							<div class="col-md-6 form-group p_star">
 								<label for="last">CPF</label> <input type="text"
@@ -134,35 +133,35 @@ span {
 							<div class="col-md-6 form-group p_star" id="pedido">
 								<label for="first">Número do Pedido</label> <input type="text"
 									class="form-control" id="numPedido" name="numPedido" value=""
-									readonly>
-									<input type="hidden"
-									class="form-control" id="idPedido" value="" name="idPedido">
+									readonly> <input type="hidden" class="form-control"
+									id="idPedido" value="" name="idPedido">
 							</div>
 							<div class="col-md-6 form-group p_star" id="data">
 								<label for="first">Data </label> <input type="text"
-									class="form-control" id="dataPedido" name="dataPedido"value="" readonly>
+									class="form-control" id="dataPedido" name="dataPedido" value=""
+									readonly>
 							</div>
 							<div id="tabela-pedidos">
 								<h3>Itens</h3>
-								<h6>Atenção! Solicitação de troca apenas até 30 dias após a
-									compra.</h6>
+								<h6>Quantidade do item a ser trocado poderá ser alterado na
+									próxima tela.</h6>
 								<table class="table table-striped">
 									<thead>
 										<tr>
 											<th>Produto</th>
 											<th>Quantidade</th>
 											<th>Preço</th>
-											<th>Trocar</th>
+											<th id="trocar">Trocar</th>
 										</tr>
 									</thead>
 									<tbody id="tbody_itens">
-																					
+
 									</tbody>
 								</table>
 								<div class="col-md-12 form-group">
 									<div class="col-md-6 form-group">
 										<button class="btn btn-primary" type="submit"
-											name="btnOperacao" value="CONSULTAR">Solicitar</button>
+											name="btnOperacao" value="CONSULTAR" id="btn">Solicitar</button>
 									</div>
 								</div>
 							</div>
@@ -175,17 +174,17 @@ span {
 
 	<!--================End Checkout Area =================-->
 
-	<!--================ Start footer Area  =================-->	
+	<!--================ Start footer Area  =================-->
 	<footer class="footer">
-      <div class="footer-bottom">
-        <div class="container">
-          <div class="row d-flex">
-            <p class="col-lg-12 footer-text text-center">By Cinty</p>
-          </div>
-        </div>
-      </div>
-    </footer>
-    <!--================ End footer Area  =================-->
+		<div class="footer-bottom">
+			<div class="container">
+				<div class="row d-flex">
+					<p class="col-lg-12 footer-text text-center">By Cinty</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!--================ End footer Area  =================-->
 	<script src="vendors/jquery/jquery-3.2.1.min.js"></script>
 	<script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
 	<script src="vendors/skrollr.min.js"></script>
@@ -255,9 +254,17 @@ function carregaPedidos() {
 					
 				} else {
 					for(let pedido of response) {
+						let option = "";
+						let status = pedido.status.id;
+						
+						if(status == 5){
+							option = "Trocar";
+						}else{
+							option = "Visualizar"
+						}
 						let linha = "<tr><td>" + pedido.numero + "</td><td>" +
 							pedido.status.descricao + "</td><td>" +
-							"<button onclick='carregarItens(" + pedido.id + ")' type='button' id='" + pedido.id + "' class='btn btn-link'>Trocar</button></td></tr>";
+							"<button onclick='carregarItens(" + pedido.id + ")' type='button' id='" + pedido.id + "' class='btn btn-link'>" + option + "</button></td></tr>";
 						$("#bodyPedidos").append(linha);
 					}
 				}
@@ -282,15 +289,29 @@ function carregaPedidos() {
 				if(response.erro) {
 					
 				} else {
+					let status = response[0].status.id;
 					$("#numPedido").val(response[0].numero);
 					$("#idPedido").val(response[0].id);
 					$("#dataPedido").val(response[0].data);
-					
-					for(let item of response[0].itens) {
-						let linha = "<tr><td>" + item.instrumento.descricao + "</td><td>" +
-						item.quantidade + "</td><td>" +
-						item.instrumento.valorVenda + "</td><td><input type='checkbox' value='item" + item.id + "' name='item"+ item.id +"'></td></tr>";
-					$("#tbody_itens").append(linha);
+					$("#tbody_itens tr").remove();
+					$("#btn").show();
+					if(status == 5){
+						for(let item of response[0].itens) {
+							let linha = "<tr><td>" + item.instrumento.descricao + "</td><td>" +
+							item.quantidade + "</td><td>" +
+							item.instrumento.valorVenda + "</td><td><input type='checkbox' value='item" + item.id + "' name='item"+ item.id +"'></td></tr>";
+						$("#tbody_itens").append(linha);
+						}
+						$("#trocar").show();
+					}else{
+						for(let item of response[0].itens) {
+							let linha = "<tr><td>" + item.instrumento.descricao + "</td><td>" +
+							item.quantidade + "</td><td>" +
+							item.instrumento.valorVenda + "</td></tr>";
+						$("#tbody_itens").append(linha);
+						}
+						$("#trocar").hide();
+						$("#btn").hide();
 					}
 				}
 			},

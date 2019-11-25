@@ -37,7 +37,7 @@ public class PedidoDAO extends AbstractDao {
 			resultado.setSucesso("Status do pedido atualizado!");
 			resultado.setEntidade(pedido);
 		} catch (Exception e) {
-			resultado.setErro("Status não atualizao, refaça opração.");
+			resultado.setErro("Status n�o atualizao, refa�a operacao.");
 			e.printStackTrace();
 		}
 
@@ -147,6 +147,8 @@ public class PedidoDAO extends AbstractDao {
 			sql += "ID = ?";
 		} else if (pedido.getCliente().getId() != null) {
 			sql += "ID_CLIENTE = ?";
+		}else if(pedido.getNumero() != null) {
+			sql += "NUMERO = ?";
 		}
 
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -154,6 +156,8 @@ public class PedidoDAO extends AbstractDao {
 				stmt.setLong(1, pedido.getId());
 			} else if (pedido.getCliente().getId() != null) {
 				stmt.setLong(1, pedido.getCliente().getId());
+			}else if(pedido.getNumero() != null) {
+				stmt.setString(1, pedido.getNumero());
 			}
 
 			ResultSet rs = stmt.executeQuery();

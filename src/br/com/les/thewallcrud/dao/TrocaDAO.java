@@ -46,7 +46,7 @@ public class TrocaDAO extends AbstractDao {
 			resultado.setSucesso("Status do pedido atualizado!");
 			resultado.setEntidade(troca);
 		} catch (Exception e) {
-			resultado.setErro("Status n√£o atualizao, refa√ßa opra√ß√£o.");
+			resultado.setErro("Status n„o atualizado, refaÁa opraÁ„o.");
 			e.printStackTrace();
 		}
 

@@ -32,6 +32,9 @@ public class StGeraCodigoTroca implements IStrategy {
 			String numero = ano.toString().concat("04").concat(maxId.toString());
 			troca.setNumeroPedidoTroca(numero);
 		}
+		
+		IStrategy st = new StRegistraPedidoTrocado();
+			st.processar(troca);
 		return null;
 	}
 

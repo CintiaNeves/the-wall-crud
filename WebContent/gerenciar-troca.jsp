@@ -105,13 +105,18 @@
 							<h3>Pedido</h3>
 						</div>
 						<div class="col-md-6 form-group p_star">
-							<label for="numero">Número</label> <input type="text"
+							<label for="numero">Número Pedido de Troca</label> <input type="text"
 								class="form-control" id="numero" name="numero" readonly
 								value="${troca.numeroPedidoTroca}"> <input type="hidden"
 								class="form-control" id="id" name="id" value="${troca.id}">
 							<input type="hidden" class="form-control" id="valor" name="valor"
 								value="${troca.valor}"> <input type="hidden"
 								class="form-control" id="cliente-id" name="idCliente" value="">
+						</div>
+						<div class="col-md-6 form-group p_star">
+							<label for="nome-cli">Número Pedido de Compra</label> <input type="text"
+								class="form-control" id="ped-compra" name="ped-compra" readonly
+								value="${troca.numPedidoCompra}">
 						</div>
 						<div class="col-md-6 form-group p_star">
 							<label for="data">Status</label> <input type="text"
@@ -124,11 +129,6 @@
 							<label for="data">Data de Emissão</label> <input type="text"
 								class="form-control" id="data" name="data" readonly
 								value="${troca.data}">
-						</div>
-						<div class="col-md-6 form-group p_star">
-							<label for="cpf">CPF Cliente</label> <input type="text"
-								class="form-control" id="cpf" name="cpf" readonly
-								value="${troca.cliente.cpf}">
 						</div>
 						<div class="col-md-6 form-group p_star">
 							<label for="nome-cli">Nome Cliente</label> <input type="text"

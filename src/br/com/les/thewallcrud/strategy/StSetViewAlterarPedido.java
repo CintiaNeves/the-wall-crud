@@ -31,7 +31,7 @@ public class StSetViewAlterarPedido implements IStrategy {
 			
 			for(EntidadeDominio e : res.getListEntidade()) {
 				Pedido p = (Pedido) e;
-				if(p.getStatus().getId() == 2 || p.getStatus().getId() == 4 || p.getStatus().getId() == 6) {
+				if(p.getStatus().getId() == 2 || p.getStatus().getId() == 4) {
 					gerenciaveis.add(p);
 				}
 			}

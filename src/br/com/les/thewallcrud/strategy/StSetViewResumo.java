@@ -42,6 +42,8 @@ public class StSetViewResumo implements IStrategy {
 		Resultado r = dao.consultar(cliente);
 		List<Endereco> enderecos = new ArrayList<>();
 		
+
+		
 		for(EntidadeDominio e : r.getListEntidade()) {
 			enderecos.add((Endereco) e);
 			if(pedido.getEndereco().getId() != null) {

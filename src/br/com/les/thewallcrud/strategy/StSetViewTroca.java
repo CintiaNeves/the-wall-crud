@@ -8,11 +8,13 @@ import br.com.les.thewallcrud.dao.CupomDAO;
 import br.com.les.thewallcrud.dao.IDAO;
 import br.com.les.thewallcrud.dao.InstrumentoDAO;
 import br.com.les.thewallcrud.dao.ItemTrocaDAO;
+import br.com.les.thewallcrud.dao.PedidoDAO;
 import br.com.les.thewallcrud.dao.StatusPedidoDAO;
 import br.com.les.thewallcrud.dominio.Cliente;
 import br.com.les.thewallcrud.dominio.Cupom;
 import br.com.les.thewallcrud.dominio.Instrumento;
 import br.com.les.thewallcrud.dominio.ItemTroca;
+import br.com.les.thewallcrud.dominio.Pedido;
 import br.com.les.thewallcrud.dominio.StatusPedido;
 import br.com.les.thewallcrud.dominio.Troca;
 import br.com.les.thewallcrud.util.EntidadeDominio;
@@ -95,6 +97,14 @@ public class StSetViewTroca implements IStrategy {
 				resultado.setMapEntidade("STATUS", entidades);
 				
 				return r;
+			}else {
+				Troca tr = (Troca) resultado.getEntidade();
+				Pedido p = new Pedido();
+				p.setId(tr.getIdPedidoCompra());
+				IDAO pedDAO = new PedidoDAO();
+				Resultado res = pedDAO.consultarById(p);
+				p = (Pedido) res.getEntidade();
+				tr.setNumPedidoCompra(p.getNumero());
 			}
 		}
 		

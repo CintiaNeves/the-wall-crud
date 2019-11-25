@@ -13,28 +13,28 @@ public class StValidaCamposCliente implements IStrategy{
 		StringBuilder mensagem = new StringBuilder();
 		IStrategy strategy = new StValidaCamposCartao();
 		if(cliente.getNome() == null || (cliente.getNome().trim().equals(""))) {
-			mensagem.append("Nome √© um campo obrigat√≥rio.\n");
+			mensagem.append("Nome È um campo obrigatÛrio.\n");
 		}
 		if(cliente.getCpf() == null || (cliente.getCpf().trim().equals(""))) {
-			mensagem.append("CPF √© um campo obrigat√≥rio.\n");
+			mensagem.append("CPF È um campo obrigatÛrio.\n");
 		}else if(cliente.getCpf().trim().length() != 11) {
-			mensagem.append("CPF inv√°lido.\n");
+			mensagem.append("CPF inv·ido.\n");
 		}
 		if(cliente.getGenero().getId() == 0) {
-			mensagem.append("G√™nero √© um campo obrigat√≥rio.\n");
+			mensagem.append("GÍnero È um campo obrigatÛrio.\n");
 		}
 		if(cliente.getDataNascimento() == null || cliente.getDataNascimento().trim().equals("")) {
-			mensagem.append("Data de nascimento √© um campo obrigat√≥rio.\n");
+			mensagem.append("Data de nascimento È um campo obrigatÛrio.\n");
 		}
 		if(cliente.getTelefones().get(0).getDdd() == "") {
-			mensagem.append("Telefone √© um campo obrigat√≥rio.\n");	
+			mensagem.append("Telefone È um campo obrigatÛrio.\n");	
 		}else if(cliente.getTelefones().get(0).getDdd().concat(cliente.getTelefones().get(0).getNumero()).length() != 10) {
-			mensagem.append("Telefone inv√°lido.\n");
+			mensagem.append("Telefone inv·lido.\n");
 		}
 		if(cliente.getTelefones().get(1).getDdd() == "") {
-			mensagem.append("Celular √© um campo obrigat√≥rio.\n");
+			mensagem.append("Celular È um campo obrigatÛrio.\n");
 		}else if(cliente.getTelefones().get(1).getDdd().concat(cliente.getTelefones().get(1).getNumero()).length() != 11) {
-			mensagem.append("Celular inv√°lido.\n");
+			mensagem.append("Celular inv·lido.\n");
 		}
 		
 		mensagem.append(strategy.processar(entidade));

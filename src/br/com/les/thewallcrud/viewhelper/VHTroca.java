@@ -36,6 +36,8 @@ public class VHTroca implements IViewHelper{
 		String stData = request.getParameter("dataPedido");
 		String stObservacao = request.getParameter("observacao");
 		String stStatus = request.getParameter("status");
+		String stNumPedCompra = request.getParameter("ped-compra");
+		troca.setNumPedidoCompra(stNumPedCompra);
 		StatusPedido status = new StatusPedido();
 		if(stStatus != null) {
 			status.setId(Long.parseLong(stStatus));
