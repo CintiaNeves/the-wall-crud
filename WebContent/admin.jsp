@@ -120,7 +120,7 @@
 	<!--================ Hero banner start =================-->
 
 	<!--================ Start footer Area  =================-->
-	<footer class="footer">
+	<footer class="footer" >
 		<div class="footer-bottom">
 			<div class="container">
 				<div class="row d-flex">

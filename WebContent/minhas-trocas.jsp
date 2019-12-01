@@ -102,7 +102,7 @@ span {
 						<table class="table table-striped">
 							<thead>
 								<tr>
-									<th colspan="2"><h2>Meus Pedidos</h2></th>
+									<th colspan="2"><h2>Minhas Trocas</h2></th>
 								</tr>
 								<tr>
 									<th>Número</th>

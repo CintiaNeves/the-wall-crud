@@ -32,74 +32,67 @@ public class StSetViewResumo implements IStrategy {
 
 	@Override
 	public Resultado processar(Resultado resultado) {
-		
+
 		Pedido pedido = (Pedido) resultado.getEntidade();
 		IDAO dao;
 		Cliente cliente = pedido.getCliente();
 		cliente.setEnderecos(new ArrayList<Endereco>());
 		dao = new EnderecoDAO();
-		
+
 		Resultado r = dao.consultar(cliente);
 		List<Endereco> enderecos = new ArrayList<>();
-		
 
-		
-		for(EntidadeDominio e : r.getListEntidade()) {
+		for (EntidadeDominio e : r.getListEntidade()) {
 			enderecos.add((Endereco) e);
-			if(pedido.getEndereco().getId() != null) {
-				if(e.getId() == pedido.getEndereco().getId()) {
-					pedido.setEndereco((Endereco)e);
+			if (pedido.getEndereco().getId() != null) {
+				if (e.getId().equals(pedido.getEndereco().getId())) {
+					pedido.setEndereco((Endereco) e);
 				}
 			}
 		}
 		
-		for(Endereco e : enderecos) {
-			if(e.getId() == pedido.getEndereco().getId()) {
-				dao = new CidadeDAO();
-				r = dao.consultarById(e);
-				Cidade cidade = (Cidade) r.getEntidade();
-				dao = new EstadoDAO();
-				r = dao.consultarById(e);
-				Estado estado = (Estado) r.getEntidade();
-				dao = new PaisDAO();
-				r = dao.consultarById(e);
-				Pais pais = (Pais) r.getEntidade();
-				estado.setCidade(cidade);
-				pais.setEstado(estado);
-				e.setPais(pais);
-				cliente.getEnderecos().add(e);
-			}
-		}
-		
-		
 		dao = new InstrumentoDAO();
-		for(ItemPedido item : pedido.getItens()) {
+		for (ItemPedido item : pedido.getItens()) {
 			r = dao.consultarById(item.getInstrumento());
 			item.setInstrumento((Instrumento) r.getEntidade());
 			item.setTotalItem(item.getQuantidade() * item.getInstrumento().getValorVenda());
 		}
-		
-		if(pedido.getSalvarEndereco()) {
+
+		if (pedido.getSalvarEndereco()) {
 			pedido.getEndereco().setId(enderecos.get(enderecos.size() - 1).getId());
 			dao = new EnderecoDAO();
 			r = dao.consultarById(pedido.getEndereco());
 			Endereco e = (Endereco) r.getEntidade();
 			dao = new CidadeDAO();
 			r = dao.consultarById(e);
-			Cidade cidade = (Cidade) r.getEntidade();
+			Cidade c = (Cidade) r.getEntidade();
 			dao = new EstadoDAO();
 			r = dao.consultarById(e);
-			Estado estado = (Estado) r.getEntidade();
+			Estado est = (Estado) r.getEntidade();
 			dao = new PaisDAO();
 			r = dao.consultarById(e);
+			Pais p = (Pais) r.getEntidade();
+			est.setCidade(c);
+			p.setEstado(est);
+			e.setPais(p);
+			pedido.setEndereco(e);
+		}else {
+			dao = new CidadeDAO();
+			r = dao.consultarById(pedido.getEndereco());
+			Cidade cidade = (Cidade) r.getEntidade();
+			dao = new EstadoDAO();
+			r = dao.consultarById(pedido.getEndereco());
+			Estado estado = (Estado) r.getEntidade();
+			dao = new PaisDAO();
+			r = dao.consultarById(pedido.getEndereco());
 			Pais pais = (Pais) r.getEntidade();
 			estado.setCidade(cidade);
 			pais.setEstado(estado);
-			e.setPais(pais);
-			pedido.setEndereco(e);
+			pedido.getEndereco().setPais(pais);
+			cliente.getEnderecos().add(pedido.getEndereco());
+
 		}
-		
-		
+
 		dao = new StatusPedidoDAO();
 		r = dao.consultarById(pedido.getStatus());
 		pedido.setStatus((StatusPedido) r.getEntidade());

@@ -39,7 +39,7 @@ public class StProcessarPagamentos implements IStrategy{
 				r.setEntidade(p);
 				baixaCupom.processar(r);
 			}else {
-				p.getStatus().setId((long) 3);
+				p.getStatus().setId((long) 2);
 			}
 			baixaEstoque.processar(p);
 			dao.alterar(p);

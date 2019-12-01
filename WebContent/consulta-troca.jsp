@@ -198,16 +198,7 @@
 
 
 
-	<!--================ Start footer Area  =================-->
-	<footer class="footer">
-		<div class="footer-bottom">
-			<div class="container">
-				<div class="row d-flex">
-					<p class="col-lg-12 footer-text text-center">By Cinty</p>
-				</div>
-			</div>
-		</div>
-	</footer>
+	
 	<!--================ End footer Area  =================-->
 	<script src="vendors/jquery/jquery-3.2.1.min.js"></script>
 	<script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>

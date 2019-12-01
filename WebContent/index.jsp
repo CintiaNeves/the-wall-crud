@@ -60,7 +60,7 @@
 									<li class="nav-item"><a class="nav-link" href="piano.jsp">Pianos</a></li>
 									<li class="nav-item"><a class="nav-link" href="sopro.jsp">Sopro</a></li>
 								</ul></li>
-							<li class="nav-item submenu dropdown"><a href="#"
+							<li class="nav-item submenu dropdown" id="li-cliente"><a href="#"
 								class="nav-link dropdown-toggle" data-toggle="dropdown"
 								role="button" aria-haspopup="true" aria-expanded="false">Cliente</a>
 								<ul class="dropdown-menu">

@@ -32,7 +32,7 @@ public class StFiltraTrocasGerenciaveis implements IStrategy{
 			
 			for(EntidadeDominio e : r.getListEntidade()) {
 				Troca t = (Troca) e;
-				if(t.getStatus().getId() == 6 || t.getStatus().getId() == 7) {
+				if(t.getStatus().getId() == 6) {
 					gerenciaveis.add(t);
 				}
 			}
